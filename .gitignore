@@ -424,3 +424,31 @@ FodyWeavers.xsd
 
 # Official VS Code C# Dev Kit Extension exclusion
 #*.lscache
+
+# CostOfStaying project-specific exclusions
+
+# Unity generated data and local editor state
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+# JetBrains Rider / IntelliJ
+.idea/
+*.sln.iml
+*.DotSettings.user
+
+# Local environment and secret configuration
+.env.*
+!.env.example
+secrets.json
+secrets.*.json
+*.local.env
+
+# Operating system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
