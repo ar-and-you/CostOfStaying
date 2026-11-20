@@ -1,3 +1,4 @@
+
 # CostOfStaying — Development Roadmap
 
 This is the authoritative implementation sequence. Complete one task at a time; obtain explicit approval before each task, and do not skip phases without an approved decision.
@@ -12,7 +13,7 @@ This is the authoritative implementation sequence. Complete one task at a time; 
 | Domain time abstraction | `IClock` |
 | Test time control | Deterministic `FakeClock` or equivalent |
 | Unity integration | Separate integration layer; keep Unity APIs out of Domain |
-| Permanent branch | `main`; no direct pushes |
+| Permanent and working branch | `main`; all repository work is performed directly on `main` |
 
 See `docs/adr/` for the rationale and consequences of accepted architecture decisions.
 
@@ -25,10 +26,10 @@ See `docs/adr/` for the rationale and consequences of accepted architecture deci
 - [ ] 0.3 Review and finalize `.gitignore` for the selected toolchain.
 - [ ] 0.4 Add `.editorconfig` and formatting conventions.
 - [ ] 0.5 Establish contribution, agent, and engineering workflow documentation.
-- [ ] 0.6 Configure `main` branch protection using repository-administrator access.
+- [ ] 0.6 Review and configure repository safeguards compatible with the approved direct-to-`main` workflow.
 - [ ] 0.7 Verify repository structure and guardrails on GitHub.
 
-**Git policy:** `main` is permanent and must not receive direct pushes. Use short-lived task branches and review before integration. Do not force-push or bypass protections. Delete temporary branches only after successful integration.
+**Git policy:** `main` is the only permanent and working branch. All approved repository changes are committed directly to `main`. Do not create task branches or pull requests. Do not force-push, delete the permanent branch, or bypass repository protections. Configure repository safeguards so they do not contradict the approved direct-to-`main` workflow. If an existing protection rule blocks an authorized direct update, stop and report the blocker; do not attempt to bypass it.
 
 ## Phase 1 — Documentation
 
@@ -77,7 +78,7 @@ See `docs/adr/` for the rationale and consequences of accepted architecture deci
 - [ ] 5.1 Add GitHub Actions workflows using the required SDKs.
 - [ ] 5.2 Restore and build the Domain and test projects.
 - [ ] 5.3 Run automated tests.
-- [ ] 5.4 Require applicable checks for pull requests after workflows are stable.
+- [ ] 5.4 Configure applicable repository checks without requiring pull requests or blocking the approved direct-to-`main` workflow.
 - [ ] 5.5 Verify results from an actual GitHub Actions run.
 
 ## Phase 6 — Unity Integration
@@ -95,7 +96,7 @@ See `docs/adr/` for the rationale and consequences of accepted architecture deci
 
 For every task: identify its scope and acceptance criteria; ask `Are you ready to start the current task: [Task Name]?`; wait for explicit approval; perform only that task; verify what can actually be verified; report changed paths, commands, results, and blockers; then wait for the user's `DONE` before moving on.
 
-Never claim that work is committed, pushed, tested, or merged unless it is verified. Inspect files before replacing them. Record significant architectural decisions as ADRs. Do not add speculative game rules or unrelated work.
+Never claim that work is committed, pushed, tested, or integrated unless it is verified. Inspect files before replacing them. Record significant architectural decisions as ADRs. Do not add speculative game rules or unrelated work.
 
 ## Status note
 
