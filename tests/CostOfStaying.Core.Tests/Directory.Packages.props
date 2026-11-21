@@ -1,0 +1,11 @@
+<Project>
+  <!--
+    Core.Tests keeps the exact build conditions under which its NUnit suite ran in CI
+    (net10.0, explicit package versions, no central package management).
+    This file is the nearest Directory.Packages.props, so it overrides the repository root one.
+    The Domain line keeps central package management at the repository root.
+  -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+</Project>

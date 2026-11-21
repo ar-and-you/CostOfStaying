@@ -23,6 +23,9 @@ Do not replace or delete the existing root `ROADMAP.md`, `.gitignore`, `.editorc
 ## Status and verification limits
 This package is a staged source import, not a release-ready or production-ready declaration. Documentation marked PROPOSED remains proposed. The source archive's recorded Python checks passed as documented in its project index/manifest; .NET build/tests and Gitleaks were not rerun in the preparation environment because the required SDK/tool was unavailable. Unity, Android and dedicated-server/network builds were not performed.
 
+### Audit follow-up — 2026-11-21
+The limitation above describes the earlier archive-preparation environment. In the current local audit worktree based on live `main` `a0c86d3`, Domain Release tests passed 45/45 on .NET 8, Core tests passed 246/246 on .NET 10, and seven Python simulator regression tests passed. Python simulator, playtest, and parameter-sweep smoke runs also completed with outputs outside the repository. These are local results, not GitHub Actions results. Gitleaks was unavailable; Unity, Android, dedicated-server, and network integration were not tested.
+
 ## Manual import procedure
 1. Clone or otherwise work from the existing `main` repository; do not initialize a new Git repository and do not replace `.git/`.
 2. Extract this ZIP into the repository working directory, preserving the current root governance files listed above.

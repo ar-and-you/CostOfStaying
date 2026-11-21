@@ -8,26 +8,26 @@ This is the authoritative implementation sequence. Complete one task at a time; 
 | Area | Decision |
 |---|---|
 | Domain library | `netstandard2.1` |
-| Automated tests | `.NET 10` |
-| Standalone development tools | `.NET 10`, where applicable |
-| Domain time abstraction | `IClock` |
-| Test time control | Deterministic `FakeClock` or equivalent |
+| Automated tests | Domain tests: `.NET 8`; Core tests: `.NET 10` (separate SDK selection) |
+| Standalone development tools | Python simulator and playtest-log generator; exploratory only |
+| Domain time abstraction | `IMatchClock` in the current source; architectural acceptance is not recorded in an ADR |
+| Test time control | Deterministic `ManualClock` |
 | Unity integration | Separate integration layer; keep Unity APIs out of Domain |
 | Permanent and working branch | `main`; all repository work is performed directly on `main` |
 
-See `docs/adr/` for the rationale and consequences of accepted architecture decisions.
+`docs/adr/` currently has no accepted ADR documents; do not treat proposed rules or balance values as approved decisions.
 
 ## Phase 0 — Repository Setup & Guardrails
 
 **Objective:** Establish a clean, predictable repository and working agreement.
 
 - [x] 0.1 Inspect the existing repository structure. (Inspected 2026-11-19; initial `main` contained `.gitignore` and `README.md`.)
-- [ ] 0.2 Establish the agreed directory structure.
-- [ ] 0.3 Review and finalize `.gitignore` for the selected toolchain.
+- [x] 0.2 Establish the project directory structure. (Source, tests, and tools are present in the audited working tree.)
+- [x] 0.3 Review `.gitignore` for .NET, Python, and Unity. Removed the global `*.meta` ignore (Unity metadata must be versioned) and added Python cache/environment exclusions; continue reviewing as toolchains expand.
 - [ ] 0.4 Add `.editorconfig` and formatting conventions.
 - [ ] 0.5 Establish contribution, agent, and engineering workflow documentation.
 - [ ] 0.6 Review and configure repository safeguards compatible with the approved direct-to-`main` workflow.
-- [ ] 0.7 Verify repository structure and guardrails on GitHub.
+- [x] 0.7 Verify repository structure and guardrails on GitHub. (Read-only inspection on 2026-11-21 found no GitHub Actions workflows or `main` branch protection; this does not imply CI validation.)
 
 **Git policy:** `main` is the only permanent and working branch. All approved repository changes are committed directly to `main`. Do not create task branches or pull requests. Do not force-push, delete the permanent branch, or bypass repository protections. Configure repository safeguards so they do not contradict the approved direct-to-`main` workflow. If an existing protection rule blocks an authorized direct update, stop and report the blocker; do not attempt to bypass it.
 
@@ -35,33 +35,33 @@ See `docs/adr/` for the rationale and consequences of accepted architecture deci
 
 **Objective:** Make scope, workflows, and architectural decisions discoverable.
 
-- [ ] 1.1 Complete the project README.
+- [x] 1.1 Document current project purpose, development status, and local verification commands in the README.
 - [ ] 1.2 Document project scope and explicit non-goals without inventing gameplay requirements.
 - [ ] 1.3 Establish the ADR format and review existing ADRs.
 - [ ] 1.4 Finalize ADR-001: Domain architecture and technology targets.
-- [ ] 1.5 Finalize ADR-002: Time abstraction using `IClock`.
+- [ ] 1.5 Finalize ADR-002: Time abstraction (`IMatchClock` is the current source API; final decision remains pending).
 - [ ] 1.6 Review consistency across the roadmap, agent instructions, and contribution guide.
 
 ## Phase 2 — Domain Core
 
 **Objective:** Build the platform-independent domain foundation.
 
-- [ ] 2.1 Create `src/Domain/` project targeting `netstandard2.1`.
+- [x] 2.1 Domain project exists at `src/CostOfStaying.Domain/` and targets `netstandard2.1`.
 - [ ] 2.2 Define domain boundaries from approved game requirements.
-- [ ] 2.3 Introduce `IClock` only where domain behavior needs the current time.
-- [ ] 2.4 Ensure Domain has no Unity API dependency and no direct system-clock access.
-- [ ] 2.5 Build and inspect the domain dependency graph.
+- [x] 2.3 Domain time is provided through `IMatchClock`; confirm the public name/decision in a future ADR before treating it as final.
+- [x] 2.4 `Match` receives time via `IMatchClock` and has no Unity dependency; its production clock uses monotonic `Stopwatch` time, not wall-clock reads.
+- [x] 2.5 Domain and Core build successfully in local test runs; inspect dependencies further if new packages are introduced.
 
 ## Phase 3 — Automated Tests
 
 **Objective:** Verify domain behavior independently of Unity.
 
-- [ ] 3.1 Create `tests/Domain.Tests/` targeting `.NET 10`.
-- [ ] 3.2 Select and configure the test framework.
-- [ ] 3.3 Reference the Domain project.
-- [ ] 3.4 Implement a deterministic `FakeClock` for tests.
-- [ ] 3.5 Add tests for implemented, approved domain behavior.
-- [ ] 3.6 Run tests outside the Unity Editor and record results.
+- [x] 3.1 Domain tests exist at `tests/CostOfStaying.Domain.Tests/` and target `net8.0`; Core tests are separate and target `net10.0`.
+- [x] 3.2 NUnit is configured for the test projects.
+- [x] 3.3 Domain tests reference the Domain project.
+- [x] 3.4 Tests use the deterministic `ManualClock` implementation.
+- [x] 3.5 Added regression coverage for finite configuration/input validation, config snapshots, inactive-match commands, timer initialization, vote completion, and end-condition precedence including a single-player time limit.
+- [x] 3.6 Local verification on 2026-11-21: Domain `net8.0` Release tests 45/45 passed; Core `net10.0` tests 246/246 passed. These are not CI results.
 
 ## Phase 4 — Development Tools
 
@@ -69,11 +69,11 @@ See `docs/adr/` for the rationale and consequences of accepted architecture deci
 
 - [ ] 4.1 Identify and approve required tools.
 - [ ] 4.2 Implement tools with isolated responsibilities.
-- [ ] 4.3 Document usage and verify behavior.
+- [x] 4.3 Documented local simulator commands and verified seven Python regression tests plus smoke runs; these are exploratory, not approved balance evidence.
 
 ## Phase 5 — CI/CD
 
-**Objective:** Automate repeatable validation.
+**Objective:** Automate repeatable validation. No GitHub Actions workflow is currently installed.
 
 - [ ] 5.1 Add GitHub Actions workflows using the required SDKs.
 - [ ] 5.2 Restore and build the Domain and test projects.
@@ -88,7 +88,7 @@ See `docs/adr/` for the rationale and consequences of accepted architecture deci
 - [ ] 6.1 Verify compatibility with the selected Unity version and scripting profile.
 - [ ] 6.2 Define the managed-plugin integration procedure.
 - [ ] 6.3 Integrate the compiled Domain library.
-- [ ] 6.4 Implement the Unity-side `IClock` adapter.
+- [ ] 6.4 Implement the Unity-side `IMatchClock` adapter.
 - [ ] 6.5 Validate integration in the Unity Editor.
 - [ ] 6.6 Document the integration and its verification.
 
@@ -100,4 +100,4 @@ Never claim that work is committed, pushed, tested, or integrated unless it is v
 
 ## Status note
 
-The initial remote repository inspection was completed on 2026-11-19. The documentation/scaffolding in this bootstrap package is prepared locally only; it is not considered uploaded or integrated until GitHub confirms it.
+The initial live `main` inspected for this audit was `a0c86d3` (2026-11-21). The code import and audit changes are considered integrated only after a normal GitHub push is verified. No CI workflow was present at inspection time.
