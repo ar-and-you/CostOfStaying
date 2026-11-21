@@ -28,8 +28,8 @@ The bundle includes a later hybrid-branch proposal (ADR-028), but its governance
 - [x] 0.2 Preserve the live `main` history and import source files selectively.
 - [x] 0.3 Review `.gitignore` for .NET, Python and Unity; Unity `.meta` files must remain versioned.
 - [x] 0.4 Record the archive/live-tree divergence in `docs/operations/RECONCILIATION_2026-11-21.md`.
-- [ ] 0.5 Complete contribution and engineering workflow documentation.
-- [ ] 0.6 Review repository safeguards without bypassing any protection.
+- [x] 0.5 Add contribution guidance, a documentation index, and explicit verification/CI procedures.
+- [x] 0.6 Review branch safeguards without bypassing them; on 2026-11-22 the branch-protection endpoint reported `main` unprotected and the repository rulesets endpoint returned an empty list.
 
 ## Phase 1 — Documentation and decisions
 
@@ -39,6 +39,8 @@ The bundle includes a later hybrid-branch proposal (ADR-028), but its governance
 - [ ] 1.4 Finalize the accepted Domain/Core boundary before any code migration.
 - [ ] 1.5 Reconcile the archived ADR-028 branch-policy proposal with the live direct-to-main instruction.
 - [ ] 1.6 Run the document audit after the missing audit utility is reviewed and imported.
+
+The live `docs/adr/` directory contains no accepted ADR records. Reference archives include conflicting candidates (including two differently titled ADR-005 records), so 1.3–1.5 remain open pending a source-by-source review and owner decisions; see `docs/adr/README.md`. Do not import those records in bulk or infer acceptance.
 
 ## Phase 2 — Domain and Core architecture
 
@@ -71,9 +73,11 @@ Previous local reports record Domain/Core results for their respective source sn
 
 - [x] 5.1 Add a Domain/Python workflow at `.github/workflows/ci.yml`.
 - [x] 5.2 Add a separate Core workflow at `.github/workflows/core-ci.yml` using `.NET 10`.
-- [x] 5.3 Configure restore/build/test steps for the two different SDK lines.
+- [x] 5.3 Configure the Domain `.NET 8`, Python regression, and Core `.NET 10` test commands.
 - [ ] 5.4 Verify successful GitHub Actions runs and fix any environment-specific failures.
 - [ ] 5.5 Review security scanning, repository-quality checks, and dependency automation separately; they are not claimed active by this update.
+
+Workflow configuration was added in the 2026-11-22 follow-up; 5.4 stays open until both workflows complete successfully on a commit SHA. The CI deliberately excludes simulated playtest sessions and absent audit utilities.
 
 ## Phase 6 — Unity integration
 

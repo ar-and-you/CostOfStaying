@@ -47,9 +47,15 @@ python3 tools/playtest/run_sessions.py --sessions 10 --preset default
 
 - يبقى `main` الفرع الدائم، وتُنفذ التحديثات المعتمدة مباشرة عليه وفق تعليمات `ROADMAP.md` الحالية.
 - لا تستخدم `force push` ولا تستبدل تاريخ Git أو مجلد `.git`.
-- يحتوي هذا التحديث على ملفي CI مقترحين: `ci.yml` لـDomain/Python و`core-ci.yml` لـCore. وجود ملفات YAML لا يعني نجاح التشغيل؛ يجب التحقق من أول نتيجة فعلية في GitHub Actions.
+- يحتوي المستودع ملفي CI مستقلين: `.github/workflows/ci.yml` لـDomain/Python و`.github/workflows/core-ci.yml` لـCore/.NET 10. يشغّلان الاختبارات المسماة فقط، ولا يشغّلان `tools/playtest/run_sessions.py` أو `tools/audit.py`.
+- إعداد workflow لا يثبت نجاح CI. يجب التحقق من نتيجة GitHub Actions الفعلية وربطها بـcommit SHA قبل وصف الفحوص بأنها `VERIFIED`.
 - لا يوجد في هذه الدفعة مسح أمني مخصص مثل CodeQL أو gitleaks. فحص الأنماط البسيط، إن استُخدم، ليس بديلاً عنهما.
 - راجع `docs/operations/RECONCILIATION_2026-11-21.md` لمعرفة التعارضات التي حُسمت والعناصر المؤجلة.
+
+## التوثيق والمساهمة
+
+- راجع `CONTRIBUTING.md` لسياسة المساهمة والاختبارات، و`docs/README.md` لفهرس الوثائق.
+- سجلات ADR غير موجودة حالياً على `main`؛ يوضح `docs/adr/README.md` طريقة التعامل مع المصادر الأرشيفية المتعارضة.
 
 ## حدود التحقق
 

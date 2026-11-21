@@ -52,5 +52,65 @@
     "CI workflow files are configuration only; their success must be verified after application.",
     "No src/ or tests/ files were changed.",
     "The supplied source ZIPs are provenance inputs only and are not bundled into this update ZIP."
-  ]
+  ],
+  "current_follow_up": {
+    "observed_on": "2026-11-22",
+    "baseline_main_sha": "e4e469a2ce38a8e6762acdf4de1673df4bde18b1",
+    "original_package_status": "The described 17 KB update ZIP was not present in the project-shared files or checked local upload/download paths. Available archives are older source bundles and are not substitutes.",
+    "historical_checksum_list": "SHA256SUMS_ORIGINAL_PACKAGE.txt",
+    "current_checksum_list": "SHA256SUMS.txt",
+    "workflow_provenance": "The two workflows in this follow-up are newly authored against the live project structure. They are not claimed to match the original package's expected workflow hashes.",
+    "new_workflow_sha256": {
+      ".github/workflows/ci.yml": "835732cb41a355b9c1489fad672d066e9ebccc7ef7c83118ef2973a69d8d09b1",
+      ".github/workflows/core-ci.yml": "7f701c12f8bbce0904be83174e6e9f9a0d84b37e3d33e59b48b31006521a03d9"
+    },
+    "original_expected_workflow_sha256": {
+      ".github/workflows/ci.yml": "99d930217c6c165fd1230219e38e49e83e4fea6b86fe6d4c349ea88824235dcb",
+      ".github/workflows/core-ci.yml": "be76c456b47b00dc3f5a66c4bdf92d8a74bdc3930d10637b0a3f2305a54b0292"
+    },
+    "workflow_policy": "contents:read only; no tools/playtest/run_sessions.py; no tools/audit.py; .NET SDK selection follows the live global.json files.",
+    "pinned_actions": {
+      "actions/checkout": "v7.0.1 @ 3d3c42e5aac5ba805825da76410c181273ba90b1",
+      "actions/setup-dotnet": "v6.1.0 @ 0f4a354dd5547a28c70b7853dbd95d5b67886e73",
+      "actions/setup-python": "v7.1.0 @ 6d4fd22b20465ccc0f7354476588e8df7c9ca0e0"
+    },
+    "repository_safeguards_checked": {
+      "branch_protection": "GitHub API returned 404 Branch not protected for main on 2026-11-22.",
+      "repository_rulesets": "The GitHub API returned an empty list on 2026-11-22."
+    },
+    "current_payload_files": [
+      ".github/workflows/ci.yml",
+      ".github/workflows/core-ci.yml",
+      "ACCESS_RETRY_RESULT.md",
+      "AGENTS.md",
+      "APPLY_AND_VERIFY.md",
+      "CONTRIBUTING.md",
+      "MANIFEST.json",
+      "PHASE_SUMMARY_AR.md",
+      "README.md",
+      "ROADMAP.md",
+      "SHA256SUMS_ORIGINAL_PACKAGE.txt",
+      "UPLOAD_PACKAGE_NOTES.md",
+      "docs/README.md",
+      "docs/adr/README.md",
+      "docs/architecture/DOMAIN_CORE.md",
+      "docs/operations/GITHUB_TOOLING.md",
+      "docs/operations/RECONCILIATION_2026-11-21.md",
+      "docs/operations/TOOLING_MAP.md",
+      "docs/quality/VERIFICATION_SCOPE_NOTE_2026-11-21.md"
+    ],
+    "files_added_in_follow_up": [
+      ".github/workflows/ci.yml",
+      ".github/workflows/core-ci.yml",
+      "CONTRIBUTING.md",
+      "SHA256SUMS_ORIGINAL_PACKAGE.txt",
+      "docs/README.md",
+      "docs/adr/README.md"
+    ],
+    "local_verification": {
+      "python_simulator_tests": "7/7 passed on 2026-11-22 using Python 3.12.3; Python simulator only, not C# parity.",
+      "dotnet_tests": "Not run locally: dotnet SDK/command is not installed in this sandbox."
+    },
+    "actions_status_at_baseline": "No GitHub Actions runs were returned before the workflows were added; actual CI must be checked after the direct push and associated with a commit SHA."
+  }
 }
