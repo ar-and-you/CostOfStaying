@@ -1,29 +1,62 @@
 # CostOfStaying
-لعبة بقاء نفسي جماعية؛ كل ثانية تستنزف `Vitality`، ونقل المعاناة يؤخر الانهيار لكنه يضيف كلفة `Betrayal`. المشروع في مرحلة ما قبل الإنتاج، والقواعد وقيم التوازن المقترحة ليست قرارات نهائية.
 
-## بنية المشروع
-- `src/CostOfStaying.Domain/` — منطق المجال المستقل عن Unity، يستهدف `netstandard2.1`.
-- `src/CostOfStaying.Core/` — مكونات أساسية مساندة، تستهدف `netstandard2.1`.
-- `tests/CostOfStaying.Domain.Tests/` — اختبارات NUnit على `.NET 8`.
-- `tests/CostOfStaying.Core.Tests/` — اختبارات NUnit مستقلة على `.NET 10`.
-- `tools/` — محاكي Python استكشافي وسكربت لإخراج سجلات محاكاة.
+لعبة بقاء نفسي جماعية؛ تستنزف `Vitality` بمرور الوقت، ويؤخر نقل المعاناة الانهيار لكنه يضيف كلفة `Betrayal`. المشروع في مرحلة ما قبل الإنتاج؛ القواعد وقيم التوازن المقترحة ليست قرارات نهائية.
+
+## الحالة الفعلية للمشروع
+
+- `src/CostOfStaying.Domain/`: منطق المجال المستقل عن Unity، ويستهدف `netstandard2.1`.
+- `src/CostOfStaying.Core/`: طبقة Core منفصلة حالياً، وتستهدف `netstandard2.1`.
+- `tests/CostOfStaying.Domain.Tests/`: اختبارات NUnit تستهدف `.NET 8`.
+- `tests/CostOfStaying.Core.Tests/`: اختبارات NUnit تستهدف `.NET 10` وتستخدم `global.json` مستقلاً داخل مجلد الاختبارات.
+- `tools/balance_simulator/`: محاكي Python وملفات presets ومسح المعاملات.
+- `tools/playtest/`: مولد سجلات جلسات محاكاة آلية؛ لا ينتج جلسات لعب بشرية.
+- `test_parity.py` يختبر سلوك محاكي Python فقط؛ لا يشغّل C# ولا يثبت التكافؤ بين اللغتين.
+- لا يوجد مشروع Unity أو بناء Android/iOS أو خادم شبكي قابل للتشغيل في هذا المستودع حتى تاريخ هذه المراجعة.
 
 ## التحقق المحلي
-من جذر المستودع، شغّل اختبارات المجال:
+
+من جذر المستودع، شغّل خط Domain وPython:
 
 ```bash
-dotnet test tests/CostOfStaying.Domain.Tests/CostOfStaying.Domain.Tests.csproj
+dotnet restore CostOfStaying.sln
+dotnet build CostOfStaying.sln --configuration Release --no-restore
+dotnet test CostOfStaying.sln --configuration Release --no-build
 python3 tools/balance_simulator/test_parity.py
 ```
 
-اختبارات Core تستخدم SDK منفصلاً؛ نفّذها من مجلدها حتى يختار `global.json` المحلي .NET 10:
+اختبارات Core تستخدم SDK منفصلاً. شغّلها من مجلدها حتى يقرأ `dotnet` ملف `global.json` المحلي:
 
 ```bash
 cd tests/CostOfStaying.Core.Tests
-dotnet test CostOfStaying.Core.Tests.csproj
+dotnet restore CostOfStaying.Core.Tests.csproj
+dotnet build CostOfStaying.Core.Tests.csproj --configuration Release --no-restore
+dotnet test CostOfStaying.Core.Tests.csproj --configuration Release --no-build --no-restore
 ```
 
-سجلات `tools/playtest/run_sessions.py` محاكاة آلية فقط، وليست جلسات لعب بشرية ولا دليلاً على توازن معتمد. اختبارات Python لا تقارن التنفيذ مباشرة مع C#.
+لتشغيل الأدوات الاستكشافية:
 
-## حالة التكامل
-حتى تاريخ 2026-11-21 لا توجد GitHub Actions workflows في الفرع `main`. لم يُتحقق من تكامل Unity أو بناء خادمي/شبكي؛ لا تفترض أن نجاح الاختبارات المحلية يثبت هذه الجوانب.
+```bash
+python3 tools/balance_simulator/simulate.py --preset default --seed 42
+python3 tools/balance_simulator/sweep.py --runs 20
+python3 tools/playtest/run_sessions.py --sessions 10 --preset default
+```
+
+كل مخرجات المحاكاة فرضيات استكشافية فقط؛ لا تمثل جلسات لعب بشرية ولا تثبت توازناً معتمداً.
+
+## Git وCI
+
+- يبقى `main` الفرع الدائم، وتُنفذ التحديثات المعتمدة مباشرة عليه وفق تعليمات `ROADMAP.md` الحالية.
+- لا تستخدم `force push` ولا تستبدل تاريخ Git أو مجلد `.git`.
+- يحتوي هذا التحديث على ملفي CI مقترحين: `ci.yml` لـDomain/Python و`core-ci.yml` لـCore. وجود ملفات YAML لا يعني نجاح التشغيل؛ يجب التحقق من أول نتيجة فعلية في GitHub Actions.
+- لا يوجد في هذه الدفعة مسح أمني مخصص مثل CodeQL أو gitleaks. فحص الأنماط البسيط، إن استُخدم، ليس بديلاً عنهما.
+- راجع `docs/operations/RECONCILIATION_2026-11-21.md` لمعرفة التعارضات التي حُسمت والعناصر المؤجلة.
+
+## حدود التحقق
+
+نتائج الفحص المحلي المسجلة في التقارير السابقة تخص النسخ والبيئات التي فُحصت وقتها. لا تُنسب إلى `main` أو إلى GitHub Actions إلا إذا ارتبطت بالالتزام الصحيح وظهرت نتيجة التشغيل الفعلية.
+
+## تعليمات وكلاء الذكاء الاصطناعي
+
+- راجع `AGENTS.md` قبل أي تغيير آلي في المستودع.
+- عند اختلاف تعليمات الوكيل مع قرار معماري أو سياسة موثقة، ارجع إلى ترتيب مصادر الحقيقة المذكور في `AGENTS.md` وإلى القرار/الوثيقة الأعلى أولوية.
+- اتبع سياسة Git الحالية في `ROADMAP.md`؛ لا تعتبر وجود AGENTS.md تغييراً تلقائياً لسياسة الفروع أو الدمج.

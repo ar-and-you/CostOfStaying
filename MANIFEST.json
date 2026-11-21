@@ -1,0 +1,56 @@
+{
+  "package": "CostOfStaying documentation and governance phase",
+  "package_date": "2026-11-21",
+  "repository": "ar-and-you/CostOfStaying",
+  "target_branch": "main",
+  "reviewed_main_sha": "422059214b2c2738856633bcfa4fb729bb6d0ffa",
+  "direct_write_status": "blocked",
+  "latest_write_attempt": "Creating branch docs/governance-2026-11-21 was rejected with 403 Resource not accessible by integration; no branch, file, or commit was created.",
+  "repository_scope": "Selective documentation/governance patch only; not a full repository backup and does not contain .git or Git history.",
+  "source_archives_reviewed": [
+    {
+      "name": "ملفات لعبة .zip",
+      "sha256": "e0a972b42f68f4c6dd23f6400e45f69e53c026850d2e85d6be2b2cf29f5094f6"
+    },
+    {
+      "name": "CostOfStaying-FINAL-verified-2026-11-20.zip",
+      "sha256": "628a351cc21989c1b6a0152b61bfa5e9d0e1b6d25b42420dcce7ab016a6b0946"
+    },
+    {
+      "name": "CostOfStaying.zip",
+      "sha256": "ad2855693b013cd2c11fa68b319a334d88896fd0c49806d7a41f89daaec09937"
+    },
+    {
+      "name": "CostOfStaying-FINAL-upload-package.zip",
+      "sha256": "6369be0250b0e7ba3da6defe1ca9eb3ec06d79e5c1e7d43515e81a960b3f24cf"
+    },
+    {
+      "name": "CostOfStaying_MASTER_UNIFIED_2026-11-19.zip",
+      "sha256": "116c9e797aa6f2527eb79aa939b1a5a5366386ed87bda5c2a23662eb16fb5f29"
+    }
+  ],
+  "payload_files": [
+    ".github/workflows/ci.yml",
+    ".github/workflows/core-ci.yml",
+    "ACCESS_RETRY_RESULT.md",
+    "AGENTS.md",
+    "APPLY_AND_VERIFY.md",
+    "MANIFEST.json",
+    "PHASE_SUMMARY_AR.md",
+    "README.md",
+    "ROADMAP.md",
+    "SHA256SUMS.txt",
+    "UPLOAD_PACKAGE_NOTES.md",
+    "docs/architecture/DOMAIN_CORE.md",
+    "docs/operations/GITHUB_TOOLING.md",
+    "docs/operations/RECONCILIATION_2026-11-21.md",
+    "docs/operations/TOOLING_MAP.md",
+    "docs/quality/VERIFICATION_SCOPE_NOTE_2026-11-21.md"
+  ],
+  "notes": [
+    "AGENTS.md is aligned to the current ROADMAP.md Git policy (approved direct updates to main).",
+    "CI workflow files are configuration only; their success must be verified after application.",
+    "No src/ or tests/ files were changed.",
+    "The supplied source ZIPs are provenance inputs only and are not bundled into this update ZIP."
+  ]
+}

@@ -1,103 +1,96 @@
-
 # CostOfStaying — Development Roadmap
 
-This is the authoritative implementation sequence. Complete one task at a time; obtain explicit approval before each task, and do not skip phases without an approved decision.
+This is the current implementation sequence for the live repository. Do not treat proposed gameplay values or archive-only governance records as approved decisions. Keep the live Git history intact.
 
 ## Engineering baseline
 
-| Area | Decision |
+| Area | Current state |
 |---|---|
-| Domain library | `netstandard2.1` |
-| Automated tests | Domain tests: `.NET 8`; Core tests: `.NET 10` (separate SDK selection) |
-| Standalone development tools | Python simulator and playtest-log generator; exploratory only |
-| Domain time abstraction | `IMatchClock` in the current source; architectural acceptance is not recorded in an ADR |
-| Test time control | Deterministic `ManualClock` |
-| Unity integration | Separate integration layer; keep Unity APIs out of Domain |
-| Permanent and working branch | `main`; all repository work is performed directly on `main` |
+| Domain library | `src/CostOfStaying.Domain`, `netstandard2.1` |
+| Core library | `src/CostOfStaying.Core`, `netstandard2.1`; separate from Domain today |
+| Automated tests | Domain: `.NET 8`; Core: `.NET 10` with a separate test-directory `global.json` |
+| Standalone tools | Python balance simulator, parameter sweep, and simulated-playtest log generator |
+| Domain time abstraction | `IMatchClock`; tests use deterministic `ManualClock` |
+| Unity integration | Not implemented; keep Unity APIs out of Domain/Core |
+| Permanent branch | `main` |
 
-`docs/adr/` currently has no accepted ADR documents; do not treat proposed rules or balance values as approved decisions.
+The live `main` branch is authoritative for current files and history. The consolidated archive is a reference for selective import only; it is not a replacement branch. Archive-only ADRs must be imported and reconciled before being treated as current repository decisions.
 
-## Phase 0 — Repository Setup & Guardrails
+## Git policy
 
-**Objective:** Establish a clean, predictable repository and working agreement.
+Approved repository changes are committed directly to `main`, consistent with the current live repository policy and the owner's direct-push instruction for this reconciliation. Do not create task branches or pull requests under this current policy. Never force-push, delete `main`, replace `.git`, or bypass repository protections. If GitHub rejects an authorized direct update, stop and report the access or protection blocker.
 
-- [x] 0.1 Inspect the existing repository structure. (Inspected 2026-11-19; initial `main` contained `.gitignore` and `README.md`.)
-- [x] 0.2 Establish the project directory structure. (Source, tests, and tools are present in the audited working tree.)
-- [x] 0.3 Review `.gitignore` for .NET, Python, and Unity. Removed the global `*.meta` ignore (Unity metadata must be versioned) and added Python cache/environment exclusions; continue reviewing as toolchains expand.
-- [ ] 0.4 Add `.editorconfig` and formatting conventions.
-- [ ] 0.5 Establish contribution, agent, and engineering workflow documentation.
-- [ ] 0.6 Review and configure repository safeguards compatible with the approved direct-to-`main` workflow.
-- [x] 0.7 Verify repository structure and guardrails on GitHub. (Read-only inspection on 2026-11-21 found no GitHub Actions workflows or `main` branch protection; this does not imply CI validation.)
+The bundle includes a later hybrid-branch proposal (ADR-028), but its governance record is not present in the live `main` tree. Do not silently treat it as the active policy. A future explicit governance update may replace this section once the complete ADR record and dependent documents are reviewed and committed.
 
-**Git policy:** `main` is the only permanent and working branch. All approved repository changes are committed directly to `main`. Do not create task branches or pull requests. Do not force-push, delete the permanent branch, or bypass repository protections. Configure repository safeguards so they do not contradict the approved direct-to-`main` workflow. If an existing protection rule blocks an authorized direct update, stop and report the blocker; do not attempt to bypass it.
+## Phase 0 — Repository setup and guardrails
 
-## Phase 1 — Documentation
+- [x] 0.1 Inspect the existing repository and compare it with the supplied archives.
+- [x] 0.2 Preserve the live `main` history and import source files selectively.
+- [x] 0.3 Review `.gitignore` for .NET, Python and Unity; Unity `.meta` files must remain versioned.
+- [x] 0.4 Record the archive/live-tree divergence in `docs/operations/RECONCILIATION_2026-11-21.md`.
+- [ ] 0.5 Complete contribution and engineering workflow documentation.
+- [ ] 0.6 Review repository safeguards without bypassing any protection.
 
-**Objective:** Make scope, workflows, and architectural decisions discoverable.
+## Phase 1 — Documentation and decisions
 
-- [x] 1.1 Document current project purpose, development status, and local verification commands in the README.
-- [ ] 1.2 Document project scope and explicit non-goals without inventing gameplay requirements.
-- [ ] 1.3 Establish the ADR format and review existing ADRs.
-- [ ] 1.4 Finalize ADR-001: Domain architecture and technology targets.
-- [ ] 1.5 Finalize ADR-002: Time abstraction (`IMatchClock` is the current source API; final decision remains pending).
-- [ ] 1.6 Review consistency across the roadmap, agent instructions, and contribution guide.
+- [x] 1.1 Document the current project purpose, status, and local verification commands in `README.md`.
+- [x] 1.2 Correct documentation that described absent tools, workflows, or integrations as active.
+- [ ] 1.3 Import and reconcile the ADR catalogue; validate dependencies and cross-references.
+- [ ] 1.4 Finalize the accepted Domain/Core boundary before any code migration.
+- [ ] 1.5 Reconcile the archived ADR-028 branch-policy proposal with the live direct-to-main instruction.
+- [ ] 1.6 Run the document audit after the missing audit utility is reviewed and imported.
 
-## Phase 2 — Domain Core
+## Phase 2 — Domain and Core architecture
 
-**Objective:** Build the platform-independent domain foundation.
+- [x] 2.1 Domain exists at `src/CostOfStaying.Domain/` and targets `netstandard2.1`.
+- [x] 2.2 Core exists at `src/CostOfStaying.Core/` and targets `netstandard2.1`.
+- [x] 2.3 Domain uses `IMatchClock`; deterministic `ManualClock` support exists for tests.
+- [ ] 2.4 Review the future Domain/Core boundary against the accepted ADR set.
+- [ ] 2.5 Do not migrate or merge projects until the decision and implementation plan are approved.
+- [ ] 2.6 Verify Unity compatibility after a Unity project and editor version exist.
 
-- [x] 2.1 Domain project exists at `src/CostOfStaying.Domain/` and targets `netstandard2.1`.
-- [ ] 2.2 Define domain boundaries from approved game requirements.
-- [x] 2.3 Domain time is provided through `IMatchClock`; confirm the public name/decision in a future ADR before treating it as final.
-- [x] 2.4 `Match` receives time via `IMatchClock` and has no Unity dependency; its production clock uses monotonic `Stopwatch` time, not wall-clock reads.
-- [x] 2.5 Domain and Core build successfully in local test runs; inspect dependencies further if new packages are introduced.
+## Phase 3 — Automated tests
 
-## Phase 3 — Automated Tests
+- [x] 3.1 Domain NUnit tests exist and target `.NET 8`.
+- [x] 3.2 Core NUnit tests exist and target `.NET 10`.
+- [x] 3.3 Deterministic clock test support exists.
+- [x] 3.4 Regression coverage exists for match lifecycle, timing, voting, input validation, and command admission.
+- [ ] 3.5 Obtain successful GitHub Actions runs for both test lines and record the tested commit SHA.
+- [ ] 3.6 Add cross-language tests only if a real C#↔Python parity contract is specified. The current `test_parity.py` does not provide this.
 
-**Objective:** Verify domain behavior independently of Unity.
+Previous local reports record Domain/Core results for their respective source snapshots. They are historical local results, not current GitHub Actions evidence.
 
-- [x] 3.1 Domain tests exist at `tests/CostOfStaying.Domain.Tests/` and target `net8.0`; Core tests are separate and target `net10.0`.
-- [x] 3.2 NUnit is configured for the test projects.
-- [x] 3.3 Domain tests reference the Domain project.
-- [x] 3.4 Tests use the deterministic `ManualClock` implementation.
-- [x] 3.5 Added regression coverage for finite configuration/input validation, config snapshots, inactive-match commands, timer initialization, vote completion, and end-condition precedence including a single-player time limit.
-- [x] 3.6 Local verification on 2026-11-21: Domain `net8.0` Release tests 45/45 passed; Core `net10.0` tests 246/246 passed. These are not CI results.
+## Phase 4 — Development tools
 
-## Phase 4 — Development Tools
-
-**Objective:** Add only tools with a demonstrated development or validation need.
-
-- [ ] 4.1 Identify and approve required tools.
-- [ ] 4.2 Implement tools with isolated responsibilities.
-- [x] 4.3 Documented local simulator commands and verified seven Python regression tests plus smoke runs; these are exploratory, not approved balance evidence.
+- [x] 4.1 Python balance simulator and parameter sweep exist as exploratory tools.
+- [x] 4.2 Simulated-playtest harness exists; its output is not human-playtest evidence.
+- [ ] 4.3 Review and import `tools/audit.py`, GitHub configuration tests, and repository setup helpers.
+- [ ] 4.4 Define and test bot-voting assumptions before interpreting outcome distributions as balance evidence.
 
 ## Phase 5 — CI/CD
 
-**Objective:** Automate repeatable validation. No GitHub Actions workflow is currently installed.
+- [x] 5.1 Add a Domain/Python workflow at `.github/workflows/ci.yml`.
+- [x] 5.2 Add a separate Core workflow at `.github/workflows/core-ci.yml` using `.NET 10`.
+- [x] 5.3 Configure restore/build/test steps for the two different SDK lines.
+- [ ] 5.4 Verify successful GitHub Actions runs and fix any environment-specific failures.
+- [ ] 5.5 Review security scanning, repository-quality checks, and dependency automation separately; they are not claimed active by this update.
 
-- [ ] 5.1 Add GitHub Actions workflows using the required SDKs.
-- [ ] 5.2 Restore and build the Domain and test projects.
-- [ ] 5.3 Run automated tests.
-- [ ] 5.4 Configure applicable repository checks without requiring pull requests or blocking the approved direct-to-`main` workflow.
-- [ ] 5.5 Verify results from an actual GitHub Actions run.
+## Phase 6 — Unity integration
 
-## Phase 6 — Unity Integration
-
-**Objective:** Integrate the Domain library without coupling it to Unity.
-
-- [ ] 6.1 Verify compatibility with the selected Unity version and scripting profile.
+- [ ] 6.1 Create/select the Unity project and verify its editor and scripting profile.
 - [ ] 6.2 Define the managed-plugin integration procedure.
-- [ ] 6.3 Integrate the compiled Domain library.
+- [ ] 6.3 Integrate the approved library boundary.
 - [ ] 6.4 Implement the Unity-side `IMatchClock` adapter.
 - [ ] 6.5 Validate integration in the Unity Editor.
-- [ ] 6.6 Document the integration and its verification.
+- [ ] 6.6 Add Unity/mobile CI only after a valid Unity project and build prerequisites exist.
+
+## Phase 7 — Playtesting and balance
+
+- [ ] 7.1 Review simulation assumptions and bot policies.
+- [ ] 7.2 Conduct human playtest sessions under the approved consent and privacy rules.
+- [ ] 7.3 Record outcomes, comprehension, quit behavior, and qualitative feedback.
+- [ ] 7.4 Change balance values only through the applicable gameplay decision process.
 
 ## Task protocol
 
-For every task: identify its scope and acceptance criteria; ask `Are you ready to start the current task: [Task Name]?`; wait for explicit approval; perform only that task; verify what can actually be verified; report changed paths, commands, results, and blockers; then wait for the user's `DONE` before moving on.
-
-Never claim that work is committed, pushed, tested, or integrated unless it is verified. Inspect files before replacing them. Record significant architectural decisions as ADRs. Do not add speculative game rules or unrelated work.
-
-## Status note
-
-The initial live `main` inspected for this audit was `a0c86d3` (2026-11-21). The code import and audit changes are considered integrated only after a normal GitHub push is verified. No CI workflow was present at inspection time.
+For each task, define scope and acceptance criteria, perform only the authorized work, run available verification, and report changed paths, commands, results, and blockers. Never claim a test, build, security scan, integration, or push succeeded unless its result is observed. Keep secrets, signing material, caches, and generated playtest outputs out of Git.
