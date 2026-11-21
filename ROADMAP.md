@@ -57,7 +57,7 @@ The live `docs/adr/` directory contains no accepted ADR records. Reference archi
 - [x] 3.2 Core NUnit tests exist and target `.NET 10`.
 - [x] 3.3 Deterministic clock test support exists.
 - [x] 3.4 Regression coverage exists for match lifecycle, timing, voting, input validation, and command admission.
-- [ ] 3.5 Obtain successful GitHub Actions runs for both test lines and record the tested commit SHA.
+- [x] 3.5 Obtain successful GitHub Actions runs for both test lines and record the tested commit SHA (`65e005b8122836d8a5de7560e0da7727270bf023`; see `docs/operations/RECONCILIATION_2026-11-21.md`).
 - [ ] 3.6 Add cross-language tests only if a real C#↔Python parity contract is specified. The current `test_parity.py` does not provide this.
 
 Previous local reports record Domain/Core results for their respective source snapshots. They are historical local results, not current GitHub Actions evidence.
@@ -74,10 +74,10 @@ Previous local reports record Domain/Core results for their respective source sn
 - [x] 5.1 Add a Domain/Python workflow at `.github/workflows/ci.yml`.
 - [x] 5.2 Add a separate Core workflow at `.github/workflows/core-ci.yml` using `.NET 10`.
 - [x] 5.3 Configure the Domain `.NET 8`, Python regression, and Core `.NET 10` test commands.
-- [ ] 5.4 Verify successful GitHub Actions runs and fix any environment-specific failures.
+- [x] 5.4 Verify successful GitHub Actions runs and fix any environment-specific failures; both workflows succeeded on `65e005b8122836d8a5de7560e0da7727270bf023`.
 - [ ] 5.5 Review security scanning, repository-quality checks, and dependency automation separately; they are not claimed active by this update.
 
-Workflow configuration was added in the 2026-11-22 follow-up; 5.4 stays open until both workflows complete successfully on a commit SHA. The CI deliberately excludes simulated playtest sessions and absent audit utilities.
+Workflow configuration was added in the 2026-11-22 follow-up. Both workflows completed successfully on SHA `65e005b8122836d8a5de7560e0da7727270bf023`; the Domain job emitted non-blocking XML-documentation warnings. The CI deliberately excludes simulated playtest sessions and absent audit utilities. See the reconciliation report for run links and remaining limitations.
 
 ## Phase 6 — Unity integration
 

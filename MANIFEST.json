@@ -4,8 +4,9 @@
   "repository": "ar-and-you/CostOfStaying",
   "target_branch": "main",
   "reviewed_main_sha": "422059214b2c2738856633bcfa4fb729bb6d0ffa",
-  "direct_write_status": "blocked",
-  "latest_write_attempt": "Creating branch docs/governance-2026-11-21 was rejected with 403 Resource not accessible by integration; no branch, file, or commit was created.",
+  "snapshot_scope": "The original package metadata and initial write attempt below describe the 2026-11-21 state; later live-repository results are recorded under current_follow_up.",
+  "initial_direct_write_status": "blocked",
+  "initial_write_attempt": "Creating branch docs/governance-2026-11-21 was rejected with 403 Resource not accessible by integration; no branch, file, or commit was created.",
   "repository_scope": "Selective documentation/governance patch only; not a full repository backup and does not contain .git or Git history.",
   "source_archives_reviewed": [
     {
@@ -111,6 +112,34 @@
       "python_simulator_tests": "7/7 passed on 2026-11-22 using Python 3.12.3; Python simulator only, not C# parity.",
       "dotnet_tests": "Not run locally: dotnet SDK/command is not installed in this sandbox."
     },
-    "actions_status_at_baseline": "No GitHub Actions runs were returned before the workflows were added; actual CI must be checked after the direct push and associated with a commit SHA."
+    "actions_status_at_baseline": "No GitHub Actions runs were returned before the workflows were added; actual CI must be checked after the direct push and associated with a commit SHA.",
+    "direct_push_result": {
+      "status": "completed",
+      "base_sha": "e4e469a2ce38a8e6762acdf4de1673df4bde18b1",
+      "commit_sha": "65e005b8122836d8a5de7560e0da7727270bf023",
+      "branch": "main",
+      "method": "Normal fast-forward push; no force push and no Git history replacement."
+    },
+    "actions_runs_on_commit": [
+      {
+        "workflow": "Domain and Python CI",
+        "run_id": 44960751847,
+        "job_name": "Domain (.NET 8) and simulator regressions (Python)",
+        "job_id": 137018796082,
+        "head_sha": "65e005b8122836d8a5de7560e0da7727270bf023",
+        "conclusion": "success",
+        "run_url": "https://github.com/ar-and-you/CostOfStaying/actions/runs/44960751847",
+        "notes": "All tests passed; 10 non-blocking compiler warnings reported missing XML comments on public Domain members."
+      },
+      {
+        "workflow": "Core CI (.NET 10)",
+        "run_id": 44960751864,
+        "job_name": "Build and test standalone Core",
+        "job_id": 137018796044,
+        "head_sha": "65e005b8122836d8a5de7560e0da7727270bf023",
+        "conclusion": "success",
+        "run_url": "https://github.com/ar-and-you/CostOfStaying/actions/runs/44960751864"
+      }
+    ]
   }
 }

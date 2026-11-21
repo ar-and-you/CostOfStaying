@@ -42,3 +42,11 @@
 ## حالة الرفع المباشر
 
 لم يُقبل أي تعديل من خلال تكامل GitHub. أُعيد التحقق من رأس `main`، ثم رُفض إنشاء فرع مستقل برسالة `403 Resource not accessible by integration`. لم يُنشأ فرع أو ملف أو commit، وبقي `main` عند الرأس المذكور أعلاه. لذلك هذه الحزمة مخصصة للتطبيق اليدوي.
+
+## ملحق التنفيذ والتحقق الفعلي — 2026-11-22
+
+الفقرة أعلاه تسجل حالة المحاولة السابقة فقط. لاحقاً، طُبقت التغييرات انتقائياً من نسخة Git موثوقة بعد التحقق من أن الرأس هو `e4e469a2ce38a8e6762acdf4de1673df4bde18b1`. دُفع commit اعتيادي `65e005b8122836d8a5de7560e0da7727270bf023` إلى `main`، وتطابق الرأس المحلي والبعيد بعد الدفع. لم يُرفع ملف ZIP إلى المستودع ولم يُستخدم `force push`.
+
+نجح تشغيل [Domain and Python CI](https://github.com/ar-and-you/CostOfStaying/actions/runs/44960751847) على الوظيفة `Domain (.NET 8) and simulator regressions (Python)`، ونجح تشغيل [Core CI (.NET 10)](https://github.com/ar-and-you/CostOfStaying/actions/runs/44960751864) على الوظيفة `Build and test standalone Core`؛ كلاهما مرتبط بالـSHA نفسه أعلاه. أظهر تشغيل Domain عشرة تنبيهات compiler عن غياب تعليقات XML لأعضاء عامة في `DomainEvent.cs` و`Debuff.cs` و`Clock.cs`، لكنه انتهى بنجاح ولم تفشل الاختبارات.
+
+اجتاز `MANIFEST.json` تحليل JSON، وملفا workflow تحليل YAML، وفحص `SHA256SUMS.txt` جميع الملفات المدرجة. نجحت اختبارات محاكي Python المحلية `7/7` باستخدام Python 3.12.3. لم تُشغّل اختبارات .NET محلياً لأن `dotnet` غير مثبت في Sandbox؛ نتائج .NET أعلاه من GitHub Actions. ما زالت مطابقة المحاكيين عبر اللغتين، Unity، اللعب البشري، والفحوص الأمنية غير المضمنة خارج نطاق هذه النتائج.
