@@ -1,34 +1,33 @@
-# Secrets Management — v2.2
-**الحالة: PROPOSED | فحص أسرار منفذ في ملفات CI (لم يُشغَّل على GitHub بعد) | لا مخزن أسرار إنتاجي | لا أسرار مُهيّأة في GitHub الآن**
+# Secrets Management — v2.3
+
+**الحالة: PROPOSED | لا يوجد ماسح أسرار مفعّل في CI | لا توجد أسرار نشر لازمة لخطّي CI الحاليين**
 
 لا تحفظ API keys أو tokens أو signing keys أو passwords في Git أو ScriptableObjects أو إعدادات العميل أو logs. التعمية ليست حماية للأسرار.
 
-عند وجود بناء: أسرار خارج المستودع، أقل صلاحية، فصل البيئات، وتدوير عند الاشتباه.
+عند وجود بناء أو نشر: احفظ الأسرار خارج المستودع، وامنح أقل صلاحية، وافصل البيئات، ودوّر الأسرار عند الاشتباه.
 
 ## الفحص الحالي
-- **`security.yml` → `Secret scan (gitleaks)`:** gitleaks 8.30.1 مثبت بـSHA-256، يفحص تاريخ Git الكامل والشجرة، ويفشل عند أي تسريب (`--exit-code 1`). إعداده `.gitleaks.toml` (القواعد الافتراضية). شُغّل محلياً على المستودع: لا تسريبات.
-- **`ci.yml` → grep heuristic:** أنماط شائعة (`AKIA*` وَ`ghp_*` وَ`sk-live-*`) تفشل الـPR. كان ينزّل gitleaks 8.18.0 بلا فحص بصمة وبفشل غير مانع (`|| echo`)؛ أُزيل واستُبدل بفحص `security.yml`.
-- **`.gitignore`:** يمنع `.env` وَ`.env.*` وَ`*.pem` وَ`*.key` وَ`*.pfx` وَ`*.p12` وَ`*.p8` وَ`*.jks` وَ`*.keystore` وَ`*.mobileprovision` وَ`*.apk` وَ`*.aab` وَ`*.ipa`. اختبار `tools/github_config_tests` يتحقق من وجود هذه الأنماط ومن عدم وجود ملفات توقيع مُلتزَم بها.
-- قوالب الموردين (`codeql.yml` وغيرها) تبقى `workflow_dispatch` فقط، وليست بوابات جودة.
-- **GitHub Secret scanning وPush protection:** إعداد يدوي في المستودع (انظر `operations/GITHUB_TOOLING.md` §5)، لم يُتحقق من تفعيله.
 
-## جرد أسرار CI المخططة
-لا يوجد أي منها مُهيّأ الآن. تُضاف عند إنشاء مشروع Unity (`operations/UNITY_MOBILE_CI.md`)، والأفضل داخل Environment مخصص لكل بيئة.
+- **GitHub Actions:** ملفا `ci.yml` و`core-ci.yml` يستخدمان `contents: read` ولا يحتاجان أسرار نشر. لا يوجد `security.yml` أو تشغيل gitleaks أو CodeQL في الشجرة الحالية.
+- **فحص التاريخ:** لا يوجد في الأدلة الحالية تقرير حديث يثبت مسح تاريخ Git كاملاً بأداة متخصصة. لا تستنتج خلو المستودع من الأسرار من غياب ملفات أسرار ظاهرة أو من قواعد `.gitignore`.
+- **`.gitignore`:** يستبعد أنماطاً مثل `.env` و`.env.*` وملفات مفاتيح/شهادات محددة وملفات التوقيع المحلية. هذه حماية من الإضافة العرضية فقط؛ لا تمنع تتبع ملف سبق إضافته ولا تمحو أسراراً من تاريخ Git.
+- **GitHub Secret scanning وPush protection:** لم يُتحقق من تفعيلهما في إعدادات المستودع. يلزم فحص إعدادات GitHub يدوياً قبل وصفهما بأنهما نشطان.
+- **Dependabot:** لا يوجد ملف إعداد ظاهر في شجرة المستودع الحالية؛ لا تدّعِ تفعيل تحديثات الاعتماديات آلياً.
 
-| السر | يستخدمه | ما يحميه | المالك | التدوير |
-|---|---|---|---|---|
-| `UNITY_LICENSE` أو `UNITY_SERIAL` | `unity-mobile.yml` | ترخيص Unity | TBD | عند الاشتباه أو تغيير الحساب |
-| `UNITY_EMAIL`، `UNITY_PASSWORD` | `unity-mobile.yml` | حساب Unity | TBD | عند الاشتباه |
-| `ANDROID_KEYSTORE_BASE64`، `ANDROID_KEYSTORE_PASS`، `ANDROID_KEYALIAS_NAME`، `ANDROID_KEYALIAS_PASS` | `unity-mobile.yml` (`build-android`) | توقيع تطبيق Android | TBD | فقدان المفتاح قد يمنع تحديث تطبيق منشور بالتوقيع نفسه؛ احتفظ بنسخة احتياطية آمنة |
-| مفاتيح Apple (شهادة Distribution، Provisioning، App Store Connect API Key) | غير مستخدمة بعد | توقيع iOS ونشره | TBD | تُحدد في ADR نشر لاحق |
+## جرد أسرار CI المستقبلية
 
-قواعد:
-1. لا سر داخل `run`؛ يمرّ عبر `env` أو `with` فقط (يحرسه `tools/github_config_tests`).
-2. لا تُستخدم مفاتيح Production في Development أو Staging؛ أنشئ keystore منفصلاً للاختبار.
-3. `GITHUB_TOKEN` للقراءة فقط افتراضياً، ويُمنح صلاحيات إضافية لكل job عند الحاجة (`checks: write` لاختبارات Unity، و`security-events: write` لـCodeQL).
-4. عند الاشتباه بتسريب: دوّر السر فوراً، وانظر `INCIDENT_RESPONSE.md`.
+لا يحتاج خطّا CI الحاليان إلى أسرار نشر. تُضاف الأسرار فقط عند إدخال تكامل يتطلبها، ويفضل وضعها داخل GitHub Environment مخصص لكل بيئة.
 
-## المراجع الموحدة
-- `governance/SOURCES_AND_REFERENCES.md` EXT-GITLEAKS / SRC-ADR-026
-- `REPOSITORY_STRUCTURE.md` + `.gitignore` (أسرار مستبعدة)
-- `operations/GITHUB_TOOLING.md` و`operations/UNITY_MOBILE_CI.md`
+| السر المحتمل | الاستخدام المستقبلي | الحالة |
+|---|---|---|
+| `UNITY_LICENSE` أو `UNITY_SERIAL` | ترخيص Unity | غير مطلوب؛ لا يوجد Unity workflow |
+| `UNITY_EMAIL`، `UNITY_PASSWORD` | حساب Unity | غير مطلوب حالياً |
+| `ANDROID_KEYSTORE_BASE64` وكلمات مرور التوقيع | توقيع Android | غير مطلوب؛ لا يوجد بناء Android |
+| مفاتيح Apple | توقيع iOS والنشر | غير مستخدمة |
+
+## قواعد
+
+1. لا تضع الأسرار داخل أوامر `run` أو ملفات المشروع؛ مررها عبر آليات الأسرار المعتمدة عند الحاجة.
+2. لا تستخدم مفاتيح Production في Development أو Staging؛ استخدم مواد اختبار منفصلة.
+3. اجعل `GITHUB_TOKEN` للقراءة فقط افتراضياً، وامنح صلاحيات إضافية لكل job عند وجود حاجة موثقة.
+4. عند الاشتباه بتسريب: أوقف الاستخدام، ودوّر السر، واتبع `INCIDENT_RESPONSE.md`.
