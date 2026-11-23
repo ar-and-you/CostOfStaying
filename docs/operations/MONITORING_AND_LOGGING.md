@@ -1,12 +1,14 @@
-# Monitoring and Logging — v2.1
-**الحالة: PROPOSED | لا نظام مراقبة منفذ ولا عتبات تنبيه | CI يرفع artifacts كبداية**
+# المراقبة والتسجيل — خطة مستقبلية
 
-مقاييس مستهدفة بعد وجود خادم: عدد الجلسات، إكمال المباراة، disconnect rate، أسباب رفض الأوامر، وأخطاء الخادم.
+**الحالة: PROPOSED.** لا توجد منصة monitoring أو production server في `main`.
 
-مقاييس الأداء: CPU/RAM وtick duration وbandwidth وcrash rate. لا عتبات قبل baseline. استخدم MatchId عشوائياً. لا تسجل tokens أو أسراراً أو بيانات شخصية غير لازمة.
+عند تنفيذ الخادم، اجمع الحد الأدنى المفيد من telemetry: startup/shutdown، build/SHA، crash، tick duration، queue depth، disconnect/reconnect، أخطاء authorization/replay، وأداء الخدمة.
 
-**الحالي:** CI يرفع `TestResults/` و`playtest-logs/` (جلسات محاكاة) كـ artifacts — بداية قابلة للمراجعة لكنها ليست مراقبة تشغيلية. انظر `DEPLOYMENT_ARCHITECTURE.md`.
+قواعد السجلات:
+- لا تسجل tokens أو كلمات مرور أو بيانات شخصية غير لازمة.
+- استخدم correlation IDs غير حساسة، وحدد retention وصلاحيات الوصول.
+- افصل application logs عن security audit logs.
+- حدد sampling وredaction ومراقبة سلامة السجلات.
+- لا تعتمد تنبيهاً دون مالك واستجابة محددين.
 
-## المراجع الموحدة
-- `governance/SOURCES_AND_REFERENCES.md`
-- `SECURITY_ARCHITECTURE.md` (حماية السجلات)
+لا تدّع وجود dashboards أو alerting أو SLOs قبل نشرها واختبارها.

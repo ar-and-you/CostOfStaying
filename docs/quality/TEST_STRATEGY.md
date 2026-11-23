@@ -1,45 +1,33 @@
-# استراتيجية الاختبار — v2.1
-**الحالة: PROPOSED | النواة منفذة كـ PROPOSED (ADR-005) | لا VERIFIED قبل CI أخضر**
+# استراتيجية الاختبارات
 
-## هرم الاختبار
-Unit → Integration → PlayMode/System → Network → Playtest → Performance/Security. لا يغني اختبار الوحدة عن الشبكة أو الجهاز الفعلي.
+> تنبيه حوكمي: أرقام ADR المشار إليها في نسخ سابقة هي مواد أرشيفية ما لم توجد في `docs/adr/` بحالة مقبولة على `main`.
 
-## النطاق
+**الحالة:** استراتيجية نافذة للاختبارات الحالية وخطة توسع مقترحة. لا تعني أن كل مستويات الاختبار منفذة.
 
-- **Collapse:** التآكل، المؤقتات، إعادة الجدولة، والموت عند الصفر فقط. لا تُعتمد فترات غير مسماة في RULE-03.
-- **Transfer:** Move ذري، السعة، المدى الأولي، cooldown، replay، والتزامن.
-- **Betrayal:** نقطة واحدة بعد النجاح فقط، وعدم الزيادة عند الفشل أو replay. لا تُكتب عتبات 3/5/7 كاختبارات قواعد قبل تسجيلها.
-- **Combat:** تحقق خادمي. أرقام الأسلحة ليست متطلبات.
-- **Spirit:** انتقال واحد إلى Spirit، فرادة Echo، ومنع التأثير في الأحياء. Energy ليس نطاقاً حتى يُحسم.
-- **Endgame:** التصويت، الإجماع، الرفض، ثم النتائج الخمس بما فيها Draw منفصلة عن Time Limit وMutual Collapse.
-- **دورة المباراة وإعادة الاتصال** بعد اعتماد سياسة. لا سياسة معتمدة الآن.
+## خطوط الاختبار الحالية
 
-## التنفيذ الحالي (Domain Core)
+| الخط | المشروع | SDK | Workflow |
+|---|---|---|---|
+| Domain | `tests/CostOfStaying.Domain.Tests/` | .NET 8 من `global.json` الجذري | `.github/workflows/ci.yml` |
+| Core | `tests/CostOfStaying.Core.Tests/` | .NET 10 من `tests/CostOfStaying.Core.Tests/global.json` | `.github/workflows/core-ci.yml` |
+| Python simulator | `tools/balance_simulator/test_parity.py` | Python 3.12 في CI | `ci.yml` |
 
-| الطبقة | الملف | الحالة |
-|---|---|---|
-| Domain Unit | `tests/CostOfStaying.Domain.Tests/VitalityTests.cs`, `CollapseTests.cs` | PROPOSED |
-| Domain Integration | `TransferTests.cs`, `VoteAndEndgameTests.cs`, `SpiritTests.cs` | PROPOSED |
-| Security | `SecurityTests.cs` (سلطة الخادم، replay، مسافة خادمية) | PROPOSED |
-| Parity | `tools/balance_simulator/test_parity.py` | PROPOSED |
-| Playtest محاكاة | `tools/playtest/run_sessions.py` (≥10 جلسات) | SIMULATED |
+## نطاق التغطية
 
-> CI يشغلها في `ci.yml`. النتيجة `VERIFIED` تتطلب CI أخضر + SHA + بيئة موثقة (انظر `REQUIREMENTS_TRACEABILITY.md`).
+Domain tests تشمل Vitality/Collapse، Transfer، Spirit، Vote/Endgame، وأمن/مدخلات وفق الملفات الموجودة في مشروع الاختبار. Core tests تشمل معرفات، ledger، command envelope/sequence/admission/authorization/payload validation، session lifecycle/registry/cleanup، وcomposition.
 
-## أدوات
+## حدود التحقق
 
-- **النواة:** `NUnit 4.2.2` + `Microsoft.NET.Test.Sdk 17.11.1` (مثبتان في `Directory.Packages.props`).
-- **Unity:** Unity Test Framework بعد اعتماد Unity في ADR-001 — ليس مضافاً بعد (`TECHNICAL_ARCHITECTURE.md`).
-- لا منطق Domain يعتمد على `MonoBehaviour`/`FishNet` — يبقى قابلاً للاختبار مستقلاً.
+- `test_parity.py` لا يشغل C#؛ إنه اختبار رجعي لمحاكي Python.
+- محاكاة `run_sessions.py` ليست human playtest ولا تدخل بوابة CI.
+- لا Unity PlayMode/EditMode tests ولا network integration tests ولا Android tests.
+- اختبارات Domain التي تمرر distance إلى المجمع لا تثبت أن خادماً شبكياً يقيس المسافة بنفسه.
+- نجاح CI لا يثبت الأمن أو التوازن أو أداء منصة غير موجودة.
 
-## الشبكة
+## شروط تسجيل VERIFIED
 
-RTT 100/200/300ms وloss 1/3/5% وjitter وreorder وreconnect نقاط اختبار مقترحة، ليست مواصفات تشغيل مثبتة. tick rate لم يُحسم. انظر `NETWORK_ARCHITECTURE.md`.
+يجب تسجيل SHA، workflow/run URL أو الأمر، البيئة وإصدارات SDK، عدد الاختبارات الناجحة والفاشلة والمتجاوزة، والنطاق الذي يغطيه الاختبار. لا تستخدم VERIFIED خارج هذا النطاق.
 
-## التوثيق
+## أوامر التنفيذ
 
-كل اختبار يحمل ID وهدفاً وخطوات ونتيجة متوقعة وفعلية وcommit وبيئة. اربطه بمتطلب في `REQUIREMENTS_TRACEABILITY.md`. لا VERIFIED بلا تنفيذ.
-
-## المراجع الموحدة
-- المصادر: `governance/SOURCES_AND_REFERENCES.md` SRC-TRACE/SRC-DOMAIN
-- التنفيذ: `architecture/DOMAIN_CORE.md`
+انظر الأوامر الدقيقة في `README.md` و`CONTRIBUTING.md`. نفّذ Core من مجلد الاختبارات حتى يقرأ SDK 10.

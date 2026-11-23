@@ -1,8 +1,11 @@
-# Performance Budget — v2.1
-**الحالة: PROPOSED | لا توجد ميزانية معتمدة**
+# ميزانية الأداء — TBD حتى وجود build قابل للقياس
 
-الأرقام الموروثة 30FPS وRAM أقل من 400MB وAPK أقل من 100MB وRedmi Note 8 ليست متطلبات للحزمة v2.1 وليست نتائج. حزمة v1 استُبدلت. لا تُعتمد هذه الأرقام قبل تحديد SKU وإصدار Android وقياس فعلي وفق [PERFORMANCE_TEST_PROTOCOL.md](PERFORMANCE_TEST_PROTOCOL.md).
+**الحالة: TBD.** لا يوجد Unity/Android build أو Dedicated Server قابل للقياس في `main`؛ لذلك لا توجد حدود FPS أو RAM أو latency معتمدة.
 
-30FPS يساوي 33.3ms للإطار إذا اختير هذا الهدف لاحقاً. قس CPU وGPU منفصلين، PSS، الذاكرة، GC، التحميل، draw calls، الحرارة، البطارية، bandwidth ومدة tick الخادم.
+عند توافر build، يجب تحديد ميزانية منفصلة للعميل والخادم:
 
-المنهج عند وجود build: مشهد ثابت، warm-up، جلسة 15 دقيقة على الأقل، قياس قبل وبعد الحرارة، median وP95 وworst-case. لا تحسين بلا profiler evidence. لا Golden Baseline قبل أول قياس محفوظ.
+- Client: FPS وframe time (median/P95)، CPU/GPU، RAM/PSS، GC allocations، زمن تحميل المشاهد، حرارة/طاقة، وحجم التطبيق.
+- Network: RTT، packet loss، jitter، bandwidth، reconnect success، وحجم الرسالة.
+- Server: tick duration/P95، CPU/RAM لكل مباراة، عدد المباريات/اللاعبين، queue length، crash/restart، وزمن الاستعادة.
+
+كل حد رقمي يحتاج جهازاً/بيئة وإعداد جودة وسيناريو حمل وإصدار build موثقاً. لا تعتمد أرقاماً عامة قبل القياس. لا تستخدم محاكاة Python كقياس أداء عميل أو خادم.

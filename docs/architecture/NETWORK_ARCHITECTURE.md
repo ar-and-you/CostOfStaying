@@ -1,16 +1,22 @@
-# Network Architecture — v2.1
-**الحالة: PROPOSED | المبدأ في ADR-002 (معتمد) | التنفيذ المنطقي في Domain Core (ADR-005)**
+# معمارية الشبكة — تصميم مستقبلي
 
-Dedicated Server يملك الحالة. العميل يرسل Intent فقط (`Intent.cs`). الخادم يحسم الصحة والضرر والذخيرة والمؤقتات والنقل والتصويت والنتيجة. Energy غير معتمدة في RULE-04؛ إن وُجدت لاحقاً يملكها الخادم أيضاً.
+**الحالة:** `PROPOSED`. لا يوجد بروتوكول شبكة أو FishNet adapter أو Dedicated Server قابل للتشغيل في `main`.
 
-استخدم ساعة الخادم monotonic (`MonotonicClock`) وRequestId وrate limits وحدود حجم الرسائل. المنطق الخادمي مُختبر وحدوياً في `tests/CostOfStaying.Domain.Tests/SecurityTests.cs` (رفض مسافة مزعومة، منع replay).
+## نموذج الثقة المستهدف
 
-Snapshot هنا يعني لقطة حالة شبكية في ذاكرة الخادم عند الانضمام أو إعادة الاتصال، مع Delta عند التغيير. ليس قاعدة بيانات دائمة. الحفظ الدائم يتبع [DATA_ARCHITECTURE.md](DATA_ARCHITECTURE.md) وADR-003. سياسة مهلة إعادة الاتصال ما زالت غير معتمدة ويجب حسمها قبل Alpha.
+- جهاز العميل غير موثوق.
+- الشبكة العامة غير موثوقة.
+- خادم المباراة — عند بنائه — هو مصدر الحقيقة لحالة المباراة.
+- Backend لا يملك tick المباراة إلا بقرار معماري صريح.
 
-اختبر tick rates 10 و15 و20Hz. لا تثبّت 20Hz قبل قياس CPU وbandwidth وlatency. معدل الشبكة مستقل عن معدل الرسم وعن Unity physics timestep.
+## عقد الأوامر المقترح
 
-نقاط الاختبار المقترحة: RTT 100/200/300ms، loss 1/3/5%، jitter، وإعادة ترتيب الحزم. ليست مواصفات تشغيل معتمدة.
+يرسل العميل intent فقط. يتحقق الخادم من هوية actor، الجلسة، MatchId، الحالة الحالية، الأذونات، حدود payload، المعدل، رقم التسلسل، ومفتاح idempotency. يرفض الطلب غير الصالح دون mutation. لا يرسل العميل `SetHealth` أو `TransferSucceeded` أو `VotePassed` أو نتائج محسوبة.
 
-## المراجع الموحدة
-- المصادر: `governance/SOURCES_AND_REFERENCES.md` SRC-ADR-002 / EXT-FISHNET
-- التنفيذ المنطقي: `architecture/DOMAIN_CORE.md` + `src/CostOfStaying.Domain/Match.cs`
+## ما يغطيه الكود الآن
+
+Domain يطبق منطقاً خادمياً داخل عملية واحدة ويقبل distance كمدخل caller؛ Core يوفر خدمات/عقوداً للأوامر والجلسات والتحقق. لا يوجد transport أو authentication integration أو rate limiter شبكي أو server deployment. اختبارات الوحدة لا تثبت بروتوكولاً متصلاً.
+
+## اختبارات مطلوبة قبل Alpha
+
+Replay، إعادة ترتيب وتسلسل الرسائل، payload limits، rate limits، انقطاع وإعادة اتصال، تبديل actor/session، حالات لاعب/مباراة خاطئة، RTT وloss وjitter، وقياس server tick/CPU/bandwidth. قيم 100/200/300ms و1/3/5% نقاط اختبار مقترحة وليست SLA.

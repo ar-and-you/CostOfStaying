@@ -1,4 +1,8 @@
-# Game Design Document — v2.1
+# Game Design Document — CostOfStaying
+
+> تنبيه حوكمي: أرقام ADR المشار إليها في نسخ سابقة هي مواد أرشيفية ما لم توجد في `docs/adr/` بحالة مقبولة على `main`.
+
+**الحالة: PROPOSED FOR PLAYTEST | المشروع Pre-production | لا تُعد هذه الوثيقة إثبات تنفيذ أو اعتماد.**
 **الحالة: PROPOSED FOR PLAYTEST**
 
 ## الملخص

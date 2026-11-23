@@ -49,13 +49,16 @@ python3 tools/playtest/run_sessions.py --sessions 10 --preset default
 - لا تستخدم `force push` ولا تستبدل تاريخ Git أو مجلد `.git`.
 - يحتوي المستودع ملفي CI مستقلين: `.github/workflows/ci.yml` لـDomain/Python و`.github/workflows/core-ci.yml` لـCore/.NET 10. يشغّلان الاختبارات المسماة فقط، ولا يشغّلان `tools/playtest/run_sessions.py` أو `tools/audit.py`.
 - إعداد workflow لا يثبت نجاح CI. يجب التحقق من نتيجة GitHub Actions الفعلية وربطها بـcommit SHA قبل وصف الفحوص بأنها `VERIFIED`.
-- لا يوجد في هذه الدفعة مسح أمني مخصص مثل CodeQL أو gitleaks. فحص الأنماط البسيط، إن استُخدم، ليس بديلاً عنهما.
+- إعداد GitHub الموثق في 2026-11-24 يبيّن تفعيل Secret scanning وPush protection وCodeQL default setup؛ نجاح تشغيل CodeQL السابق لا يثبت خلو قائمة التنبيهات.
+- Dependabot security updates معطّلة. قراءتا قوائم Dependabot alerts وCode Scanning alerts أعادتا `403`; لا يُستنتج من ذلك عدد التنبيهات أو غيابها.
 - راجع `docs/operations/RECONCILIATION_2026-11-21.md` لمعرفة التعارضات التي حُسمت والعناصر المؤجلة.
 
 ## التوثيق والمساهمة
 
 - راجع `CONTRIBUTING.md` لسياسة المساهمة والاختبارات، و`docs/README.md` لفهرس الوثائق.
 - سجلات ADR غير موجودة حالياً على `main`؛ يوضح `docs/adr/README.md` طريقة التعامل مع المصادر الأرشيفية المتعارضة.
+- السياسات الإجرائية الحالية وفهرسها موجودة في `docs/governance/`؛ أما قواعد اللعب وحد Domain/Core وبعض السياسات التقنية فما زالت مقترحة أو مفتوحة.
+- يحدد `docs/quality/VERIFICATION_SCOPE_NOTE_2026-11-23.md` SHA ونطاق تشغيلات CI وCodeQL وحدود قراءة التنبيهات.
 
 ## حدود التحقق
 

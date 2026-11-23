@@ -1,21 +1,24 @@
-# Deployment Architecture — v2.1
-**الحالة: PROPOSED | CI النواة منفذ (ADR-005) | لا Unity/Android CI بعد**
+# معمارية البناء والنشر — الحالة الفعلية والخطة المستقبلية
 
-البيئات التالية مستهدفة. وجود اسمها هنا لا يعني أنها تعمل:
-- **Local:** تطوير محلي — ✅ النواة تبنى بـ `dotnet` عبر `global.json` (SDK 8.0.400).
-- **CI:** بناء واختبار آلي — ✅ `ci.yml` نشط على `push/PR` (تدقيق + `dotnet test` + محاكاة + فحص أسرار).
-- **Staging:** خادم Linux تجريبي وعميل Android تجريبي بعد وجود build — PROPOSED.
-- **Production:** غير معتمد قبل بوابات الإصدار. Backend الإنتاج ينتظر ADR-003.
+**الحالة:** مكتبات .NET وCI موجودة؛ نشر Unity/Android/server غير منفذ.
 
-## وحدات النشر المستهدفة
-1. Android Client موقّع بمفتاح خارج Git.
-2. Linux Dedicated Server مستقل عن العميل.
-3. Backend فقط بعد اعتماد مزود.
+## ما هو موجود
 
-كل artifact مستقبلي يحمل commit SHA وإصدار Unity وFishNet وbuild number والهدف وhash. الحالي: `ci.yml` يرفع `TestResults/` و`playtest-logs/` كـ artifacts.
+- `ci.yml`: Domain على .NET 8 واختبار محاكي Python.
+- `core-ci.yml`: Core على .NET 10.
+- كلا workflowين بصلاحية `contents: read`؛ لم يتحولا إلى نشر منتج.
 
-النشر المستهدف: Staging ثم smoke ثم مقارنة hash ثم توسيع تدريجي مع نسخة سابقة معروفة. الرجوع يجب أن يُجرّب قبل الاعتماد عليه. لا أسرار داخل العميل أو Git (`SECRETS_MANAGEMENT.md`).
+## ما ليس موجوداً
 
-## المراجع الموحدة
-- المصادر: `governance/SOURCES_AND_REFERENCES.md`
-- الهيكل: `REPOSITORY_STRUCTURE.md` + `.github/workflows/README.md`
+لا Unity project، ولا build Android/iOS، ولا Docker image لخادم اللعبة، ولا Dedicated Server، ولا Backend أو بيئة Staging/Production. لا يوجد artifact نشر لعبة موثق.
+
+## تسلسل مقترح عند دخول التنفيذ
+
+1. تثبيت إصدارات Unity/packages وSDK/NDK وFishNet بعد prototype.
+2. بناء Client وServer منفصلين مع commit SHA/build provenance.
+3. فصل secrets والتوقيع عن Git، وتقييد الوصول عبر environments.
+4. التحقق من نتائج unit/integration/security قبل النشر.
+5. نشر staging ثم smoke/load/network tests ثم قرار مالك للنشر الأوسع.
+6. تجربة rollback واستعادة قبل production.
+
+كل artifact مستقبلي يجب أن يحمل SHA، رقم build، target، الإصدارات، hashes، وسجل الاختبارات. لا تدّعِ Staging أو Production قبل وجود deployment فعلي.

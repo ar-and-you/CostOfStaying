@@ -1,8 +1,23 @@
-# Trust Boundaries — v2.1
-**الحالة: PROPOSED | تتبع ADR-002 ولا تثبت تنفيذاً**
+# حدود الثقة — هدف معماري غير منفذ بالكامل
 
-مناطق الثقة: Player Device غير موثوق، Public Network غير موثوق، Dedicated Server مصدر حقيقة المباراة عند بنائه، Backend موثوق فقط ضمن تفويضه بعد ADR-003، والمستودع سطح حساس.
+**الحالة: PROPOSED.** لا يوجد عميل متصل أو شبكة أو Dedicated Server قابل للتشغيل في `main`.
 
-العميل يرسل Intent لا Results. ارفض SetHealth وApplyDamage وTransferSucceeded وSetAmmo وVotePassed وSetEnergy كحقائق يحددها العميل. رفض SetEnergy لا يعني أن Energy قاعدة معتمدة.
+## مناطق الثقة المستهدفة
 
-الخادم، عند وجوده، يتحقق من الهوية والحالة والمدى والتبريد والملكية والذخيرة والسرعة والتوقيت وRequestId وحجم الرسالة.
+- **Client device:** غير موثوق؛ يمكن تعديل التطبيق أو إرسال طلبات مصطنعة.
+- **Public network:** غير موثوقة؛ افترض replay وdelay وreorder وقطع الاتصال.
+- **Match server:** ينبغي أن يكون مصدر الحقيقة لحالة المباراة عند بنائه؛ غير موجود حالياً.
+- **Backend:** لا يُمنح سوى الصلاحيات اللازمة لوظائف الحساب/المطابقة/التخزين إذا اعتُمد لاحقاً.
+- **Repository/CI:** سطح حساس للأسرار وسلسلة التوريد والصلاحيات.
+
+## عقد العميل المقترح
+
+يرسل العميل نوايا/أوامر وليس نتائج محسومة. يجب أن يحسب النظام الموثوق Vitality والضرر والمدى والذخيرة والتصويت والنتائج. لا يقبل `SetHealth` أو `TransferSucceeded` أو `VotePassed` كحقائق يقررها العميل.
+
+## ما يغطيه الكود الحالي
+
+منطق Domain يعمل داخل عملية .NET ويستقبل بعض القيم مثل المسافة من caller. توجد عقود وخدمات Core للأوامر والجلسات والتحقق. لا يعني ذلك وجود مصادقة transport أو قياس مسافة خادمي فعلي أو rate limiting شبكي.
+
+## ما يجب اختباره قبل الاتصال
+
+Actor/session binding، match scoping، replay/idempotency، sequence ordering، payload limits، rate limits، authorization، reconnect، clock monotonicity، validation server-side، وإدارة الأسرار.

@@ -1,18 +1,34 @@
-# Technical Architecture — v2.1
-**الحالة: PROPOSED | القرار في ADR-001 (معتمد كاتجاه؛ التحقق بـprototype) ولا يُحسم هنا | التنفيذ الجزئي في `DOMAIN_CORE.md` (ADR-005 Core + ADR-021 Domain→Core)**
+# المعمارية التقنية — هدف تصميمي لا وصف منتج مكتمل
 
-التكدس المقترح: Unity 6.3 LTS + URP، C#، FishNet، Linux Dedicated Server، وAndroid أولاً. لا يُعتمد قبل prototype ونسخ مثبتة. Backend الإنتاج يتبع ADR-003 وليس جزءاً من هذا التكدس الآن. الإصدارات المثبتة في `governance/SOURCES_AND_REFERENCES.md` (EXT-UNITY/EXT-FISHNET/EXT-DOTNET).
+**الحالة:** `PROPOSED`. لا يوجد ADR مقبول على `main` يثبت التكدس النهائي. هذه الوثيقة تشرح الاتجاه المقترح وحدود التنفيذ الراهن.
 
-## الطبقات
-Client Presentation → Network Adapter → Application Layer → **Domain Core** (`src/CostOfStaying.Domain`, `netstandard2.1`, `LangVersion 9.0` لتوافق Unity 6) → Infrastructure. النواة الصارمة `CostOfStaying.Core` هي الحد الشرعي (ADR-005) — نقل Domain في ADR-021.
+## 1. المبدأ
 
-Dedicated Server يملك حالة المباراة وفق ADR-002. Domain Core قواعد C# عادية بدون MonoBehaviour أو FishNet — ✅ منفذ كـ PROPOSED (انظر `DOMAIN_CORE.md` و`global.json` + `Directory.Packages.props`; النواة الصارمة Core تُحفظ `TreatWarningsAsErrors=true`). Backend لا يدير كل tick.
+المنطق الحساس للمباراة ينبغي أن يكون قابلاً للاختبار مستقلاً عن واجهة المستخدم والنقل الشبكي. العميل يرسل نية/طلباً؛ الخادم المقصود يتحقق من السياق والمدخلات ويحسب النتيجة. لكن Dedicated Server وNetwork Adapter غير موجودين بعد.
 
-## تدفق الأمر
-Client Intent (`Intent.cs`) → تحقق الجلسة → تحقق الخادم → قاعدة Domain (`Match.cs::TryTransfer`) → تحديث ذري → DomainEvent → replication → عرض على العميل. حسم دورة الحياة `Alive/Spirit/Eliminated` مع `Resurrect` معطل في MVP (ADR-023) — بلا حالة Dead نهائية مباشرة.
+## 2. الشجرة الحالية
 
-لا تضف ECS أو Rust/C++ أو بروتوكولاً ثنائياً خاصاً قبل قياس. لا نطاقات إصدارات مفتوحة في البناء بعد التثبيت (`Directory.Packages.props` يثبت الإصدارات, `LangVersion 9.0` للنواة).
+- Domain: C# `netstandard2.1` ويحتوي مجمّع المباراة وقواعد اللعبة الحالية.
+- Core: C# `netstandard2.1` ويحتوي بنية أوامر وجلسات وهوية/تسلسل/تفويض عامة.
+- Domain tests: .NET 8; Core tests: .NET 10.
+- Python simulator: أداة استكشافية لا مرجعاً تنفيذياً.
 
-## المراجع الموحدة
-- المصادر: `governance/SOURCES_AND_REFERENCES.md` EXT-UNITY/EXT-FISHNET/EXT-DOTNET + ADR-021..023
-- التنفيذ: `architecture/DOMAIN_CORE.md` + `REPOSITORY_STRUCTURE.md` + `AUDIT_REPORT_2026-11-14.md` §2
+لا تدمج هذه الطبقات في مخطط نظري يوهم بأن Network/Application/Infrastructure/Unity موجودة. هذه طبقات مستقبلية مقترحة.
+
+## 3. اتجاه مستقبلي محتمل
+
+Unity Client → Network Adapter → Server Application → Domain Rules → Infrastructure. اختيارات Unity/FishNet/Linux Dedicated Server ما زالت بحاجة prototype وتثبيت إصدار واختبارات تشغيل. Backend للمطابقة والحسابات والحفظ منفصل عن tick خادم المباراة، ومزوده غير محدد.
+
+## 4. مبادئ إلزامية عند التنفيذ
+
+- لا تثق في مدخلات العميل لحالة الصحة أو الضرر أو النتيجة أو الذخيرة أو التصويت.
+- الوقت الموثوق يأتي من ساعة monotonic داخل الخادم.
+- كل أمر حساس يتحقق من الهوية والجلسة والمباراة والحالة والصلاحية والحدود.
+- فشل الأمر لا يترك mutation جزئياً؛ replay لا يكرر الأثر.
+- لا تخلط lifecycle اللاعب مع lifecycle المباراة أو session/connection.
+- لا تضف تبعيات قبل قياس الحاجة وتوثيق التكلفة والترخيص.
+- لا تحسن الأداء قبل baseline قابل لإعادة الإنتاج.
+
+## 5. قرارات غير محسومة
+
+اختيار محرك/إصدار، FishNet أو بديل، خادم الاستضافة، Backend، شكل serialization، سياسة reconnect، tick rate، persistence، ومصفوفة الأجهزة. كل قرار يحتاج ADR فعلياً في `docs/adr/` قبل وصفه بأنه معتمد.

@@ -76,3 +76,23 @@
 تحققت بنود الإغلاق 1–4 على هذا الـSHA: الملفات موجودة على الفرع، ونجح تشغيل [Domain and Python CI](https://github.com/ar-and-you/CostOfStaying/actions/runs/44960751847) (job `137018796082`)، ونجح تشغيل [Core CI (.NET 10)](https://github.com/ar-and-you/CostOfStaying/actions/runs/44960751864) (job `137018796044`). انتهت كل الاختبارات في التشغيلين بنجاح. أصدر Domain عشرة تنبيهات غير حاجبة عن تعليقات XML مفقودة لأعضاء عامة في `DomainEvent.cs` و`Debuff.cs` و`Clock.cs`؛ لم تُصلح في هذه الدفعة لأنها لا تمنع نجاح الاختبارات وتتطلب قراراً منفصلاً حول معيار توثيق API.
 
 لم يشغّل Sandbox اختبارات .NET محلياً لغياب SDK، لكن GitHub Actions شغّل Domain على .NET 8 وCore على .NET 10، وشغّل اختبار محاكي Python بنجاح. بقيت قرارات ADR وحد Domain/Core، وسياسة الفرع المستقبلية، والفحوص الأمنية الإضافية، وUnity واللعب البشري مفتوحة. لا يُعد نجاح هذين التشغيلين إغلاقاً لتلك البنود.
+
+
+## 8. ملحق إعدادات الأمن والحوكمة — 2026-11-22
+
+أُعيد فحص الفرع بعد وصول `1b209b79261cba617bb68615746f115970422a8f`. على هذا الالتزام نجح تشغيل Domain/Python رقم [44966048222](https://github.com/ar-and-you/CostOfStaying/actions/runs/44966048222) وتشغيل Core رقم [44966048268](https://github.com/ar-and-you/CostOfStaying/actions/runs/44966048268). تبقى نتائج الالتزامات الأقدم أعلاه سجلاً تاريخياً ولا تستبدل هذا التحقق الأحدث.
+
+في إعدادات GitHub، كان Secret scanning وPush protection مفعّلين بالفعل. فُعّلت تنبيهات الاعتماديات ورسمها، وضُبط CodeQL default setup للغات C# وPython وGitHub Actions. بدأ التحليل الأول رقم [45004680726](https://github.com/ar-and-you/CostOfStaying/actions/runs/45004680726)، وكان جارياً عند فحص 2026-11-22 08:52 UTC ثم اكتمل لاحقاً بحالة `completed/success` على SHA `1b209b79261cba617bb68615746f115970422a8f`. لا يثبت نجاح التشغيل غياب تنبيهات؛ فقائمة Code Scanning لم تكن متاحة عبر API.
+
+تُركت Dependabot security updates معطّلة لتجنب PRs آلية قبل مراجعة التنبيهات. تعذر على تكامل API قراءة كل من قائمة تنبيهات Dependabot وقائمة Code Scanning، وأعاد كل endpoint `403 Resource not accessible by integration`؛ لا يُستنتج من ذلك عدم وجود ثغرات أو تنبيهات.
+
+ظل `main` دون حماية فرع أو repository ruleset عند التحقق. لم تُفرض قاعدة PR أو required checks لأن ذلك قد يتعارض مع سياسة الدفع المباشر المسجلة في `ROADMAP.md`. يلزم اختيار المالك قبل تفعيل قاعدة نشطة: إما اعتماد PRs وفحوصها، أو الإبقاء على الدفع المباشر مع منع force-push والحذف فقط.
+
+
+## 9. إعادة تحقق القراءة فقط — 2026-11-24
+
+هذه الإضافة تحديث لاحق، ولا تمحو أو تعيد تفسير لقطات الأقسام المؤرخة في 2026-11-21 و2026-11-22. بقي `main` عند SHA الأساس `1b209b79261cba617bb68615746f115970422a8f` قبل التغييرات التوثيقية المحلية. أظهر فحص GitHub أن الفرع غير محمي (`404 Branch not protected`) وأن قائمة repository rulesets مع `includes_parents=true` فارغة.
+
+تظل إعدادات Secret scanning وPush protection مفعّلة، بينما Dependabot security updates معطّلة. أعادت واجهتا قراءة قوائم Dependabot alerts وCode Scanning alerts خطأ `403 Resource not accessible by integration`؛ لذلك لا يجوز تأكيد محتوى التنبيهات أو عددها أو عدم وجودها. إعداد CodeQL نفسه لم يُعد فحصه في هذه الجولة. لم تُفعّل إعدادات حماية أو تحديث تلقائي ولم يُنشأ PR.
+
+عُدّ محتوى `docs/archive/` في نسخة الحزمة المعزولة فبلغ 107 ملفات شاملاً ملفي `README.md` و`SOURCE_ARCHIVE_INVENTORY.md`، أي 105 مواد أرشيفية إضافة إلى فهرس وجرد. لم تُستورد مواد الحزمة التاريخية بالجملة، وحُفظت ملفات المستودع الحية والتعديلات المحلية السابقة. لا يوجد commit أو push لهذا التحديث حتى الآن.
