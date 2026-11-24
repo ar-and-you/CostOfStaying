@@ -1,8 +1,8 @@
 # تتبع المتطلبات — حالة التنفيذ الظاهر والأدلة
 
-> هذا فهرس تتبع أولي، وليس شهادة جودة أو موافقة على القواعد. حقائق التنفيذ تخص شجرة `main` عند SHA الأساس المبين في [مذكرة نطاق التحقق](../quality/VERIFICATION_SCOPE_NOTE_2026-11-23.md). لا تعني حالة التنفيذ الظاهر اعتماد تصميم المنتج.
+> هذا فهرس تتبع أولي، وليس شهادة جودة أو موافقة على القواعد. مسارات التنفيذ والاختبارات تصف شجرة `main` عند SHA `589e3beb65980f0b11c1207c3a905b76e2f01028`؛ نتائج التشغيل مرتبطة بالـSHA والنطاق الواردين في [مذكرة نطاق التحقق](../quality/VERIFICATION_SCOPE_NOTE_2026-11-23.md). لا تعني حالة التنفيذ الظاهر اعتماد تصميم المنتج.
 
-| المعرّف | المتطلب/المفهوم | الوثائق | تنفيذ ظاهر على SHA الأساس | الاختبارات الظاهرة | الحالة وحدودها |
+| المعرّف | المتطلب/المفهوم | الوثائق | التنفيذ الظاهر على SHA الموصوف أعلاه | الاختبارات الظاهرة | الحالة وحدودها |
 |---|---|---|---|---|---|
 | RULE-01 | Vitality وCollapse والانتقال عند الصفر | [مواصفة القواعد](../02_GAME_RULES_SPECIFICATION.md)، [نظام Collapse](../systems/COLLAPSE_SYSTEM.md) | [Match.cs](../../src/CostOfStaying.Domain/Match.cs)، [Player.cs](../../src/CostOfStaying.Domain/Player.cs)، [MatchConfig.cs](../../src/CostOfStaying.Domain/MatchConfig.cs) | [اختبارات Domain](../../tests/CostOfStaying.Domain.Tests/) | منطق Domain منفذ جزئياً؛ قواعد التوازن `PROPOSED FOR PLAYTEST` |
 | RULE-02 | نقل Debuff واحتساب Betrayal | [مواصفة القواعد](../02_GAME_RULES_SPECIFICATION.md)، [نظام النقل](../systems/SUFFERING_TRANSFER_SYSTEM.md)، [Betrayal](../systems/BETRAYAL_SYSTEM.md) | [Match.cs](../../src/CostOfStaying.Domain/Match.cs) و[Player.cs](../../src/CostOfStaying.Domain/Player.cs) | [TransferTests.cs](../../tests/CostOfStaying.Domain.Tests/TransferTests.cs)، [SecurityTests.cs](../../tests/CostOfStaying.Domain.Tests/SecurityTests.cs) | سلوك داخل مجمّع Domain واختبارات وحدة؛ لا يثبت قياس مسافة شبكي أو معاملة موزعة دائمة |
