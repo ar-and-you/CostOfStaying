@@ -33,6 +33,18 @@
 
 ## حالة أعمال التوثيق — 2026-11-24
 
-العمل التوثيقي الجاري مبني على رأس `main` عند SHA `1b209b79261cba617bb68615746f115970422a8f`. تشغيلات CI وCodeQL المذكورة في هذه المذكرة كلها على ذلك الـSHA؛ لم تُشغّل على تعديلات الوثائق المحلية ولم تُنشأ لها نتيجة Actions بعد. قبل الدفع يجب التحقق من أن الفرق محصور في الوثائق والسياسات والتقرير، ثم متابعة Actions على SHA الالتزام الجديد.
+عند إعداد هذه اللقطة كان `main` عند SHA `1b209b79261cba617bb68615746f115970422a8f`، ولم تكن التغييرات الوثائقية المعلّقة قد رُفعت أو سُجّلت، ولم توجد لها نتائج Actions بعد. يُحفظ هذا الوصف كسجل للحالة آنذاك فقط؛ انتقل `main` لاحقاً إلى SHA `589e3beb65980f0b11c1207c3a905b76e2f01028` وأصبحت له التشغيلات الموثقة في الملحق أدناه.
 
 أُعيد فحص GitHub للقراءة فقط: `main` غير محمي وقائمة rulesets فارغة؛ Secret scanning وPush protection مفعّلان، وDependabot security updates معطّلة. تعذر قراءة قوائم Dependabot وCode Scanning بسبب `403 Resource not accessible by integration`، فلا نستنتج عدد التنبيهات أو محتواها أو خلو المستودع منها. لم تُفعّل إعدادات أو أتمتة جديدة في هذا الفحص.
+
+## ملحق تشغيلات `main` — 2026-11-24
+
+تحققت هذه التشغيلات على commit `589e3beb65980f0b11c1207c3a905b76e2f01028`؛ وقد أظهرت بيانات GitHub لكل منها الحالة `completed/success`:
+
+| الفحص | Run ID | النطاق |
+|---|---:|---|
+| Domain and Python CI | [45283036745](https://github.com/ar-and-you/CostOfStaying/actions/runs/45283036745) | وظيفة Domain على .NET 8 واختبارات محاكي Python المعرفة في workflow |
+| Core CI (.NET 10) | [45283036869](https://github.com/ar-and-you/CostOfStaying/actions/runs/45283036869) | البناء والاختبارات المحددة في workflow |
+| CodeQL default setup | [45283036409](https://github.com/ar-and-you/CostOfStaying/actions/runs/45283036409) | تشغيل CodeQL ديناميكي؛ لا يوجد workflow CodeQL متتبع في المستودع |
+
+لا تثبت هذه النتائج تكامل Unity أو الشبكة أو الأجهزة أو توازن اللعب، ولا تثبت خلو قوائم التنبيهات. بقيت قراءتا Dependabot وCode Scanning للتنبيهات رافعتين للخطأ 403 في فحص 2026-11-24.
