@@ -44,6 +44,7 @@
 ## الجودة والتحقق
 
 - [استراتيجية الاختبارات](quality/TEST_STRATEGY.md)
+- [مراجعة عيوب Domain والإصلاحات — 2026-11-25](quality/DOMAIN_DEFECT_REVIEW_2026-11-25.md)
 - [خطة اختبار اللعب البشري](quality/PLAYTEST_PLAN.md)
 - [مراجعة مخاطر التوازن](quality/BALANCE_RISK_REVIEW.md)
 - [ميزانية الأداء المقترحة](quality/PERFORMANCE_BUDGET.md)

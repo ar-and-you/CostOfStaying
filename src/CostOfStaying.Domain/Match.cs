@@ -114,21 +114,12 @@ namespace CostOfStaying.Domain
 
             double now = Clock.NowSeconds;
 
-            // 1) Vitality drain and debuff expiry for alive players
+            // 1) Vitality drain and debuff expiry for alive players.
+            // Split long ticks at debuff-expiry boundaries so a debuff only
+            // contributes decay for the time during which it is active.
             foreach (Player player in Players.Values.Where(p => p.State == PlayerState.Alive))
             {
-                double decay = player.TotalDecayPerSecond;
-                player.Vitality = Math.Max(0.0, player.Vitality - decay * deltaSeconds);
-
-                // Tick down debuff durations and collect expired ones
-                for (int i = player.Debuffs.Count - 1; i >= 0; i--)
-                {
-                    player.Debuffs[i].RemainingSeconds -= deltaSeconds;
-                    if (player.Debuffs[i].RemainingSeconds <= 0)
-                    {
-                        player.Debuffs.RemoveAt(i);
-                    }
-                }
+                AdvanceVitalityAndDebuffs(player, deltaSeconds);
             }
 
             // 2) Death transitions (RULE-01: death only at zero, one transition)
@@ -545,6 +536,46 @@ namespace CostOfStaying.Domain
                     count++;
             }
             return count;
+        }
+
+        private static void AdvanceVitalityAndDebuffs(Player player, double deltaSeconds)
+        {
+            double remainingSeconds = deltaSeconds;
+
+            while (remainingSeconds > 0)
+            {
+                // Remove effects that are already expired before calculating this segment.
+                for (int i = player.Debuffs.Count - 1; i >= 0; i--)
+                {
+                    if (player.Debuffs[i].RemainingSeconds <= 0)
+                        player.Debuffs.RemoveAt(i);
+                }
+
+                // The next segment ends at the earliest debuff expiry, or at the end of the tick.
+                double segmentSeconds = remainingSeconds;
+                foreach (Debuff debuff in player.Debuffs)
+                    segmentSeconds = Math.Min(segmentSeconds, debuff.RemainingSeconds);
+
+                // Debuff construction validates positive finite durations. This guard
+                // prevents a malformed in-memory value from causing a non-progressing loop.
+                if (segmentSeconds <= 0 || double.IsNaN(segmentSeconds) || double.IsInfinity(segmentSeconds))
+                    break;
+
+                double decay = player.TotalDecayPerSecond;
+                player.Vitality = Math.Max(0.0, player.Vitality - decay * segmentSeconds);
+
+                foreach (Debuff debuff in player.Debuffs)
+                    debuff.RemainingSeconds -= segmentSeconds;
+
+                remainingSeconds = Math.Max(0.0, remainingSeconds - segmentSeconds);
+            }
+
+            // Normalize boundary values and remove all effects expired at the tick endpoint.
+            for (int i = player.Debuffs.Count - 1; i >= 0; i--)
+            {
+                if (player.Debuffs[i].RemainingSeconds <= 0)
+                    player.Debuffs.RemoveAt(i);
+            }
         }
 
         private void Emit(DomainEventKind kind, Guid? playerId, Guid? targetId, string? detail)

@@ -115,6 +115,14 @@ namespace CostOfStaying.Domain.Tests
         }
 
         [Test]
+        public void Match_Rejects_NonPositive_Debuff_Duration_In_Config()
+        {
+            var invalidConfig = new MatchConfig { DebuffDurationSeconds = 0 };
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                new Match(Guid.NewGuid(), invalidConfig, new ManualClock(0)));
+        }
+
+        [Test]
         public void Transfer_Rejects_NonFinite_And_Negative_Server_Distances()
         {
             var config = new MatchConfig { TransferCooldownSeconds = 0 };

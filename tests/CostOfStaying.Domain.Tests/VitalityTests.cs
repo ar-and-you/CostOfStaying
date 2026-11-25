@@ -126,6 +126,26 @@ namespace CostOfStaying.Domain.Tests
         }
 
         [Test]
+        public void Debuff_Contributes_Decay_Only_While_Its_Duration_Is_Active_During_Long_Tick()
+        {
+            var match = CreateMatch(baseDecay: 0.1);
+            var clock = (ManualClock)match.Clock;
+            var playerId = Guid.NewGuid();
+            match.AddPlayer(playerId);
+            match.Start();
+
+            match.Players[playerId].Debuffs.Add(
+                new Debuff("short-lived", decayBonusPerSecond: 0.5, durationSeconds: 1.0, transferable: true));
+
+            // Base decay applies for all 5 seconds; the debuff bonus applies for only 1 second.
+            clock.Advance(5.0);
+            match.Tick(5.0);
+
+            Assert.That(match.Players[playerId].Vitality, Is.EqualTo(99.0).Within(1e-9));
+            Assert.That(match.Players[playerId].Debuffs, Is.Empty);
+        }
+
+        [Test]
         public void Server_Clock_Is_Authority_Delta_Not_Client()
         {
             var match = CreateMatch();

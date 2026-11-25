@@ -1,3 +1,5 @@
+using System;
+
 namespace CostOfStaying.Domain
 {
     /// <summary>
@@ -20,10 +22,22 @@ namespace CostOfStaying.Domain
 
         public Debuff(string id, double decayBonusPerSecond, double durationSeconds, bool transferable)
         {
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentException("Debuff id must not be null, empty, or whitespace.", nameof(id));
+            if (!IsFinite(decayBonusPerSecond) || decayBonusPerSecond < 0)
+                throw new ArgumentOutOfRangeException(nameof(decayBonusPerSecond), decayBonusPerSecond, "Must be finite and non-negative.");
+            if (!IsFinite(durationSeconds) || durationSeconds <= 0)
+                throw new ArgumentOutOfRangeException(nameof(durationSeconds), durationSeconds, "Must be finite and positive.");
+
             Id = id;
             DecayBonusPerSecond = decayBonusPerSecond;
             RemainingSeconds = durationSeconds;
             Transferable = transferable;
+        }
+
+        private static bool IsFinite(double value)
+        {
+            return !double.IsNaN(value) && !double.IsInfinity(value);
         }
 
         internal Debuff Clone()

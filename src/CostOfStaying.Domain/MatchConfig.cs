@@ -72,7 +72,7 @@ namespace CostOfStaying.Domain
             RequireNonNegativeFinite(BaseDecayPerSecond, nameof(BaseDecayPerSecond));
             RequireNonNegativeFinite(CollapseDecayIncreasePerSecond, nameof(CollapseDecayIncreasePerSecond));
             RequirePositiveFinite(CollapseIntervalSeconds, nameof(CollapseIntervalSeconds));
-            RequireNonNegativeFinite(DebuffDurationSeconds, nameof(DebuffDurationSeconds));
+            RequirePositiveFinite(DebuffDurationSeconds, nameof(DebuffDurationSeconds));
             RequireNonNegativeFinite(DebuffDecayBonusPerSecond, nameof(DebuffDecayBonusPerSecond));
             RequireNonNegativeFinite(TransferCooldownSeconds, nameof(TransferCooldownSeconds));
             RequireNonNegativeFinite(HintCooldownSeconds, nameof(HintCooldownSeconds));
