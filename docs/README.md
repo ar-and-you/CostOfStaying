@@ -70,6 +70,7 @@
 ## التشغيل والتكامل
 
 - [المصالحة مع المستودع الحي](operations/RECONCILIATION_2026-11-21.md)
+- [مصالحة التوثيق والحوكمة — 2026-11-25](operations/RECONCILIATION_2026-11-25.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
 - [النسخ الاحتياطي والاستعادة — خطة مستقبلية](operations/BACKUP_AND_RECOVERY.md)

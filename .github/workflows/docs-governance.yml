@@ -1,0 +1,58 @@
+name: Documentation Governance
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-governance-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  document-governance:
+    name: document-governance
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Enforce documentation scope for stabilization PRs
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --name-only -z "origin/${BASE_REF}...HEAD" > /tmp/changed-paths
+          mapfile -d '' -t changed < /tmp/changed-paths
+          ((${#changed[@]} > 0)) || { echo "No changed paths detected"; exit 1; }
+          for path in "${changed[@]}"; do
+            case "$path" in
+              src/*|tests/*|*.cs|*.py)
+                if [[ "$HEAD_REF" == "docs/stabilization" ]]; then
+                  echo "Documentation stabilization PR must not alter source/tests: $path"
+                  exit 1
+                fi
+                ;;
+            esac
+            if [[ "$HEAD_REF" == "docs/stabilization" ]]; then
+              case "$path" in
+                AGENTS.md|CONTRIBUTING.md|ROADMAP.md|README.md|docs/*.md|docs/**/*.md|\
+                docs/*.txt|docs/**/*.txt|docs/*.json|docs/**/*.json|docs/*.yml|docs/**/*.yml|\
+                docs/*.yaml|docs/**/*.yaml|docs/*.csv|docs/**/*.csv|\
+                .github/workflows/docs-governance.yml|.github/PULL_REQUEST_TEMPLATE/*.md|tools/docs_audit.sh)
+                  ;;
+                *) echo "Path is outside the documentation-only allow-list: $path"; exit 1 ;;
+              esac
+            fi
+          done
+
+      - name: Audit Markdown links and documentation index reachability
+        run: bash tools/docs_audit.sh
