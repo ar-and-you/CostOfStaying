@@ -38,7 +38,8 @@ The bundle includes a later hybrid-branch proposal (ADR-028), but its governance
 - [ ] 1.3 Import and reconcile the ADR catalogue; validate dependencies and cross-references.
 - [ ] 1.4 Finalize the accepted Domain/Core boundary before any code migration.
 - [ ] 1.5 Reconcile the archived ADR-028 branch-policy proposal with the live direct-to-main instruction.
-- [ ] 1.6 Run the document audit after the missing audit utility is reviewed and imported.
+- [x] 1.6 Run `tools/docs_audit.sh` and verify the Documentation Governance workflow on `9213e4e96e3a3a680fa39d02935208958238b229` (run `45704375790`, `completed/success`).
+- [x] 1.7 Establish provider-neutral AI agent roles, least-privilege permissions, safety policy, evaluation protocol, toolchain guidance, and six portable skills.
 
 The live `docs/adr/` directory contains no accepted ADR records. Reference archives include conflicting candidates (including two differently titled ADR-005 records), so 1.3–1.5 remain open pending a source-by-source review and owner decisions; see `docs/adr/README.md`. Do not import those records in bulk or infer acceptance.
 
@@ -57,7 +58,7 @@ The live `docs/adr/` directory contains no accepted ADR records. Reference archi
 - [x] 3.2 Core NUnit tests exist and target `.NET 10`.
 - [x] 3.3 Deterministic clock test support exists.
 - [x] 3.4 Regression coverage exists for match lifecycle, timing, voting, input validation, and command admission.
-- [x] 3.5 Obtain successful GitHub Actions runs for both test lines and record the tested commit SHA (`1b209b79261cba617bb68615746f115970422a8f`; see `docs/operations/GITHUB_TOOLING.md`).
+- [x] 3.5 Obtain successful GitHub Actions runs for both test lines and record the tested commit SHA (`1b209b79261cba617bb68615746f115970422a8f`; latest follow-up also passed on `9213e4e96e3a3a680fa39d02935208958238b229`, Domain/Python run `45704375896`, Core run `45704375842`).
 - [ ] 3.6 Add cross-language tests only if a real C#↔Python parity contract is specified. The current `test_parity.py` does not provide this.
 
 Previous local reports record Domain/Core results for their respective source snapshots. They are historical local results, not current GitHub Actions evidence.
@@ -74,7 +75,7 @@ Previous local reports record Domain/Core results for their respective source sn
 - [x] 5.1 Add a Domain/Python workflow at `.github/workflows/ci.yml`.
 - [x] 5.2 Add a separate Core workflow at `.github/workflows/core-ci.yml` using `.NET 10`.
 - [x] 5.3 Configure the Domain `.NET 8`, Python regression, and Core `.NET 10` test commands.
-- [x] 5.4 Verify successful GitHub Actions runs and fix any environment-specific failures; both workflows succeeded on `1b209b79261cba617bb68615746f115970422a8f`.
+- [x] 5.4 Verify successful GitHub Actions runs and fix any environment-specific failures; both workflows succeeded on `1b209b79261cba617bb68615746f115970422a8f` and again on `9213e4e96e3a3a680fa39d02935208958238b229` (Domain/Python run `45704375896`; Core run `45704375842`).
 - [ ] 5.5 Complete complementary security scanning, repository-quality checks, and dependency automation; CodeQL default setup is configured and its first analysis succeeded, but this wider work remains open.
 
 Workflow configuration was added in the 2026-11-22 follow-up. Both workflows completed successfully on SHA `1b209b79261cba617bb68615746f115970422a8f`: [Domain/Python run 44966048222](https://github.com/ar-and-you/CostOfStaying/actions/runs/44966048222) and [Core run 44966048268](https://github.com/ar-and-you/CostOfStaying/actions/runs/44966048268). The Domain job emitted non-blocking XML-documentation warnings. The CI deliberately excludes simulated playtest sessions and absent audit utilities. See `docs/operations/GITHUB_TOOLING.md` for remaining limits and live GitHub settings.

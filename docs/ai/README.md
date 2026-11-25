@@ -22,3 +22,7 @@ The repository's provider-neutral skills live under `.agents/skills/`. Each skil
 - No external provider connection, subscription, API key, or agent execution is implied by these files.
 - No agent has permission to push, merge, alter repository settings, access secrets, or approve gameplay/architecture decisions by default.
 - Domain/Core architecture, gameplay rules, balance values, Unity, Android, networking, and hosting remain subject to their existing decision gates.
+
+## Integration and verification record
+
+- [Documentation and AI governance push — 2026-11-25](../operations/AI_DOCUMENTATION_PUSH_2026-11-25.md) — exact commit, CI evidence, and remaining gates.
