@@ -1,6 +1,8 @@
 name: Documentation Governance
 
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -8,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: docs-governance-${{ github.event.pull_request.number }}
+  group: docs-governance-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -24,9 +26,9 @@ jobs:
           persist-credentials: false
 
       - name: Enforce documentation scope for stabilization PRs
+        if: github.event_name == 'pull_request' && github.head_ref == 'docs/stabilization'
         env:
           BASE_REF: ${{ github.event.pull_request.base.ref }}
-          HEAD_REF: ${{ github.event.pull_request.head.ref }}
         shell: bash
         run: |
           set -euo pipefail
@@ -36,22 +38,20 @@ jobs:
           for path in "${changed[@]}"; do
             case "$path" in
               src/*|tests/*|*.cs|*.py)
-                if [[ "$HEAD_REF" == "docs/stabilization" ]]; then
-                  echo "Documentation stabilization PR must not alter source/tests: $path"
-                  exit 1
-                fi
+                echo "Documentation stabilization PR must not alter source/tests: $path"
+                exit 1
                 ;;
+              AGENTS.md|CONTRIBUTING.md|ROADMAP.md|README.md|\
+              docs/*.md|docs/*/*.md|docs/*/*/*.md|\
+              docs/*.txt|docs/*/*.txt|docs/*/*/*.txt|\
+              docs/*.json|docs/*/*.json|docs/*/*/*.json|\
+              docs/*.yml|docs/*/*.yml|docs/*/*/*.yml|\
+              docs/*.yaml|docs/*/*.yaml|docs/*/*/*.yaml|\
+              docs/*.csv|docs/*/*.csv|docs/*/*/*.csv|\
+              .github/workflows/docs-governance.yml|tools/docs_audit.sh|.agents/skills/*/SKILL.md)
+                ;;
+              *) echo "Path is outside the documentation-only allow-list: $path"; exit 1 ;;
             esac
-            if [[ "$HEAD_REF" == "docs/stabilization" ]]; then
-              case "$path" in
-                AGENTS.md|CONTRIBUTING.md|ROADMAP.md|README.md|docs/*.md|docs/**/*.md|\
-                docs/*.txt|docs/**/*.txt|docs/*.json|docs/**/*.json|docs/*.yml|docs/**/*.yml|\
-                docs/*.yaml|docs/**/*.yaml|docs/*.csv|docs/**/*.csv|\
-                .github/workflows/docs-governance.yml|.github/PULL_REQUEST_TEMPLATE/*.md|tools/docs_audit.sh)
-                  ;;
-                *) echo "Path is outside the documentation-only allow-list: $path"; exit 1 ;;
-              esac
-            fi
           done
 
       - name: Audit Markdown links and documentation index reachability
