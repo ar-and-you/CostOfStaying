@@ -515,3 +515,19 @@
 - التقرير: [المرحلة 18](ARCHIVE_RECONCILIATION_STAGE18_TESTS_BLOB_CROSSWALK_2026-11-27.md).
 
 **الحالة:** `STAGE 18 COMPLETE — TESTS CROSSWALK; GLOBAL ARCHIVE/LIVE RECONCILIATION OPEN.`
+
+
+---
+
+## المرحلة 19 — جرد مسارات المصدر الأرشيفية القديمة وتعدد نسخ المشاريع (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE19_SOURCE_BLOB_CROSSWALK_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE19_SOURCE_BLOB_CROSSWALK_2026-11-27.md)
+
+- HEAD المرجعي قبل المرحلة: `3c042046f559b21ed187fea7dfd0e70580420234`؛ recursive tree غير مقتطعة، 212 tracked blobs.
+- نطاق `src/`: 58 مساراً معيارياً في الأرشيفات السبعة، مقابل 50 مساراً حياً؛ 50 مساراً مشتركة بالاسم، و8 مسارات أرشيفية فقط، ولا مسارات حية فقط بالاسم.
+- المسارات الأرشيفية الثمانية تحت `src/CostOfStaying.Core/` تنتمي إلى مساحة الاسم القديمة `CostOfStaying.Core`؛ تصنيفها مرجع تاريخي لا استيراد.
+- ملفا `CostOfStaying.Core.csproj` و`CostOfStaying.Domain.csproj` لهما نسختان أرشيفيتان مختلفتان لكل منهما؛ النسخة الحية تطابق إحدى النسختين في كل حالة.
+- لا تعني أرقام تقاطع المسارات تطابق المحتوى لكل الملفات الخمسين؛ المرحلة 17 سبق أن غطت عينة 19 مساراً، ولا تُكرر. بقية crosswalk المحتوى ما زالت مفتوحة.
+- لا حذف أو استبدال أو نقل أو استيراد، ولا تشغيل .NET أو ادعاء CI.
+
+**الحالة:** `STAGE 19 COMPLETE — SOURCE PATH INVENTORY / LEGACY ARCHIVE-ONLY TRIAGE; GLOBAL CROSSWALK OPEN.`
