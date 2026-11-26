@@ -24,6 +24,8 @@ def main():
     default_output = pathlib.Path(tempfile.gettempdir()) / "costofstaying-sim"
     ap.add_argument("--output", default=str(default_output), help="output directory (defaults outside the repository)")
     args = ap.parse_args()
+    if args.sessions < 1:
+        ap.error("--sessions must be a positive integer")
 
     cfg = PRESETS[args.preset]
     out_dir = pathlib.Path(args.output)
