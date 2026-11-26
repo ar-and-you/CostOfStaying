@@ -4,6 +4,9 @@
 
 ## الحوكمة والسياسات
 
+- [سياسة الإفصاح الأمني](../SECURITY.md) — طريقة الإبلاغ الخاص عن الثغرات وحدود الاستجابة.
+- [مدونة قواعد السلوك](../CODE_OF_CONDUCT.md) — قواعد المشاركة والتواصل.
+
 - [حوكمة المشروع ومصادر الحقيقة](governance/PROJECT_GOVERNANCE.md)
 - [سجل السياسات المرجعية](governance/POLICY_REGISTER.md)
 - [ضبط الوثائق والفهرسة](governance/DOCUMENT_CONTROL.md)
@@ -12,6 +15,7 @@
 - [حالات العمل ومعايير الأدلة](governance/STATUS_AND_EVIDENCE.md)
 - [سياسة الوكلاء والأتمتة](governance/AI_AND_AUTOMATION_POLICY.md)
 - [سجل الحالة المؤرخ للمشروع](governance/PROJECT_STATUS.md)
+- [سجل مصالحة الإصلاح — 2026-11-26](operations/RECONCILIATION_2026-11-26.md)
 - [تتبع المتطلبات وحدود التحقق](traceability/REQUIREMENTS_TRACEABILITY.md)
 
 تسري السياسات الإجرائية التي يسجلها `POLICY_REGISTER.md` ضمن نطاقها اعتباراً من إدخالها إلى `main`. لا تعتمد هذه السياسات قرارات اللعب أو المعمارية المفتوحة.

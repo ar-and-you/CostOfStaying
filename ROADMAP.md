@@ -58,7 +58,7 @@ The live `docs/adr/` directory contains no accepted ADR records. Reference archi
 - [x] 3.2 Core NUnit tests exist and target `.NET 10`.
 - [x] 3.3 Deterministic clock test support exists.
 - [x] 3.4 Regression coverage exists for match lifecycle, timing, voting, input validation, and command admission.
-- [x] 3.5 Obtain successful GitHub Actions runs for both test lines and record the tested commit SHA (`1b209b79261cba617bb68615746f115970422a8f`; latest follow-up also passed on `9213e4e96e3a3a680fa39d02935208958238b229`, Domain/Python run `45704375896`, Core run `45704375842`).
+- [x] 3.5 Obtain successful GitHub Actions runs for both test lines and record the tested commit SHA (`1b209b79261cba617bb68615746f115970422a8f`; follow-ups passed on `9213e4e96e3a3a680fa39d02935208958238b229` and `2e0304bf5151b77b618053f664efaf5ad6efdef5`; see `docs/operations/GITHUB_TOOLING.md`).
 - [ ] 3.6 Add cross-language tests only if a real C#↔Python parity contract is specified. The current `test_parity.py` does not provide this.
 
 Previous local reports record Domain/Core results for their respective source snapshots. They are historical local results, not current GitHub Actions evidence.
@@ -75,7 +75,7 @@ Previous local reports record Domain/Core results for their respective source sn
 - [x] 5.1 Add a Domain/Python workflow at `.github/workflows/ci.yml`.
 - [x] 5.2 Add a separate Core workflow at `.github/workflows/core-ci.yml` using `.NET 10`.
 - [x] 5.3 Configure the Domain `.NET 8`, Python regression, and Core `.NET 10` test commands.
-- [x] 5.4 Verify successful GitHub Actions runs and fix any environment-specific failures; both workflows succeeded on `1b209b79261cba617bb68615746f115970422a8f` and again on `9213e4e96e3a3a680fa39d02935208958238b229` (Domain/Python run `45704375896`; Core run `45704375842`).
+- [x] 5.4 Verify successful GitHub Actions runs and fix any environment-specific failures; the two test workflows succeeded on `1b209b79261cba617bb68615746f115970422a8f`, `9213e4e96e3a3a680fa39d02935208958238b229`, and `2e0304bf5151b77b618053f664efaf5ad6efdef5` (latest Domain/Python run `45704564814`; Core run `45704564923`). The separate Documentation Governance workflow also succeeded on `2e0304bf5151b77b618053f664efaf5ad6efdef5` (run `45704564834`).
 - [ ] 5.5 Complete complementary security scanning, repository-quality checks, and dependency automation; CodeQL default setup is configured and its first analysis succeeded, but this wider work remains open.
 
 Workflow configuration was added in the 2026-11-22 follow-up. Both workflows completed successfully on SHA `1b209b79261cba617bb68615746f115970422a8f`: [Domain/Python run 44966048222](https://github.com/ar-and-you/CostOfStaying/actions/runs/44966048222) and [Core run 44966048268](https://github.com/ar-and-you/CostOfStaying/actions/runs/44966048268). The Domain job emitted non-blocking XML-documentation warnings. The CI deliberately excludes simulated playtest sessions and absent audit utilities. See `docs/operations/GITHUB_TOOLING.md` for remaining limits and live GitHub settings.

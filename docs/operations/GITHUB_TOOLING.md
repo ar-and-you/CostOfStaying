@@ -6,6 +6,20 @@
 
 تسجل هذه الوثيقة ما فُحص فعلياً وما بقي غير مؤكد. نجاح CI يثبت الاختبارات التي شغّلها فقط؛ ولا يثبت اكتمال الأمن أو الحوكمة. نتائج SHA الأساس التاريخية ونتائج SHA المتابعة منفصلة أدناه.
 
+## 0. لقطة التشغيل الحالية — SHA `2e0304bf5151b77b618053f664efaf5ad6efdef5`
+
+تحتوي الشجرة على **ثلاثة Workflows متتبعة**، إضافة إلى تشغيل CodeQL الديناميكي الذي لا يقابله ملف Workflow متتبع:
+
+| Workflow | Run ID | الحالة | ما يثبته |
+|---|---:|---|---|
+| Domain and Python CI | [45704564814](https://github.com/ar-and-you/CostOfStaying/actions/runs/45704564814) | `completed/success` | اختبارات Domain على .NET 8 ومحاكي Python كما يحدده `ci.yml` |
+| Core CI (.NET 10) | [45704564923](https://github.com/ar-and-you/CostOfStaying/actions/runs/45704564923) | `completed/success` | بناء واختبارات Core كما يحددها `core-ci.yml` |
+| Documentation Governance | [45704564834](https://github.com/ar-and-you/CostOfStaying/actions/runs/45704564834) | `completed/success` | تدقيق روابط Markdown وقابلية الوصول من `docs/README.md` |
+| CodeQL default setup (dynamic) | [45704564631](https://github.com/ar-and-you/CostOfStaying/actions/runs/45704564631) | `completed/success` | تشغيل CodeQL الديناميكي؛ ليس Workflow متتبعاً في المستودع |
+
+هذه النتائج تخص SHA المذكور فقط، وهو **الرأس السابق لدفعة الإصلاح الحالية**. لا تُنسب إلى commit الإصلاح حتى تُقرأ تشغيلاته الفعلية. نجاح CodeQL لا يثبت خلو قائمة التنبيهات، كما أن تعذر قراءة التنبيهات بصلاحية API لا يعني عدم وجودها.
+
+
 ## 1. Workflows ونتائج CI
 
 | الملف | الغرض | النتيجة على SHA `1b209b7` |

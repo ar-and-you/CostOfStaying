@@ -37,20 +37,19 @@ jobs:
           ((${#changed[@]} > 0)) || { echo "No changed paths detected"; exit 1; }
           for path in "${changed[@]}"; do
             case "$path" in
-              src/*|tests/*|*.cs|*.py)
-                echo "Documentation stabilization PR must not alter source/tests: $path"
-                exit 1
-                ;;
-              AGENTS.md|CONTRIBUTING.md|ROADMAP.md|README.md|\
-              docs/*.md|docs/*/*.md|docs/*/*/*.md|\
-              docs/*.txt|docs/*/*.txt|docs/*/*/*.txt|\
-              docs/*.json|docs/*/*.json|docs/*/*/*.json|\
-              docs/*.yml|docs/*/*.yml|docs/*/*/*.yml|\
-              docs/*.yaml|docs/*/*.yaml|docs/*/*/*.yaml|\
-              docs/*.csv|docs/*/*.csv|docs/*/*/*.csv|\
+              AGENTS.md|CONTRIBUTING.md|ROADMAP.md|README.md|SECURITY.md|CODE_OF_CONDUCT.md|\\
               .github/workflows/docs-governance.yml|tools/docs_audit.sh|.agents/skills/*/SKILL.md)
                 ;;
-              *) echo "Path is outside the documentation-only allow-list: $path"; exit 1 ;;
+              docs/*)
+                case "$path" in
+                  *.md|*.txt|*.json|*.yml|*.yaml|*.csv) ;;
+                  *) echo "Unsupported file type in docs/: $path"; exit 1 ;;
+                esac
+                ;;
+              *)
+                echo "Path is outside the documentation-only allow-list: $path"
+                exit 1
+                ;;
             esac
           done
 

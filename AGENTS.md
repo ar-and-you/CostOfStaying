@@ -73,7 +73,7 @@ python3 -m unittest discover -s tools/github_config_tests
 
 ## 5. CI وGitHub Actions
 
-- على SHA المرجعي لهذا التحديث، workflowان المتتبعان هما `.github/workflows/ci.yml` و`.github/workflows/core-ci.yml`؛ افحص الشجرة الحية قبل وصف الحالة أو إضافة ملف.
+- تحتوي الشجرة الحالية على ثلاثة Workflows متتبعة: `.github/workflows/ci.yml` (Domain/Python)، و`.github/workflows/core-ci.yml` (Core/.NET 10)، و`.github/workflows/docs-governance.yml` (تدقيق الوثائق). افحص الشجرة الحية وسجل التشغيلات على SHA المحدد قبل وصف الحالة.
 - وجود ملف Workflow لا يثبت أن GitHub Actions اشتغل أو نجح. تحقق من سجل التشغيل واربط النتيجة بالـ commit SHA قبل وصف الفحوص بأنها `VERIFIED`.
 - عند تعديل Workflow، حافظ على أقل صلاحيات لازمة، وثبّت إصدارات Actions وفق سياسة المستودع، ولا تضف أسراراً أو صلاحيات كتابة دون حاجة موثقة.
 
