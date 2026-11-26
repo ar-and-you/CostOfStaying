@@ -2,7 +2,7 @@
 
 **Status:** ACTIVE operational guidance where consistent with the repository's existing governance; provider selection and external data sharing remain owner-controlled.  
 **Scope:** AI-assisted research, documentation, review, implementation support, and verification.  
-**Authority:** `AGENTS.md`, `docs/governance/AI_AND_AUTOMATION_POLICY.md`, `docs/governance/GIT_AND_MERGE_POLICY.md`, accepted ADRs, and explicit owner instructions take precedence.
+**Authority:** AGENTS.md, docs/governance/AI_AND_AUTOMATION_POLICY.md, docs/governance/GIT_AND_MERGE_POLICY.md, accepted ADRs, and explicit owner instructions take precedence.
 
 ## Operating documents
 
@@ -14,7 +14,15 @@
 
 ## Portable Agent Skills
 
-The repository's provider-neutral skills live under `.agents/skills/`. Each skill defines its purpose, inputs, process, outputs, and safety constraints. A skill is an instruction package, not an executable permission or a guarantee that a particular agent product discovers it.
+The repository's provider-neutral skills live under .agents/skills/. Each skill defines its purpose, inputs, process, outputs, and safety constraints. A skill is an instruction package, not an executable permission or a guarantee that a particular agent product discovers it.
+
+- [Repository baseline audit](../../.agents/skills/repo-baseline-audit/SKILL.md)
+- [Archive reconciliation](../../.agents/skills/archive-reconciliation/SKILL.md)
+- [Documentation governance](../../.agents/skills/documentation-governance/SKILL.md)
+- [Domain/Core architecture review](../../.agents/skills/domain-core-architecture-review/SKILL.md)
+- [Independent adversarial review](../../.agents/skills/independent-adversarial-review/SKILL.md)
+- [Security and supply-chain review](../../.agents/skills/security-supply-chain-review/SKILL.md)
+- [Verification evidence](../../.agents/skills/verification-evidence/SKILL.md)
 
 ## Current limitations
 
