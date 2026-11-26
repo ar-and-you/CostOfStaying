@@ -76,6 +76,7 @@ class MatchSim:
             return
         if not math.isfinite(dt) or dt <= 0:
             return
+        alive_before_tick = self.alive_count()
         self.now += dt
 
         # 1) vitality drain + debuff expiry. Split long ticks at each
@@ -123,12 +124,10 @@ class MatchSim:
                     p.last_interval = iv
                     self.events.append((self.now, "collapse", p.id))
 
-        # 4) reschedule if alive changed (ratio-preserving)
-        # We do it lazily by tracking alive before; simpler: recompute when needed
-        # The C# does explicit reschedule after death; we mimic by ratio
-        # For simulation we track previous alive
-        # (Handled via explicit method called after death — simplified: if alive changed, reschedule)
-        # We store last alive in Tick wrapper outside.
+        # 4) Reschedule remaining collapses immediately after roster changes,
+        # matching the Domain tick order before vote timeout/open and end checks.
+        if self.alive_count() != alive_before_tick:
+            self.reschedule_after_death()
 
         # 5) vote timeout
         if self.vote_open and self.vote_deadline is not None and self.now >= self.vote_deadline:
@@ -263,7 +262,6 @@ def run_match(cfg, seed=0, random_transfers=True, random_votes=True):
     dt = 1.0 / cfg["tickHz"]
     # Simulate up to time limit + vote
     max_steps = int((cfg["matchTimeLimitSeconds"] + 60) * cfg["tickHz"]) + 1000
-    last_alive = m.alive_count()
     transfer_counter = 0
 
     for step in range(max_steps):
@@ -290,12 +288,6 @@ def run_match(cfg, seed=0, random_transfers=True, random_votes=True):
                     m.cast_vote(pid, choice)
 
         m.tick(dt)
-
-        # Detect alive change for reschedule (mirror C# flag)
-        cur_alive = m.alive_count()
-        if cur_alive != last_alive:
-            m.reschedule_after_death()
-            last_alive = cur_alive
 
         if m.outcome:
             break
