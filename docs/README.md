@@ -94,6 +94,7 @@
 - [استكمال مصالحة الأرشيفات — المراحل 5–7](operations/ARCHIVE_RECONCILIATION_STAGES_5_7_2026-11-26.md)
 - [تصحيح تداخل جرد الأرشيفات — 2026-11-26](operations/ARCHIVE_INVENTORY_CORRECTION_2026-11-26.md)
 - [تحقق CI وCodeQL على SHA c8250e7 — 2026-11-26](operations/CI_RECONCILIATION_C8250E7_2026-11-26.md)
+- [المرحلة 9 — مصالحة MASTER UNIFIED مع main الحالي — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE9_MASTER_UNIFIED_LIVE_CROSSCHECK_2026-11-26.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
