@@ -89,6 +89,7 @@
 - [سجل إصلاح التوثيق والحوكمة — 2026-11-26](operations/RECONCILIATION_2026-11-26.md)
 - [تقرير مصالحة الأرشيفات المرفوعة وخطة التحقيق — 2026-11-26](operations/ARCHIVE_RECONCILIATION_2026-11-26.md)
 - [تقدم المصالحة على مستوى الملفات — 2026-11-26](operations/FILE_LEVEL_RECONCILIATION_PROGRESS_2026-11-26.md)
+- [استكمال مصالحة الأرشيفات — المراحل 5–7](operations/ARCHIVE_RECONCILIATION_STAGES_5_7_2026-11-26.md)
 - [تحقق CI وCodeQL على SHA c8250e7 — 2026-11-26](operations/CI_RECONCILIATION_C8250E7_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
