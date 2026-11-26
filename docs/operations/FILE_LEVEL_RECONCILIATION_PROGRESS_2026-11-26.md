@@ -470,3 +470,22 @@
 - لم يُنفذ بعد crosswalk جديد لكل المسارات الـ397/البصمات الـ499 مع HEAD الحالي؛ لم يحدث حذف أو استبدال أو استيراد.
 
 **الحالة:** STAGE 15 INVENTORY REVALIDATION COMPLETE; CURRENT-HEAD FILE-LEVEL CROSSWALK OPEN.
+
+
+---
+
+## 11. المرحلة 16 — جرد حي جديد لـmain (2026-11-27)
+
+**تقرير المرحلة:** ARCHIVE_RECONCILIATION_STAGE16_LIVE_MAIN_SNAPSHOT_2026-11-27.md  
+**Snapshot:** LIVE_MAIN_FILE_INVENTORY_2026-11-27.tsv  
+**الرأس الذي يمثله snapshot:** 915b1095c1e53f8fcc49ff5394281b127aaff623
+
+- GitHub recursive tree API أعاد شجرة غير مقتطعة.
+- 208 tracked blobs عند الرأس المفحوص.
+- بالمقارنة مع snapshot السابق عند 266d385e4ff902ae351379df5077d7c43813a099: 16 مساراً جديداً، صفر مسارات مفقودة، 12 blob SHA متغيراً، و180 blob SHA ثابتاً.
+- المسارات الجديدة تتضمن تقارير المصالحة والفهارس التي أُضيفت بعد snapshot السابق.
+- المسارات الـ12 المتغيرة تشمل ست مهارات AI وملفات إعداد ووثائق جرد وتشغيل؛ لا تُحذف بسبب اختلاف البصمة.
+- الجرد الجديد يسجل path/Git blob SHA/size/mode؛ لا يحتوي SHA-256 لمحتوى الملفات. لذلك لا تُعامل مساواة الحجم كتطابق، ولا يقارن Git blob SHA1 مع SHA-256 الأرشيفية مباشرة.
+- لا يزال crosswalk المحتوى لكل المسارات المتقاطعة مفتوحاً؛ لا حذف أو استبدال أو استيراد في هذه المرحلة.
+
+**الحالة:** STAGE 16 COMPLETE — LIVE TREE SNAPSHOT REFRESHED; ARCHIVE CONTENT HASH CROSSWALK OPEN.
