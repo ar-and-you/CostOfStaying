@@ -1,9 +1,10 @@
 <Project>
 
   <!--
-    Central package versioning — single source for NuGet versions.
-    Referenced by SOURCES_AND_REFERENCES.md (EXT-*).
-    ADR-001 PROPOSED — versions not final until prototype.
+    Central package versions for projects that inherit this file.
+    Core.Tests has a nearer Directory.Packages.props that explicitly disables
+    central package management and keeps its own test-package versions.
+    These pins describe the current test dependency baseline, not runtime packages.
   -->
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
