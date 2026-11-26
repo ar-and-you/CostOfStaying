@@ -8,7 +8,7 @@ cross-language parity.
 import pathlib
 import sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from simulate import MatchSim, PRESETS
+from simulate import MatchSim, PRESETS, validate_presets
 
 def make_config(player_count=4):
     cfg = dict(PRESETS["default"])
@@ -18,6 +18,49 @@ def make_config(player_count=4):
     cfg["baseDecayPerSecond"] = 0.1
     cfg["matchTimeLimitSeconds"] = 1200.0
     return cfg
+
+def test_preset_validation_accepts_all_repository_presets():
+    validated = validate_presets(PRESETS)
+    assert set(validated) == {"default", "fast-decay", "slow-decay"}
+    # Older exploratory presets omit this field; retain the Domain default.
+    assert validated["fast-decay"]["hintCooldownSeconds"] == 15.0
+
+
+def test_preset_validation_rejects_missing_unknown_and_invalid_values():
+    valid = dict(PRESETS["default"])
+
+    missing = dict(valid)
+    del missing["playerCount"]
+    try:
+        validate_presets({"broken": missing})
+        raise AssertionError("missing required field was accepted")
+    except ValueError as exc:
+        assert "playerCount" in str(exc)
+
+    unknown = dict(valid)
+    unknown["playerCounnt"] = 4
+    try:
+        validate_presets({"broken": unknown})
+        raise AssertionError("unknown field was accepted")
+    except ValueError as exc:
+        assert "playerCounnt" in str(exc)
+
+    invalid = dict(valid)
+    invalid["tickHz"] = 0
+    try:
+        validate_presets({"broken": invalid})
+        raise AssertionError("zero tickHz was accepted")
+    except ValueError as exc:
+        assert "tickHz" in str(exc)
+
+    invalid = dict(valid)
+    invalid["startingVitality"] = float("nan")
+    try:
+        validate_presets({"broken": invalid})
+        raise AssertionError("non-finite vitality was accepted")
+    except ValueError as exc:
+        assert "startingVitality" in str(exc)
+
 
 def test_vitality_decay_and_nonfinite_tick():
     ms = MatchSim(make_config(player_count=1), seed=0)
@@ -108,6 +151,8 @@ def test_gameplay_transfer_is_rejected_after_completion():
 
 if __name__ == "__main__":
     tests = [
+        test_preset_validation_accepts_all_repository_presets,
+        test_preset_validation_rejects_missing_unknown_and_invalid_values,
         test_vitality_decay_and_nonfinite_tick,
         test_debuff_decay_stops_at_expiry_during_long_tick,
         test_tick_reschedules_remaining_collapses_when_player_dies,
