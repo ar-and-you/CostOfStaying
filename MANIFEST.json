@@ -196,7 +196,28 @@
       "docs/operations/RECONCILIATION_2026-11-26.md",
       "MANIFEST.json"
     ],
-    "verification_status": "awaiting_actions_runs_for_repair_commit; base_sha_runs_are_not_repair_commit_evidence",
-    "checksum_policy": "SHA256SUMS.txt covers every current_repair_files entry except SHA256SUMS.txt itself. It includes MANIFEST.json and intentionally excludes its own file to avoid a circular checksum. It is a scoped repair manifest, not a full-repository checksum inventory."
+    "verification_status": "Domain/Python, Core, Documentation Governance, and dynamic CodeQL completed successfully on verification_commit_sha; the PR-only allow-list guard was skipped because the event was a push to main.",
+    "checksum_policy": "SHA256SUMS.txt covers every current_repair_files entry except SHA256SUMS.txt itself. It includes MANIFEST.json and intentionally excludes its own file to avoid a circular checksum. It is a scoped repair manifest, not a full-repository checksum inventory.",
+    "verification_commit_sha": "9a2d0ddf38217b1eba0d3fe5ca367012477e28b5",
+    "verification_runs": {
+      "domain_python": {
+        "run_id": 45786442785,
+        "conclusion": "success"
+      },
+      "core": {
+        "run_id": 45786442666,
+        "conclusion": "success"
+      },
+      "documentation_governance": {
+        "run_id": 45786443070,
+        "conclusion": "success",
+        "allowlist_pr_guard": "skipped_on_push_event"
+      },
+      "codeql_dynamic": {
+        "run_id": 45786442447,
+        "conclusion": "success",
+        "tracked_workflow": false
+      }
+    }
   }
 }
