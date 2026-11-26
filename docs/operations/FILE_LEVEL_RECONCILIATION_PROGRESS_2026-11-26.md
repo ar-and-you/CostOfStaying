@@ -308,3 +308,44 @@
 **تصحيح للملاحظة التاريخية في القسم 7.14:** كانت نتيجة قائمة PR-only الفارغة غير كافية للحكم على تشغيلات Push. الاستعلام المباشر عن `actions/runs?branch=main` ثم قراءة Jobs حسم هذا القيد بالنسبة إلى SHA `834f3da`: الـWorkflows الثلاثة أعلاه نجحت فعلياً على الالتزام نفسه. لا تُعمم هذه النتيجة على SHA آخر أو على Unity/Android أو الشبكة أو اللعب البشري.
 
 **قرار الجولة:** CI للـDomain وCore والحوكمة `VERIFIED` على SHA `834f3daab1495d65d1187779c5e3b8e26e87e347` فقط. لم يتغير مصدر C# أو الاختبارات في هذه الجولة، ولم يُنفذ حذف أو نقل ملفات. تظل مصالحة المسارات الـ106 متعددة البصمات مفتوحة.
+
+
+### 7.16 الجولة السادسة — إغلاق CI على الالتزام الأحدث وتوسيع فحص Core (2026-11-26)
+
+#### تحقق الالتزام الحالي
+
+يشير `main` في هذه الجولة إلى:
+`2cb531934c889977065b8c0fb18a3719882b8793`.
+
+اكتملت تشغيلات Push التالية على SHA نفسه، وفُحصت Jobs وخطواتها:
+
+| Workflow | Run ID | Job | النتيجة |
+|---|---:|---|---|
+| Core CI (.NET 10) | 45884680245 | Build and test standalone Core | `completed / success` |
+| Domain and Python CI | 45884680188 | Domain (.NET 8) and simulator regressions (Python) | `completed / success` |
+| Documentation Governance | 45884680261 | document-governance | `completed / success` |
+
+تضمنت خطوات Domain/Python إعداد .NET 8 وPython 3.12، وفحص صياغة Python، واختبارات Domain NUnit، واختبارات محاكي Python، واختبارات CLI للمحاكاة؛ كلها نجحت. وتضمنت Core إعداد SDK المحدد في ملف الاختبارات وتشغيل Core NUnit؛ نجحا. نجح تدقيق روابط Markdown وفهرس الوثائق. خطوة نطاق التوثيق المقيدة بحدث Pull Request كانت `skipped` في Push، وهو متوقع.
+
+**قرار التحقق:** Workflows الثلاثة `VERIFIED` على SHA `2cb531934c889977065b8c0fb18a3719882b8793` فقط. لا يثبت هذا Unity أو Android أو تكامل شبكة أو تكافؤ C#↔Python أو لعباً بشرياً.
+
+#### مراجعة ساكنة إضافية لطبقة Core
+
+أُعيدت قراءة مسارات admission/authentication/session cleanup ذات الصلة:
+- `CommandAdmissionQueue.cs` و`CommandSequenceTracker.cs`
+- `ConnectionSessionRegistry.cs` و`SessionRegistry.cs` و`SessionLifecycle.cs`
+- `MatchCommandAdmissionService.cs` و`MatchCommandAuthorizationService.cs` و`MatchCommandPayloadValidationService.cs`
+- `SessionCleanupService.cs` و`ConnectionAwareSessionCleanupService.cs`
+- اختبارات queue وإزالة الجلسات المرتبطة بالاتصال.
+
+الملاحظات المؤكدة من قراءة المصدر:
+1. توجد حدود سعة صريحة لطابور الأوامر والجلسات والاتصالات، ويُرفض الإدخال قبل استهلاك sequence عند امتلاء الطابور.
+2. يُستهلك sequence بعد القبول في الطابور حتى إذا رُفضت اللعبة لاحقاً، وتُعاد مراجعة العضوية والمصادقة وسياسة الأمر بعد dequeue.
+3. إزالة الجلسة المغلقة تمنعها طبقة التنظيف إذا بقي اتصال مربوط، كما يمنع الطابور reset أثناء بقاء أوامر تلك الجلسة في الانتظار.
+4. لا تزال هذه المكونات موصوفة بأنها single-writer/server-serialized وغير thread-safe؛ ولا يوجد transport runtime يثبت تطبيق هذا القيد في تشغيل شبكي فعلي.
+
+لم يظهر في هذه القراءة وحدها عيب مؤكد يبرر تغييراً سلوكياً فورياً. يلزم اختبار تكاملي عند إضافة adapter النقل، خصوصاً لضمان أن كل mutation تمر عبر writer واحد وأن connection IDs لا يعاد استخدامها خلال عمر العملية.
+
+#### حالة المصالحة
+
+لم تُغلق مجموعة المسارات متعددة البصمات. لا تُعامل أرقاماً ناتجة عن إعادة تجميع أولية للأرشيفات على أنها مصفوفة نهائية؛ يجب استكمال تطبيع مسارات ZIP المتداخلة وربط كل ظهور بمصدره قبل اعتماد القرارات. لا حذف أو نقل أو استبدال مصدر في هذه الجولة.
