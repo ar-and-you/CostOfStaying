@@ -141,5 +141,62 @@
         "run_url": "https://github.com/ar-and-you/CostOfStaying/actions/runs/44960751864"
       }
     ]
+  },
+  "current_repair_snapshot": {
+    "observed_on": "2026-11-26",
+    "repository": "ar-and-you/CostOfStaying",
+    "target_branch": "main",
+    "base_sha": "2e0304bf5151b77b618053f664efaf5ad6efdef5",
+    "repair_commit_sha": "9b32ea38acb6165e7cf7b8393ae8a2bccbf12fc4",
+    "scope": "Documentation, governance records, documentation audit and documentation-only workflow guard. No src/, tests/, gameplay rules, balance values, Unity, Android, network runtime, or ADR acceptance changes.",
+    "workflows_on_base_sha": {
+      ".github/workflows/ci.yml": {
+        "run_id": 45704564814,
+        "conclusion": "success"
+      },
+      ".github/workflows/core-ci.yml": {
+        "run_id": 45704564923,
+        "conclusion": "success"
+      },
+      ".github/workflows/docs-governance.yml": {
+        "run_id": 45704564834,
+        "conclusion": "success"
+      },
+      "CodeQL dynamic setup": {
+        "run_id": 45704564631,
+        "conclusion": "success",
+        "tracked_workflow": false
+      }
+    },
+    "pr_1_review_record": {
+      "pr_number": 1,
+      "head_sha": "3062eba8dbeffcb983d4a364baa60719a761b616",
+      "merge_commit_sha": "84df71ef2d5d5c9cef4979e4fe2df6460aa96bb",
+      "merged_by": "ar-and-you",
+      "review_records": [
+        {
+          "reviewer": "codacy-production[bot]",
+          "state": "COMMENTED"
+        }
+      ],
+      "independent_human_approval_recorded": false,
+      "disposition": "Documented governance exception/gap; no retroactive review is claimed."
+    },
+    "current_repair_files": [
+      "AGENTS.md",
+      "ROADMAP.md",
+      "docs/operations/GITHUB_TOOLING.md",
+      "docs/traceability/REQUIREMENTS_TRACEABILITY.md",
+      "tools/playtest/README.md",
+      "docs/README.md",
+      "tools/docs_audit.sh",
+      ".github/workflows/docs-governance.yml",
+      "SECURITY.md",
+      "CODE_OF_CONDUCT.md",
+      "docs/operations/RECONCILIATION_2026-11-26.md",
+      "MANIFEST.json"
+    ],
+    "verification_status": "awaiting_actions_runs_for_repair_commit; base_sha_runs_are_not_repair_commit_evidence",
+    "checksum_policy": "SHA256SUMS.txt covers every current_repair_files entry except SHA256SUMS.txt itself. It includes MANIFEST.json and intentionally excludes its own file to avoid a circular checksum. It is a scoped repair manifest, not a full-repository checksum inventory."
   }
 }
