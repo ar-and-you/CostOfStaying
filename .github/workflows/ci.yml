@@ -45,3 +45,6 @@ jobs:
 
       - name: Run Python simulator regression tests
         run: python3 tools/balance_simulator/test_parity.py
+
+      - name: Run simulated-playtest CLI regression tests
+        run: python3 tools/playtest/test_cli.py
