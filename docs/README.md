@@ -88,6 +88,7 @@
 - [مصالحة التوثيق والحوكمة — 2026-11-25](operations/RECONCILIATION_2026-11-25.md)
 - [سجل إصلاح التوثيق والحوكمة — 2026-11-26](operations/RECONCILIATION_2026-11-26.md)
 - [تقرير مصالحة الأرشيفات المرفوعة وخطة التحقيق — 2026-11-26](operations/ARCHIVE_RECONCILIATION_2026-11-26.md)
+- [تقدم المصالحة على مستوى الملفات — 2026-11-26](operations/FILE_LEVEL_RECONCILIATION_PROGRESS_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
 - [النسخ الاحتياطي والاستعادة — خطة مستقبلية](operations/BACKUP_AND_RECOVERY.md)
