@@ -285,3 +285,26 @@
 - لم تُجرَ تعديلات مصدر أو اختبارات، ولم تُشغّل NUnit أو dotnet محلياً.
 - لم يتم حذف أو نقل أي ملف.
 - تصنيف ملفات العينة هو قرار مصالحة، وليس إقراراً بخلوها من العيوب.
+
+
+### 7.15 الجولة الخامسة — تحقق مباشر من تشغيلات Push على SHA الحالي (2026-11-26)
+
+أُعيد التحقق من مرجع `refs/heads/main` قبل قراءة النتائج؛ وكان يشير إلى الالتزام:
+`834f3daab1495d65d1187779c5e3b8e26e87e347`.
+
+على هذا الالتزام نفسه، أعادت واجهة GitHub Actions سجلّات Push مكتملة، وتم فحص تفاصيل Jobs وخطواتها:
+
+| Workflow | Run ID | الحدث | Job | النتيجة |
+|---|---:|---|---|---|
+| Core CI (.NET 10) | 45878241922 | push | Build and test standalone Core | `completed / success` |
+| Domain and Python CI | 45878242020 | push | Domain (.NET 8) and simulator regressions (Python) | `completed / success` |
+| Documentation Governance | 45878241995 | push | document-governance | `completed / success` |
+
+تفاصيل الخطوات:
+- Core: إعداد .NET SDK من `tests/CostOfStaying.Core.Tests/global.json`، ثم تشغيل Core NUnit tests؛ كلاهما `success`.
+- Domain/Python: إعداد .NET وPython 3.12، فحص صياغة Python، Domain NUnit، اختبارات محاكي Python، واختبارات CLI للمحاكاة؛ جميعها `success`.
+- Governance: تدقيق روابط Markdown وإمكانية الوصول من فهرس الوثائق؛ `success`. خطوة قيد PR-only كانت `skipped` في حدث Push، وهذا متوقع ولا يمثل فشلاً.
+
+**تصحيح للملاحظة التاريخية في القسم 7.14:** كانت نتيجة قائمة PR-only الفارغة غير كافية للحكم على تشغيلات Push. الاستعلام المباشر عن `actions/runs?branch=main` ثم قراءة Jobs حسم هذا القيد بالنسبة إلى SHA `834f3da`: الـWorkflows الثلاثة أعلاه نجحت فعلياً على الالتزام نفسه. لا تُعمم هذه النتيجة على SHA آخر أو على Unity/Android أو الشبكة أو اللعب البشري.
+
+**قرار الجولة:** CI للـDomain وCore والحوكمة `VERIFIED` على SHA `834f3daab1495d65d1187779c5e3b8e26e87e347` فقط. لم يتغير مصدر C# أو الاختبارات في هذه الجولة، ولم يُنفذ حذف أو نقل ملفات. تظل مصالحة المسارات الـ106 متعددة البصمات مفتوحة.
