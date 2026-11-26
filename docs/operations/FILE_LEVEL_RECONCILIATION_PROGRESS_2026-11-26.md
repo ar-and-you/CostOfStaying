@@ -562,3 +562,18 @@
 - لا تشغيل اختبارات أو CI.
 
 **الحالة:** `STAGE 21 COMPLETE — 37/37 DOCS CONTENT CROSSWALKED; SEMANTIC SALVAGE REVIEW OPEN.`
+
+
+---
+
+## المرحلة 22 — مصالحة حوكمة الأرشيف وقرارات ADR المتنافسة (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE22_GOVERNANCE_ADR_TRIAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE22_GOVERNANCE_ADR_TRIAGE_2026-11-27.md)
+
+- تمت مراجعة 44 مساراً أرشيفياً تحت docs/governance/: 27 ADR و17 وثيقة حوكمة/هجرة.
+- ظهرت 39 نسخة محتوى مميزة لملفات ADR، وتعارض ترقيم ADR-005، وفجوة ADR-024.
+- main ينص على أن ADRs الأرشيفية ليست نافذة ما لم يوجد سجل مقبول في docs/adr/؛ لا توجد سجلات مقبولة حالياً.
+- نقاط القرار المفتوحة: حد Domain/Core، دورة حياة اللاعب، قواعد اللعب/العتبات، المنصات، التكدس والاستضافة. ADR-008..020 تصلح كقائمة تحقق للمراجعة الهندسية فقط، لا كسياسات gameplay/transport معتمدة.
+- تصنيف المجموعة ARCHIVE_ONLY/HISTORICAL؛ لا استيراد أو حذف أو استبدال أو نقل. لا تشغيل اختبارات أو CI.
+
+**الحالة:** STAGE 22 COMPLETE — GOVERNANCE/ADR SEMANTIC TRIAGE; OWNER DECISIONS AND TECHNICAL COVERAGE REVIEW OPEN.
