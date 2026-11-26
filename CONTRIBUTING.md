@@ -32,7 +32,7 @@ dotnet test CostOfStaying.Core.Tests.csproj --configuration Release
 
 ## GitHub Actions
 
-الـworkflows هما `.github/workflows/ci.yml` لـDomain/Python و`.github/workflows/core-ci.yml` لـCore/.NET 10. يمنح كل منهما `contents: read` فقط. وجود YAML أو نجاح اختبار محلي لا يثبت نجاح GitHub Actions. سجّل نتيجة كل تشغيل مع رابط التشغيل وcommit SHA وإصدارات SDK وعدد الاختبارات. لا تصف CI بأنه `VERIFIED` قبل ظهور تشغيل فعلي ناجح على SHA محدد.
+توجد ثلاثة Workflows: `.github/workflows/ci.yml` لـDomain/Python، و`.github/workflows/core-ci.yml` لـCore/.NET 10، و`.github/workflows/docs-governance.yml` لتدقيق الوثائق. يعمل خطا Domain/Python وCore عند الدفع وطلبات الدمج وبجدولة أسبوعية، ويتضمن الأول فحص صياغة ملفات Python عبر `compileall`. يمنح خطا البناء والاختبار `contents: read` فقط ويثبتان إصدارات Actions على SHAs كاملة. وجود YAML أو نجاح اختبار محلي لا يثبت نجاح GitHub Actions. سجّل نتيجة كل تشغيل مع رابط التشغيل وcommit SHA وإصدارات SDK وعدد الاختبارات. لا تصف CI بأنه `VERIFIED` قبل ظهور تشغيل فعلي ناجح على SHA محدد.
 
 ## التوثيق والتصميم
 
