@@ -16,8 +16,74 @@ import time
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 PRESETS_PATH = pathlib.Path(__file__).with_name("presets.json")
 
+# Keep this contract aligned with MatchConfig.CreateValidatedSnapshot().
+# tickHz is simulator-specific; hintCooldownSeconds defaults to the Domain value.
+_PRESET_FIELDS = {
+    "startingVitality": ("positive", float),
+    "baseDecayPerSecond": ("non_negative", float),
+    "collapseDecayIncreasePerSecond": ("non_negative", float),
+    "collapseIntervalSeconds": ("positive", float),
+    "collapseIntervalThreeAliveSeconds": ("positive", float),
+    "debuffDurationSeconds": ("positive", float),
+    "debuffDecayBonusPerSecond": ("non_negative", float),
+    "transferCooldownSeconds": ("non_negative", float),
+    "maxActiveDebuffs": ("non_negative_int", int),
+    "transferRangeMeters": ("non_negative", float),
+    "voteDurationSeconds": ("positive", float),
+    "matchTimeLimitSeconds": ("positive", float),
+    "playerCount": ("positive_int", int),
+    "tickHz": ("positive", float),
+    "hintCooldownSeconds": ("non_negative", float),
+}
+_OPTIONAL_PRESET_FIELDS = {"hintCooldownSeconds", "note"}
+
+
+def validate_presets(raw_presets):
+    """Validate every named preset before it can reach the simulator."""
+    if not isinstance(raw_presets, dict) or not raw_presets:
+        raise ValueError("presets.json must contain a non-empty JSON object")
+
+    validated = {}
+    for preset_name, raw_config in raw_presets.items():
+        if not isinstance(preset_name, str) or not preset_name.strip():
+            raise ValueError("preset names must be non-empty strings")
+        if not isinstance(raw_config, dict):
+            raise ValueError(f"preset '{preset_name}' must be a JSON object")
+
+        missing = set(_PRESET_FIELDS) - _OPTIONAL_PRESET_FIELDS - set(raw_config)
+        unknown = set(raw_config) - set(_PRESET_FIELDS) - {"note"}
+        if missing:
+            raise ValueError(f"preset '{preset_name}' is missing fields: {', '.join(sorted(missing))}")
+        if unknown:
+            raise ValueError(f"preset '{preset_name}' has unknown fields: {', '.join(sorted(unknown))}")
+        if "note" in raw_config and not isinstance(raw_config["note"], str):
+            raise ValueError(f"preset '{preset_name}' field 'note' must be a string")
+
+        config = dict(raw_config)
+        config.setdefault("hintCooldownSeconds", 15.0)
+        for field, (kind, expected_type) in _PRESET_FIELDS.items():
+            value = config[field]
+            if isinstance(value, bool) or not isinstance(value, (int, float)):
+                raise ValueError(f"preset '{preset_name}' field '{field}' must be numeric")
+            if not math.isfinite(value):
+                raise ValueError(f"preset '{preset_name}' field '{field}' must be finite")
+            if kind == "positive" and value <= 0:
+                raise ValueError(f"preset '{preset_name}' field '{field}' must be positive")
+            if kind == "non_negative" and value < 0:
+                raise ValueError(f"preset '{preset_name}' field '{field}' must be non-negative")
+            if kind in {"positive_int", "non_negative_int"}:
+                if not isinstance(value, int):
+                    raise ValueError(f"preset '{preset_name}' field '{field}' must be an integer")
+                if kind == "positive_int" and value <= 0:
+                    raise ValueError(f"preset '{preset_name}' field '{field}' must be positive")
+                if kind == "non_negative_int" and value < 0:
+                    raise ValueError(f"preset '{preset_name}' field '{field}' must be non-negative")
+        validated[preset_name] = config
+    return validated
+
+
 with open(PRESETS_PATH, encoding="utf-8") as f:
-    PRESETS = json.load(f)
+    PRESETS = validate_presets(json.load(f))
 
 # ---------------------------------------------------------------------------
 # Simplified balance model (not a drop-in Domain implementation)
