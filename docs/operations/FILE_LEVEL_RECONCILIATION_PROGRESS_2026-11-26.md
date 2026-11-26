@@ -531,3 +531,18 @@
 - لا حذف أو استبدال أو نقل أو استيراد، ولا تشغيل .NET أو ادعاء CI.
 
 **الحالة:** `STAGE 19 COMPLETE — SOURCE PATH INVENTORY / LEGACY ARCHIVE-ONLY TRIAGE; GLOBAL CROSSWALK OPEN.`
+
+
+---
+
+## المرحلة 20 — تقاطع مسارات الوثائق الأرشيفية مع main (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE20_DOCS_PATH_CROSSWALK_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE20_DOCS_PATH_CROSSWALK_2026-11-27.md)
+
+- HEAD المرجعي قبل المرحلة: `32c7d9743f9b91b449a11c762f0a73dcde4f9576`؛ الشجرة غير مقتطعة وتضم 213 tracked blobs.
+- 137 مسار docs فريداً في الأرشيفات مقابل 89 ملف docs حي: 37 مشتركاً بالاسم، و100 أرشيفي فقط، و52 حي فقط.
+- النطاق path-only؛ لا تعني مطابقة الاسم تطابق المحتوى، ولا يعني غياب المسار أن الوثيقة غير نافعة أو آمنة للحذف.
+- مجموعات الأرشيف فقط تشمل audit وgovernance/ADR/migration وroadmap وplaytest logs وملفات أرشيف تاريخية؛ لا اعتماد لقرارات ADR الأرشيفية.
+- لا حذف أو استبدال أو نقل أو استيراد. crosswalk محتوى الوثائق ما زال مفتوحاً.
+
+**الحالة:** `STAGE 20 COMPLETE — DOCS PATH CROSSWALK ONLY; CONTENT/SEMANTIC RECONCILIATION OPEN.`
