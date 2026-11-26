@@ -100,6 +100,7 @@
 - [المرحلة 12 — تدقيق AI Documentation Toolkit وتصنيف النسخ القديمة — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE12_AI_TOOLKIT_CLEANUP_2026-11-27.md)
 - [المرحلة 13 — جرد CostOfStaying.zip ومصالحة مراجع الحزمة — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE13_COSTOFSTAYING_ZIP_2026-11-27.md)
 - [المرحلة 14 — تحقق تحليل.zip وتصنيف حزمة المرحلة الأولى — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE14_TAHLIL_ZIP_2026-11-27.md)
+- [المرحلة 15 — جرد ملفات لعبة.zip والتحقق من عدم تكرار الفهرس — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE15_GAME_ARCHIVE_2026-11-27.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
