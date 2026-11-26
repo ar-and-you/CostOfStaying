@@ -593,3 +593,17 @@
 - لا حذف أو استيراد أو تعديل source/workflows، ولا تشغيل CI.
 
 **الحالة:** STAGE 23 COMPLETE — HISTORICAL AUDIT EVIDENCE TRIAGED; CURRENT-HEAD WORKFLOW/CI REVIEW REMAINS SEPARATE.
+
+
+---
+
+## المرحلة 24 — مصالحة سجلات محاكاة اللعب الأرشيفية (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE24_SIMULATED_PLAYTEST_TRIAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE24_SIMULATED_PLAYTEST_TRIAGE_2026-11-27.md)
+
+- تمت مراجعة 12 ملفاً: تقرير محاكاة، 10 جلسات JSON، وCSV.
+- البيانات متسقة: 10/10 LastSurvivor، متوسط المدة 337.04 ثانية، متوسط Transfers 87.5، وكلها جلسات simulated.
+- خطة PLAYTEST_PLAN الحية تشترط 10 جلسات بشرية صالحة، أربعة مشاركين أو تبرير، موافقة المشاركين، ملاحظات فهم، وسجلات خام خاصة خارج Git.
+- لا تُحسب المحاكاة ضمن بوابة اللعب البشري ولا تعتمد قواعد/توازن. حفظ تاريخي فقط؛ لا حذف أو نقل أو استيراد.
+
+**الحالة:** STAGE 24 COMPLETE — SYNTHETIC PLAYTEST LOGS VALIDATED; HUMAN PLAYTEST GATE REMAINS OPEN.
