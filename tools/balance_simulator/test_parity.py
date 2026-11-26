@@ -27,6 +27,19 @@ def test_vitality_decay_and_nonfinite_tick():
     ms.tick(10.0)
     assert abs(ms.players["P0"].vitality - 99.0) < 1e-9
 
+def test_debuff_decay_stops_at_expiry_during_long_tick():
+    ms = MatchSim(make_config(player_count=1), seed=0)
+    ms.players["P0"].debuffs.append(
+        {"id": "short-lived", "bonus": 0.5, "remaining": 1.0, "transferable": True}
+    )
+
+    # Base decay applies for five seconds; the debuff bonus applies for one.
+    ms.tick(5.0)
+
+    assert abs(ms.players["P0"].vitality - 99.0) < 1e-9
+    assert ms.players["P0"].debuffs == []
+
+
 def test_initial_collapse_interval_uses_roster_size():
     three = MatchSim(make_config(player_count=3))
     four = MatchSim(make_config(player_count=4))
@@ -82,6 +95,7 @@ def test_gameplay_transfer_is_rejected_after_completion():
 if __name__ == "__main__":
     tests = [
         test_vitality_decay_and_nonfinite_tick,
+        test_debuff_decay_stops_at_expiry_during_long_tick,
         test_initial_collapse_interval_uses_roster_size,
         test_transfer_moves_debuff_and_rejects_invalid_distances,
         test_unanimous_vote_ends_immediately,
