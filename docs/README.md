@@ -59,6 +59,7 @@
 
 - [استراتيجية الاختبارات](quality/TEST_STRATEGY.md)
 - [مراجعة عيوب Domain والإصلاحات — 2026-11-25](quality/DOMAIN_DEFECT_REVIEW_2026-11-25.md)
+- [مصالحة تقرير الفحص العميق الأرشيفي مع المصدر الحي — 2026-11-26](quality/DEEP_AUDIT_ARCHIVE_CROSSCHECK_2026-11-26.md)
 - [خطة اختبار اللعب البشري](quality/PLAYTEST_PLAN.md)
 - [مراجعة مخاطر التوازن](quality/BALANCE_RISK_REVIEW.md)
 - [ميزانية الأداء المقترحة](quality/PERFORMANCE_BUDGET.md)
