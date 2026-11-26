@@ -502,3 +502,16 @@
 - ملاحظة مرجعية: جرد live inventory المنشور في المرحلة 16 يمثل HEAD `915b1095c1e53f8fcc49ff5394281b127aaff623`، بينما HEAD الذي أعيد التحقق منه لهذه المرحلة هو `869e403...`.
 
 **الحالة:** `STAGE 17 COMPLETE — TARGETED CROSSWALK; GLOBAL RECONCILIATION OPEN.`
+
+
+## المرحلة 18 — مطابقة ملفات الاختبارات مع الأرشيف (2026-11-27)
+
+- HEAD قبل المرحلة: `9dd54f45915cff331d52197849ef19d658f6d5d2`; الشجرة غير مقتطعة وتضم 211 tracked blobs.
+- تمت مقارنة 33 ملف اختبار حياً مع 38 مساراً أرشيفياً معيارياً باستخدام Git blob SHA1 المحسوب من bytes الخام.
+- النتائج: 27 تطابقاً بايتياً، 5 مسارات مشتركة مختلفة المحتوى، مسار LIVE_ONLY واحد (`tests/CostOfStaying.Domain.Tests/DebuffTests.cs`)، و6 مسارات ARCHIVE_ONLY في شجرة Core.Tests القديمة.
+- توجد 3 مسارات متعددة النسخ الأرشيفية؛ في اثنين منها تطابق النسخة الحية إحدى النسخ الأرشيفية، بينما CollapseTests في Domain.Tests له نسختان أرشيفيتان لا تطابقان الحي.
+- اختلافات المحتوى تبقى KEEP_LIVE؛ ARCHIVE_ONLY لا يعني أن التغطية الوظيفية محذوفة أو أن الملفات آمنة للحذف. يلزم crosswalk دلالي لتغطية الاختبارات قبل أي حذف/استعادة.
+- لم تُشغّل الاختبارات، ولا يوجد ادعاء تحقق runtime. لا حذف أو استبدال أو نقل أو استيراد.
+- التقرير: [المرحلة 18](ARCHIVE_RECONCILIATION_STAGE18_TESTS_BLOB_CROSSWALK_2026-11-27.md).
+
+**الحالة:** `STAGE 18 COMPLETE — TESTS CROSSWALK; GLOBAL ARCHIVE/LIVE RECONCILIATION OPEN.`
