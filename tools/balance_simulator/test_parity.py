@@ -110,6 +110,7 @@ if __name__ == "__main__":
     tests = [
         test_vitality_decay_and_nonfinite_tick,
         test_debuff_decay_stops_at_expiry_during_long_tick,
+        test_tick_reschedules_remaining_collapses_when_player_dies,
         test_initial_collapse_interval_uses_roster_size,
         test_transfer_moves_debuff_and_rejects_invalid_distances,
         test_unanimous_vote_ends_immediately,
