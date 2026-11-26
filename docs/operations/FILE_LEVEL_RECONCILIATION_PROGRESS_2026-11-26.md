@@ -453,3 +453,20 @@
 
 **تقرير المرحلة:** ARCHIVE_RECONCILIATION_STAGE14_TAHLIL_ZIP_2026-11-27.md  
 **الحالة:** STAGE 14 COMPLETE — REVALIDATION/ROOT DOCS ONLY; GLOBAL RECONCILIATION OPEN.
+
+
+---
+
+## 10. المرحلة 15 — ملفات لعبة.zip (2026-11-27)
+
+**تقرير المرحلة:** ARCHIVE_RECONCILIATION_STAGE15_GAME_ARCHIVE_2026-11-27.md
+
+- الحاوية 19,891,288 بايت، SHA-256: e0a972b42f68f4c6dd23f6400e45f69e53c026850d2e85d6be2b2cf29f5094f6؛ CRC سليم.
+- سبعة ZIP داخلية، جميعها CRC سليم، وبإجمالي 1,692 ظهور ملف.
+- هذه الأرشيفات سبق فهرستها في SOURCE_ARCHIVES_FILE_INVENTORY.tsv؛ تطابق الفهرس وجرد المرحلة الخامسة 1,692/1,692 مثبت في ARCHIVE_INVENTORY_CORRECTION_2026-11-26.md. لا إعادة جرد أو إعادة احتساب.
+- الجرد السابق: 499 بصمة فريدة، 397 مساراً معيارياً، و79 مساراً متعدد البصمات.
+- مراجعة main السابقة (29 مساراً موجوداً و62 غير موجوداً من 91 مساراً) مرتبطة بلقطة أقدم، ولا يجوز إسقاطها على HEAD الحالي.
+- HEAD عند بدء المرحلة: 9f29b8163c07f01823d8931e8b78cf812ec1aa78. جرد live inventory التاريخي المتاح يعود إلى c4d333093dac2a26105f4abcb4e73808cf5304d2.
+- لم يُنفذ بعد crosswalk جديد لكل المسارات الـ397/البصمات الـ499 مع HEAD الحالي؛ لم يحدث حذف أو استبدال أو استيراد.
+
+**الحالة:** STAGE 15 INVENTORY REVALIDATION COMPLETE; CURRENT-HEAD FILE-LEVEL CROSSWALK OPEN.
