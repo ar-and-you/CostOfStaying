@@ -97,6 +97,7 @@
 - [المرحلة 9 — مصالحة MASTER UNIFIED مع main الحالي — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE9_MASTER_UNIFIED_LIVE_CROSSCHECK_2026-11-26.md)
 - [المرحلة 10 — جرد حزمة FINAL-verified والتحقق من manifest — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE10_FINAL_VERIFIED_INVENTORY_2026-11-26.md)
 - [المرحلة 11 — تدقيق حزمة FINAL-upload-package وتحذير تعليمات الرفع القديمة — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE11_FINAL_UPLOAD_PACKAGE_2026-11-26.md)
+- [المرحلة 12 — تدقيق AI Documentation Toolkit وتصنيف النسخ القديمة — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE12_AI_TOOLKIT_CLEANUP_2026-11-27.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
