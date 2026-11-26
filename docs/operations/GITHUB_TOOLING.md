@@ -1,5 +1,21 @@
 # أدوات GitHub — الحالة الفعلية وخطة الاستكمال
 
+## 0.1 أحدث تحقق حي — SHA `ffb45991bb5cce06c7be665f28ef41f160424a3c` (2026-11-26)
+
+أعيد التحقق من رأس `main` وسجلات Actions بعد إضافة تحقق موجب لعدد جلسات أداة المحاكاة واختبارات CLI الخاصة به. اكتملت التشغيلات التالية بنجاح على SHA نفسه:
+
+| الفحص | Run ID | النتيجة |
+|---|---:|---|
+| Domain and Python CI | [45800901162](https://github.com/ar-and-you/CostOfStaying/actions/runs/45800901162) | `completed/success` |
+| Core CI (.NET 10) | [45800901177](https://github.com/ar-and-you/CostOfStaying/actions/runs/45800901177) | `completed/success` |
+| Documentation Governance | [45800901295](https://github.com/ar-and-you/CostOfStaying/actions/runs/45800901295) | `completed/success` |
+| Push on main (dynamic security workflow) | [45800901845](https://github.com/ar-and-you/CostOfStaying/actions/runs/45800901845) | `completed/success` |
+
+تؤكد تفاصيل وظيفة Domain/Python نجاح خطوات Domain NUnit وPython simulator و`tools/playtest/test_cli.py`. وتؤكد تفاصيل Core CI نجاح اختبارات Core NUnit. تخطّت Documentation Governance خطوة حارس نطاق PR لأنها لم تكن PR event؛ نجح تدقيق روابط Markdown وقابلية الوصول من الفهرس. اسم تشغيل `Push on main` لا يكفي وحده لتسمية الفحص CodeQL؛ لا تُنسب إليه تغطية لغات أو قواعد تحليل محددة دون فحص تفاصيله.
+
+هذه النتائج تخص SHA `ffb45991bb5cce06c7be665f28ef41f160424a3c` فقط. لا تثبت Unity أو Android أو transport أو أداء منصة أو جلسات لعب بشرية أو خلو تنبيهات CodeQL/Dependabot.
+
+
 **آخر مراجعة قراءة فقط لإعدادات GitHub:** 2026-11-26 (مع endpoint حماية الفرع محجوباً بصلاحية 403)
 **SHA الأساسي لنتائج CI وCodeQL الموثقة تاريخياً:** `1b209b79261cba617bb68615746f115970422a8f`
 **SHA لتشغيلات المتابعة:** `589e3beb65980f0b11c1207c3a905b76e2f01028`.
