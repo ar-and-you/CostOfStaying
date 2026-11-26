@@ -6,7 +6,6 @@
 
 - [سياسة الإفصاح الأمني](../SECURITY.md) — طريقة الإبلاغ الخاص عن الثغرات وحدود الاستجابة.
 - [مدونة قواعد السلوك](../CODE_OF_CONDUCT.md) — قواعد المشاركة والتواصل.
-
 - [حوكمة المشروع ومصادر الحقيقة](governance/PROJECT_GOVERNANCE.md)
 - [سجل السياسات المرجعية](governance/POLICY_REGISTER.md)
 - [ضبط الوثائق والفهرسة](governance/DOCUMENT_CONTROL.md)
@@ -87,6 +86,8 @@
 
 - [المصالحة مع المستودع الحي](operations/RECONCILIATION_2026-11-21.md)
 - [مصالحة التوثيق والحوكمة — 2026-11-25](operations/RECONCILIATION_2026-11-25.md)
+- [سجل إصلاح التوثيق والحوكمة — 2026-11-26](operations/RECONCILIATION_2026-11-26.md)
+- [تقرير مصالحة الأرشيفات المرفوعة وخطة التحقيق — 2026-11-26](operations/ARCHIVE_RECONCILIATION_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
 - [النسخ الاحتياطي والاستعادة — خطة مستقبلية](operations/BACKUP_AND_RECOVERY.md)
