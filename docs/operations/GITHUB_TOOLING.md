@@ -1,5 +1,24 @@
 # أدوات GitHub — الحالة الفعلية وخطة الاستكمال
 
+## 0.2 أحدث تحقق حي — SHA `92b63dbaabb3f5cdebaa3fce30f35031fac60e6f` (2026-11-26)
+
+أعيد التحقق من رأس `main` وربط نتائج Actions بالـSHA نفسه. اكتملت جميع التشغيلات التالية بنجاح:
+
+| الفحص | Run ID | النتيجة |
+|---|---:|---|
+| Domain and Python CI | [45827062818](https://github.com/ar-and-you/CostOfStaying/actions/runs/45827062818) | `completed/success` |
+| Core CI (.NET 10) | [45827062740](https://github.com/ar-and-you/CostOfStaying/actions/runs/45827062740) | `completed/success` |
+| Documentation Governance | [45827062727](https://github.com/ar-and-you/CostOfStaying/actions/runs/45827062727) | `completed/success` |
+| CodeQL dynamic — C# / Python / Actions | [45827062137](https://github.com/ar-and-you/CostOfStaying/actions/runs/45827062137) | `completed/success` |
+
+تفاصيل Domain/Python تؤكد نجاح Python syntax وDomain NUnit واختبارات محاكي Python واختبارات CLI لمحاكاة الجلسات. وتفاصيل Core تؤكد نجاح Core NUnit. نجح تدقيق روابط Markdown وقابلية الوصول من فهرس الوثائق؛ تخطّت خطوة حارس نطاق PR لأنها لم تكن PR event. وأكملت وظائف CodeQL للغات C# وPython وGitHub Actions خطوات التحليل بنجاح.
+
+هذه النتائج تخص SHA `92b63dbaabb3f5cdebaa3fce30f35031fac60e6f` فقط. نجاح CodeQL لا يكشف قائمة التنبيهات ولا يثبت خلوها. كما لا تثبت هذه التشغيلات وجود Unity أو Android أو transport أو Dedicated Server أو تكافؤ C#↔Python أو جلسات لعب بشرية.
+
+**حالة الفرع في القراءة الحية:** `main` عند SHA أعلاه، وGitHub يعيد `protected: false` و`protection.enabled: false` في endpoint الفرع؛ لم تُغيّر إعدادات الحماية. لا تزال نتائج قواعد المؤسسة أو إعدادات غير متاحة خارج نطاق هذه القراءة غير محسومة.
+
+---
+
 ## 0.1 أحدث تحقق حي — SHA `ffb45991bb5cce06c7be665f28ef41f160424a3c` (2026-11-26)
 
 أعيد التحقق من رأس `main` وسجلات Actions بعد إضافة تحقق موجب لعدد جلسات أداة المحاكاة واختبارات CLI الخاصة به. اكتملت التشغيلات التالية بنجاح على SHA نفسه:
