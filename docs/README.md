@@ -107,6 +107,7 @@
 - [المرحلة 19 — جرد مسارات المصدر الأرشيفية القديمة وتعدد نسخ المشاريع — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE19_SOURCE_BLOB_CROSSWALK_2026-11-27.md)
 - [المرحلة 20 — تقاطع مسارات الوثائق الأرشيفية مع main — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE20_DOCS_PATH_CROSSWALK_2026-11-27.md)
 - [المرحلة 21 — مطابقة Git blob للوثائق المشتركة مع الأرشيف — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE21_DOCS_BLOB_CROSSWALK_2026-11-27.md)
+- [المرحلة 22 — مصالحة حوكمة الأرشيف وقرارات ADR المتنافسة — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE22_GOVERNANCE_ADR_TRIAGE_2026-11-27.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
