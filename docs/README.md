@@ -15,6 +15,7 @@
 - [حالات العمل ومعايير الأدلة](governance/STATUS_AND_EVIDENCE.md)
 - [سياسة الوكلاء والأتمتة](governance/AI_AND_AUTOMATION_POLICY.md)
 - [سجل الحالة المؤرخ للمشروع](governance/PROJECT_STATUS.md)
+- [خطة التنفيذ الاستشارية — 2026-11-26 (PROPOSED)](plans/ADVISORY_PLAN_2026-11-26.md)
 - [سجل مصالحة الإصلاح — 2026-11-26](operations/RECONCILIATION_2026-11-26.md)
 - [تتبع المتطلبات وحدود التحقق](traceability/REQUIREMENTS_TRACEABILITY.md)
 
