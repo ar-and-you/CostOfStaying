@@ -78,18 +78,24 @@ class MatchSim:
             return
         self.now += dt
 
-        # 1) vitality drain + debuff expiry
+        # 1) vitality drain + debuff expiry. Split long ticks at each
+        # expiry boundary so an effect contributes only while it is active.
         for p in self.players.values():
             if p.state != "Alive":
                 continue
-            p.vitality = max(0.0, p.vitality - p.total_decay() * dt)
-            # expiry
-            new_debuffs = []
-            for d in p.debuffs:
-                d["remaining"] -= dt
-                if d["remaining"] > 0:
-                    new_debuffs.append(d)
-            p.debuffs = new_debuffs
+            remaining = dt
+            while remaining > 0:
+                p.debuffs = [d for d in p.debuffs if d["remaining"] > 0]
+                segment = min(
+                    [remaining] + [d["remaining"] for d in p.debuffs]
+                )
+                if not math.isfinite(segment) or segment <= 0:
+                    break
+                p.vitality = max(0.0, p.vitality - p.total_decay() * segment)
+                for debuff in p.debuffs:
+                    debuff["remaining"] -= segment
+                remaining = max(0.0, remaining - segment)
+            p.debuffs = [d for d in p.debuffs if d["remaining"] > 0]
 
         # 2) death -> spirit
         for p in self.players.values():
