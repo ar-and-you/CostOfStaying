@@ -489,3 +489,16 @@
 - لا يزال crosswalk المحتوى لكل المسارات المتقاطعة مفتوحاً؛ لا حذف أو استبدال أو استيراد في هذه المرحلة.
 
 **الحالة:** STAGE 16 COMPLETE — LIVE TREE SNAPSHOT REFRESHED; ARCHIVE CONTENT HASH CROSSWALK OPEN.
+
+
+## المرحلة 17 — مطابقة Git blob لعينة Core/Domain مع main (2026-11-27)
+
+- HEAD قبل المرحلة: `869e4034a1e386ae985601884959a0c4502d27cf`؛ الشجرة غير مقتطعة وتضم 210 tracked blobs.
+- أُجريت مطابقة Git blob SHA1 صحيحة (بما في ذلك ترويسة `blob <size>\0`) لـ19 مساراً حياً مختاراً من Core/Domain مع محتويات الأرشيفات السبعة داخل `ملفات لعبة .zip`.
+- النتيجة: 18/19 تطابق بايتياً مع نسخة أرشيفية واحدة على الأقل؛ المسار المختلف الوحيد `src/CostOfStaying.Domain/Match.cs` (KEEP_LIVE، بلا استبدال).
+- لكل مسار من العينة 4 ظهورات أرشيفية، ولم يظهر أكثر من إصدار أرشيفي مختلف ضمن هذه العينة.
+- هذه دفعة تحقق موجّهة وليست crosswalk شاملاً لـ397 مساراً معيارياً أو 499 بصمة أرشيفية؛ لا تُستنتج منها أعداد ARCHIVE_ONLY/LIVE_ONLY على مستوى المستودع.
+- لا حذف أو استبدال أو استيراد. التقرير: [المرحلة 17](ARCHIVE_RECONCILIATION_STAGE17_ARCHIVE_LIVE_BLOB_CROSSWALK_2026-11-27.md).
+- ملاحظة مرجعية: جرد live inventory المنشور في المرحلة 16 يمثل HEAD `915b1095c1e53f8fcc49ff5394281b127aaff623`، بينما HEAD الذي أعيد التحقق منه لهذه المرحلة هو `869e403...`.
+
+**الحالة:** `STAGE 17 COMPLETE — TARGETED CROSSWALK; GLOBAL RECONCILIATION OPEN.`
