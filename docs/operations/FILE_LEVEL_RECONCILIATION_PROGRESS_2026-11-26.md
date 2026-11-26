@@ -623,3 +623,18 @@
 - لا حذف أو نقل أو استيراد أو تغيير كود/إعدادات.
 
 **الحالة:** STAGE 25 COMPLETE — HISTORICAL ROADMAP/ARCHITECTURE/UPLOAD DOCS TRIAGED; CURRENT ROADMAP REMAINS AUTHORITATIVE.
+
+
+---
+
+## المرحلة 26 — مصالحة ملفات الأرشيف التاريخية ولقطات المستودع القديمة (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE26_LEGACY_ARCHIVE_TRIAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE26_LEGACY_ARCHIVE_TRIAGE_2026-11-27.md)
+
+- تمت مراجعة 10 مسارات تحت docs/archive/: snapshot تاريخي، ستة تقارير legacy-full-backup، نسختا v3.0 superseded، وOPEN_DECISIONS superseded.
+- اللقطة تشير إلى main التاريخي عند cb57b259؛ status_summary يسجل untracked files، لذلك لا تُعامل كنسخة نظيفة بالكامل أو حالة فروع حية.
+- repo_audit_report.txt كبير ويضم dump تاريخياً؛ لا حاجة لنسخه إلى main.
+- تعليمات v3.0 والقرارات المستبدلة لا تنفذ ولا تعاد إلى المسارات الحية.
+- لا حذف أو نقل أو استيراد أو دفع bundles/ZIP.
+
+**الحالة:** STAGE 26 COMPLETE — LEGACY SNAPSHOT/ARCHIVE MATERIAL TRIAGED; LIVE MAIN REMAINS SOLE AUTHORITY.
