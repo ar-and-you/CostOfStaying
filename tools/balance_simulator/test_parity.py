@@ -40,6 +40,20 @@ def test_debuff_decay_stops_at_expiry_during_long_tick():
     assert ms.players["P0"].debuffs == []
 
 
+def test_tick_reschedules_remaining_collapses_when_player_dies():
+    ms = MatchSim(make_config(player_count=4))
+    ms.players["P0"].vitality = 0.05
+
+    ms.tick(1.0)
+
+    assert ms.players["P0"].state == "Spirit"
+    # Three survivors use the 15s interval. Preserve the 19/20 remaining
+    # fraction from the original 20s interval at t=1: 1 + 0.95*15.
+    for player in list(ms.players.values())[1:]:
+        assert abs(player.next_collapse_at - 15.25) < 1e-9
+        assert player.last_interval == 15.0
+
+
 def test_initial_collapse_interval_uses_roster_size():
     three = MatchSim(make_config(player_count=3))
     four = MatchSim(make_config(player_count=4))
