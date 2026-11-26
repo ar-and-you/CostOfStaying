@@ -1,5 +1,21 @@
 # أدوات GitHub — الحالة الفعلية وخطة الاستكمال
 
+## 0.3 أحدث تحقق مباشر — SHA `3c4c27ad16a2b5d8547f11a181ea75f3cf54f9fe` (2026-11-26)
+
+تم ربط تشغيلات Push بنتيجة الالتزام نفسه بعد تحديث المهارات الست وفهرسة تقارير مصالحة الأرشيف:
+
+| الفحص | Run ID | النتيجة |
+|---|---:|---|
+| Core CI (.NET 10) | 45892814768 | `completed / success` |
+| Domain and Python CI | 45892814794 | `completed / success` |
+| Documentation Governance | 45892814780 | `completed / success` |
+| CodeQL dynamic — C# / Python / Actions | 45892814453 | `completed / success` |
+
+تفاصيل التنفيذ: Core NUnit نجح؛ Domain NUnit نجح؛ Python 3.12 syntax ومحاكي Python واختبارات CLI للمحاكاة نجحت؛ فحص روابط Markdown وإمكانية الوصول من فهرس الوثائق نجح. خطوة نطاق التوثيق المقيدة بحدث Pull Request كانت `skipped` في حدث Push، وهو متوقع ولا يمثل فشلاً. وظائف CodeQL للغات C# وPython وGitHub Actions اكتملت بنجاح.
+
+نجاح تحليل CodeQL لا يثبت أن قائمة Code Scanning alerts خالية؛ لم تُقرأ قائمة التنبيهات في هذا التحقق. كما لا يثبت هذا التشغيل وجود Unity أو Android build أو transport/network runtime أو human playtest.
+
+
 ## 0.2 أحدث تحقق حي — SHA `92b63dbaabb3f5cdebaa3fce30f35031fac60e6f` (2026-11-26)
 
 أعيد التحقق من رأس `main` وربط نتائج Actions بالـSHA نفسه. اكتملت جميع التشغيلات التالية بنجاح:
