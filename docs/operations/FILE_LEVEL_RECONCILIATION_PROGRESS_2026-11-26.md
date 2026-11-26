@@ -546,3 +546,19 @@
 - لا حذف أو استبدال أو نقل أو استيراد. crosswalk محتوى الوثائق ما زال مفتوحاً.
 
 **الحالة:** `STAGE 20 COMPLETE — DOCS PATH CROSSWALK ONLY; CONTENT/SEMANTIC RECONCILIATION OPEN.`
+
+
+---
+
+## المرحلة 21 — مطابقة Git blob للوثائق المشتركة مع الأرشيف (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE21_DOCS_BLOB_CROSSWALK_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE21_DOCS_BLOB_CROSSWALK_2026-11-27.md)
+
+- HEAD المرجعي قبل المرحلة: `ee694eb12349bc56e8ce2c8fd29b4a45744f1d9b`؛ الشجرة غير مقتطعة وتضم 214 tracked blobs.
+- تمت مطابقة 37 مسار docs مشتركاً بالاسم؛ 247 ظهوراً أرشيفياً و68 blob أرشيفياً فريداً.
+- كل المسارات الـ37 مختلفة بايتياً عن كل النسخ الأرشيفية الخاصة بمسارها؛ لا تطابق حي/أرشيف في هذه الدفعة.
+- توزع النسخ المختلفة: 17 مساراً بنسخة واحدة، 13 بنسختين، 6 بثلاث نسخ، ومسار واحد بسبع نسخ.
+- القرار KEEP_LIVE؛ لا استبدال أو نقل أو حذف أو استيراد. لا يزال salvage الدلالي الانتقائي مفتوحاً؛ اختلاف البصمة لا يعني أن كل المعلومة التاريخية عديمة الفائدة.
+- لا تشغيل اختبارات أو CI.
+
+**الحالة:** `STAGE 21 COMPLETE — 37/37 DOCS CONTENT CROSSWALKED; SEMANTIC SALVAGE REVIEW OPEN.`
