@@ -101,5 +101,6 @@
 - [تنبيه الأرشيف وحدود سلطته](archive/README.md)
 - [جرد مصادر ZIP وحدود التحقق](archive/SOURCE_ARCHIVE_INVENTORY.md)
 - [جرد ملفات main الحية — لقطة 2026-11-26](archive/LIVE_MAIN_FILE_INVENTORY_2026-11-26.tsv)
+- [جرد ملفات main الحية المحدّث — لقطة c4d333، 2026-11-26](archive/LIVE_MAIN_FILE_INVENTORY_2026-11-26_C4D333.tsv)
 
 ملفات `docs/archive/` مواد تاريخية لا تمثل سياسة نافذة أو دليلاً على حالة `main` الحالية. لا تُستورد سجلات ADR منها إلى `docs/adr/` دون مراجعة وقرار موثق.
