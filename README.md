@@ -47,7 +47,7 @@ python3 tools/playtest/run_sessions.py --sessions 10 --preset default
 
 - يبقى `main` الفرع الدائم، وتُنفذ التحديثات المعتمدة مباشرة عليه وفق تعليمات `ROADMAP.md` الحالية.
 - لا تستخدم `force push` ولا تستبدل تاريخ Git أو مجلد `.git`.
-- يحتوي المستودع ملفي CI مستقلين: `.github/workflows/ci.yml` لـDomain/Python و`.github/workflows/core-ci.yml` لـCore/.NET 10. يشغّلان الاختبارات المسماة فقط، ولا يشغّلان `tools/playtest/run_sessions.py` أو `tools/audit.py`.
+- يحتوي المستودع ثلاثة Workflows: `.github/workflows/ci.yml` لـDomain/Python، و`.github/workflows/core-ci.yml` لـCore/.NET 10، و`.github/workflows/docs-governance.yml` لتدقيق الوثائق. يعمل خطا Domain/Python وCore عند الدفع وطلبات الدمج، وبجدولة أسبوعية كل يوم اثنين (03:17 و03:47 UTC على الترتيب)، مع إمكانية التشغيل اليدوي. يتضمن خط Domain/Python فحص صياغة Python عبر `compileall` قبل الاختبارات. لا يشغّل أي من خطي الاختبارات `tools/playtest/run_sessions.py` أو `tools/audit.py`؛ ولا يُعد فحص الصياغة بديلاً عن الاختبارات السلوكية.
 - إعداد workflow لا يثبت نجاح CI. يجب التحقق من نتيجة GitHub Actions الفعلية وربطها بـcommit SHA قبل وصف الفحوص بأنها `VERIFIED`.
 - إعداد GitHub الموثق في 2026-11-24 يبيّن تفعيل Secret scanning وPush protection وCodeQL default setup؛ نجاح تشغيل CodeQL السابق لا يثبت خلو قائمة التنبيهات.
 - Dependabot security updates معطّلة. قراءتا قوائم Dependabot alerts وCode Scanning alerts أعادتا `403`; لا يُستنتج من ذلك عدد التنبيهات أو غيابها.
