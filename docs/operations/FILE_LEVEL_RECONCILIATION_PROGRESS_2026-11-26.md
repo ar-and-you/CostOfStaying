@@ -607,3 +607,19 @@
 - لا تُحسب المحاكاة ضمن بوابة اللعب البشري ولا تعتمد قواعد/توازن. حفظ تاريخي فقط؛ لا حذف أو نقل أو استيراد.
 
 **الحالة:** STAGE 24 COMPLETE — SYNTHETIC PLAYTEST LOGS VALIDATED; HUMAN PLAYTEST GATE REMAINS OPEN.
+
+
+---
+
+## المرحلة 25 — فرز خطط التنفيذ والمعمارية وحزم الرفع التاريخية (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE25_ROADMAP_ARCHITECTURE_TRIAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE25_ROADMAP_ARCHITECTURE_TRIAGE_2026-11-27.md)
+
+- تمت مراجعة 13 مساراً: 5 roadmap، وثيقتا Phase 1 architecture، و4 وثائق تنظيم/رفع/حالة، وci-baseline، وBUILD_AND_RELEASE.
+- تعليمات v3.0/UPLOAD_GUIDE القديمة تفترض توحيد Domain→Core ورفع حزمة تاريخية؛ DO_NOT_EXECUTE على main.
+- Phase1 docs وBUILD_AND_RELEASE تعكس baseline تاريخياً ولا تتوافق مع حدود Domain/Core الحية.
+- ci-baseline محلي جزئي بلا SHA/Actions run، وليس VERIFIED.
+- الأفكار العامة المفيدة مغطاة في ROADMAP وADVISORY_PLAN وPLAYTEST_PLAN وSTATUS_AND_EVIDENCE؛ لا استيراد جماعي أو ملفات موازية.
+- لا حذف أو نقل أو استيراد أو تغيير كود/إعدادات.
+
+**الحالة:** STAGE 25 COMPLETE — HISTORICAL ROADMAP/ARCHITECTURE/UPLOAD DOCS TRIAGED; CURRENT ROADMAP REMAINS AUTHORITATIVE.
