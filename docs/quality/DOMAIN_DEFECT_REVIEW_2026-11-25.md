@@ -49,9 +49,17 @@
 
 `Match.Players` و`Events` و`ProcessedRequestIds` و`Votes`، وكذلك `Player.Debuffs` و`CollectedEchoIds`، تعرض مجموعات قابلة للتعديل. يتيح ذلك تجاوز عمليات المجال الرسمية. لم يُكسر هذا الـAPI في هذا التغيير لأن الاختبارات والمستهلكين الحاليين يستخدمونه، ويجب حسم استراتيجية التوافق/التغليف قبل تغيير عام.
 
+**مراجعة الاستهلاك في المرحلة 55:** البحث في الشجرة لم يجد runtime/Unity consumer يكتب هذه المجموعات؛ الاستخدامات المرصودة داخل aggregate واختبارات Domain. Core لا يملك ProjectReference إلى Domain ولا يوجد Unity project. لكن public mutability تسمح لمستهلك خارجي بإدخال/حذف Player خارج AddPlayer، تعديل Votes دون CastVote، تغيير/حذف Events، حذف RequestId ناجح لإعادة فتح replay، أو تعديل Debuffs/Echo IDs خارج قواعد المجال.
+
+**المعالجة قبل أول تكامل:** backing collections خاصة؛ Players/Votes عبر ReadOnlyDictionary حقيقي، Events/Debuffs عبر ReadOnlyCollection، وإخفاء ProcessedRequestIds/CollectedEchoIds مع count/query APIs. تُنقل fixture mutations إلى internal builders/mutators لا يراها إلا test assembly عبر InternalsVisibleTo، وتضاف اختبارات تثبت أن read-only views لا يمكن cast منها إلى backing collection. هذا تغيير public API ويحتاج قرار توافق صريح؛ لم ينفذ هنا.
+
 ### D-04 — نمو سجل الأحداث ومفاتيح Idempotency
 
 `Events` و`ProcessedRequestIds` لا يظهر لهما حد احتفاظ داخل مجمع Domain. قد يزيد استهلاك الذاكرة في مباراة طويلة أو عند كثرة الطلبات المرفوضة. لا يضاف حد عشوائي قبل تحديد سياسة الاحتفاظ وإعادة الإرسال والتدقيق.
+
+**تفصيل المرحلة 55:** `Emit` يضيف كل حدث إلى List طوال عمر Match، بما في ذلك أحداث رفض النقل. كل Transfer ناجح يضيف RequestId إلى HashSet بلا TTL أو سقف، وتحتفظ Player بـCollectedEchoIds لكل معرف فريد. `TrySendHint` يخزن نص hint داخل الحدث، و`requestId` يدخل في تفاصيل بعض الرفض؛ لم يظهر حد طول موحد لهذه المدخلات. لا توجد rate limiter أو transport/server runtime في الشجرة، لذا هذا خطر سعة وتكامل مستقبلي وليس ادعاءً بوجود استغلال شبكي حالي.
+
+لا يمكن تحديد cap رقمي من المصدر وحده: إخلاء RequestIds قبل نهاية المباراة قد يعيد فتح replay، وتقليص Events قد يفقد سجل التدقيق ما لم يوجد sink دائم، وحد Echo/Hint/ID يحتاج عقد منتج وقياس workload. المطلوب تحديد عمر المباراة، معدل/عدد الأوامر، حدود أحجام النصوص، حفظ الأحداث، ونطاق idempotency بعد restart.
 
 ### D-05 — سياسة تصويت اللاعب الذي يموت أثناء التصويت
 
