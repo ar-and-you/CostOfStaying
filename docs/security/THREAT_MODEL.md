@@ -14,7 +14,7 @@
 | Session theft | جلسات قابلة للإبطال | غير منفذ |
 | Secret leak | أسرار خارج Git وفحص تاريخ المستودع | Secret scanning وPush protection آخر حالة معروفة لهما active في قراءة 2026-11-24؛ لم تتوفر قراءة أحدث، ولا يوجد تقرير مسح تاريخ متخصص أو gitleaks في Actions |
 | Dependency compromise | تثبيت ومراجعة الاعتماديات | إصدارات Actions مثبتة بـcommit SHA؛ آخر قراءة لتنبيهات Dependabot أعادت 403، وتحديثات الأمان الآلية آخر حالة موثقة لها disabled في 2026-11-24؛ لا استنتاج عن خلو التنبيهات |
-| CI compromise | أقل صلاحية وعزل المهام | يوجد Domain/Python CI وCore CI بصلاحية `contents: read`؛ CodeQL default setup مهيأ للـC# وPython وActions. أضيف `actionlint` و`zizmor` إلى Domain/Python CI على فرع المراجعة فقط؛ نتائج تشغيلهما على الرأس الجديد ما زالت pending، ولا يوجد gitleaks |
+| CI compromise | أقل صلاحية وعزل المهام | يوجد Domain/Python CI وCore CI بصلاحية `contents: read`؛ CodeQL default setup مهيأ للـC# وPython وActions. نجح `actionlint` و`zizmor` في Domain/Python CI على رأس المراجعة `dc33a8040d8ee29c96cba440678e9c6733f30565`؛ ما زالا غير مدمجين في `main`، ولا يوجد gitleaks |
 | Pending-session exhaustion | TTL وauth rate limits | SessionRegistry/ConnectionRegistry bounded، لكن لا pending TTL أو failed-auth rate limit داخل Core؛ host مسؤول | 
 | Queue/payload abuse | raw frame quotas + bounded validator | Core queue bounded وpayload validator fail-closed؛ validator يعمل قبل auth ويجب أن يكون bounded، ولا توجد raw frame/serializer quotas | 
 | Mutable command payload | immutable DTO/ownership | validator يعيد التحقق بعد dequeue لكنه لا clone/freeze؛ host مسؤول عن immutable DTO أو exclusive ownership | 
@@ -23,12 +23,15 @@
 
 ## وضع CI والأدلة المرتبطة بالالتزام
 
-- ملفات CI المتتبعة تشغّل اختبارات محددة لـDomain/Python وCore، ويوجد تدقيق وثائق مستقل. وجود الملفات لا يثبت نجاح تشغيل حديث.
-- `main` الحالي عند SHA `e7e5b5e54f46490c44aaf30888280d55239bb670`؛ لم تُرجع أداة القراءة تشغيلات CI مرتبطة بهذا SHA، لذلك لا تسجل هذه اللقطة نجاحاً حديثاً على `main`.
-- فرع المراجعة `security/core-trust-boundaries-phase0` عند SHA `5f8db71a34ed4b680dd0d7a0d24f0726e6c8924a` أكمل بنجاح تشغيلات Domain and Python CI (run `46078265183`)، وCore CI (.NET 10) (run `46078265114`)، وDocumentation Governance (run `46078265167`). هذه النتائج تخص هذا الرأس السابق للتعديلات الوثائقية الحالية؛ يجب إعادة قراءة التشغيلات على SHA الجديد قبل اعتباره متحققاً.
-- أحدث دليل CodeQL موثق في سجل الأدوات مرتبط بـSHA `60d15bc8f7aafb99f31ea2d61a6fd750719e53d8`، وليس `main` الحالي أو رأس فرع المراجعة. لا يوجد دليل CodeQL على الرأسين المذكورين أعلاه في هذه المراجعة.
-- نجاح الاختبارات يثبت الوظائف التي شُغّلت فقط، ولا يثبت خلو CodeQL alerts أو Dependabot alerts، ولا وجود Unity أو Android build أو خادم/شبكة فعلية.
-- قراءة branch-protection بتاريخ 2026-11-28 لم تكن متاحة بسبب `403 Resource not accessible by integration`؛ الحالة `UNKNOWN / NOT VERIFIED`. أعادت قراءة repository rulesets المتاحة `[]`، لكنها لا تحسم قواعد المؤسسة أو أي طبقات حماية خارج نطاق القراءة.
-- أعادت واجهات قراءة التنبيهات/الإعدادات ذات الصلة أخطاء صلاحيات أو لم تكن مدعومة في التكامل؛ لا تستنتج خلو المستودع من التنبيهات. Secret scanning وPush protection آخر حالة موثقة لهما هي القراءة المؤرخة 2026-11-24، ولم تتوفر إعادة تأكيد أحدث.
+- `main` الحالي عند SHA `e7e5b5e54f46490c44aaf30888280d55239bb670`؛ لم تُرجع القراءة تشغيلات CI مرتبطة بهذا SHA، لذلك لا تسجل هذه اللقطة نجاحاً حديثاً على `main`.
+- فرع المراجعة `security/core-trust-boundaries-phase0` عند SHA `dc33a8040d8ee29c96cba440678e9c6733f30565` أكمل بنجاح:
+  - Domain and Python CI — run `46079246424`.
+  - Core CI (.NET 10) — run `46079246422`.
+  - Documentation Governance — run `46079246436`.
+- ضمن Domain/Python CI على SHA نفسه: `actionlint v1.7.12` و`zizmor v1.33.1` نجحا؛ اجتازت اختبارات workflow hygiene السبعة، Python compile، Domain NUnit، ومحاكاة/Playtest CLI وsmoke tests.
+- CodeQL Python وActions analysis نجحا. تحليل C# ما زال قيد التشغيل عند آخر قراءة، والـPR CodeQL check العام `neutral` بسبب تحذير GitHub بأن إعداد Default setup للغة C# الموجود على `main` لم يُعثر عليه في PR؛ لذلك مقارنة التنبيهات غير مكتملة ولا يجوز وصف CodeQL كنجاح كامل.
+- CodeFactor أعاد `failure` مع issue واحدة بدرجة Minor؛ تفاصيلها لم تكن متاحة عبر تكامل GitHub ولم تُنسب إلى ملف بالتخمين. Codacy أعاد `action_required` بلا ملخص تشخيصي.
+- لا يوجد دليل على خلو CodeQL alerts أو Dependabot alerts. صلاحية التكامل الحالية `admin=false`؛ branch-protection endpoint أعاد `403 Resource not accessible by integration` في 2026-11-28، لذا الحماية وإعدادات secret scanning/push protection `UNKNOWN / NOT VERIFIED`.
+- لا تثبت هذه النتائج وجود Unity أو Android build أو transport/server runtime أو اختبار شبكة/لعب بشري.
 
 لكل تهديد لاحقاً: Asset وEntry Point وAbuse Case وImpact وControl وTest وEvidence وResidual Risk. لا تُعامل هذه الوثيقة كدليل على أن الضابط موجود.
