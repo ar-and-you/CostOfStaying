@@ -19,20 +19,24 @@ namespace CostOfStaying.Core.Domain
     {
         public const uint DefaultMaximum = 100;
 
-        internal VitalityAccount(ActorId playerId, uint maximum = DefaultMaximum)
+        internal VitalityAccount(MatchId matchId, ActorId playerId, uint maximum = DefaultMaximum)
         {
+            if (!matchId.IsValid)
+                throw new ArgumentException("Match identity must be non-zero.", nameof(matchId));
             if (!playerId.IsValid)
                 throw new ArgumentException("Player identity must be non-zero.", nameof(playerId));
 
             if (maximum == 0)
                 throw new ArgumentOutOfRangeException(nameof(maximum), "Maximum vitality must be positive.");
 
+            MatchId = matchId;
             PlayerId = playerId;
             Maximum = maximum;
             Current = maximum;
             State = PlayerLifecycleState.Alive;
         }
 
+        public MatchId MatchId { get; }
         public ActorId PlayerId { get; }
         public PlayerLifecycleState State { get; private set; }
         public uint Current { get; private set; }
