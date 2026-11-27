@@ -19,17 +19,16 @@
 | Queue/payload abuse | raw frame quotas + bounded validator | Core queue bounded وpayload validator fail-closed؛ validator يعمل قبل auth ويجب أن يكون bounded، ولا توجد raw frame/serializer quotas | 
 | Mutable command payload | immutable DTO/ownership | validator يعيد التحقق بعد dequeue لكنه لا clone/freeze؛ host مسؤول عن immutable DTO أو exclusive ownership | 
 | Event/ledger memory growth | retention/caps/persistence | Domain event/request/echo stores وCore BetrayalLedger._events/_scores بلا سياسة retention/cap | 
-| Cross-match ledger contamination | per-match scope enforcement | CoreComposition موصوف instance-per-match لكن API لا يربطه بـMatchId؛ host يجب أن يفرض scope |
+| Cross-match ledger contamination | per-match scope enforcement | على `main` عند `e7e5b5e...` لم يكن `CoreComposition` مربوطاً بـ`MatchId`؛ على فرع المراجعة `security/core-trust-boundaries-phase0` أصبح `Create(MatchId)` إلزامياً وربطت موارد المباراة بالنطاق نفسه مع اختبارات عزل. هذا التغيير لم يُدمج في `main` بعد؛ global active-match cap ودورة حياة المضيف ما زالا غير محسومين |
 
 ## وضع CI والأدلة المرتبطة بالالتزام
 
 - ملفات CI المتتبعة تشغّل اختبارات محددة لـDomain/Python وCore، ويوجد تدقيق وثائق مستقل. وجود الملفات لا يثبت نجاح تشغيل حديث.
-- أحدث مجموعة نتائج مكتملة موثقة في سجل الأدوات عند إعداد هذه اللقطة تخص SHA `94b341a681930e875fdbeee6ff3ccecb77476a14`، لا HEAD الحالي `0ebb36090f0c1ab254d4402c2a738dd6a7d5b1a5`: Domain NUnit `62/62`، Python simulator `11/11`، workflow hygiene `6/6`، Core NUnit `248/248`، Documentation Governance `success`، وCodeQL للغات C# وPython وGitHub Actions `completed/success`.
-- لا تُسقط نتائج `94b341a...` على HEAD الحالي `0ebb360...`؛ يلزم تشغيل أو قراءة check-runs مرتبطة بالـSHA الحالي قبل وصفه بأنه متحقق.
+- `main` الحالي عند SHA `e7e5b5e54f46490c44aaf30888280d55239bb670`؛ لم تُرجع أداة القراءة تشغيلات CI مرتبطة بهذا SHA، لذلك لا تسجل هذه اللقطة نجاحاً حديثاً على `main`.
+- فرع المراجعة `security/core-trust-boundaries-phase0` عند SHA `5f8db71a34ed4b680dd0d7a0d24f0726e6c8924a` أكمل بنجاح تشغيلات Domain and Python CI (run `46078265183`)، وCore CI (.NET 10) (run `46078265114`)، وDocumentation Governance (run `46078265167`). هذه النتائج تخص هذا الرأس السابق للتعديلات الوثائقية الحالية؛ يجب إعادة قراءة التشغيلات على SHA الجديد قبل اعتباره متحققاً.
+- أحدث دليل CodeQL موثق في سجل الأدوات مرتبط بـSHA `60d15bc8f7aafb99f31ea2d61a6fd750719e53d8`، وليس `main` الحالي أو رأس فرع المراجعة. لا يوجد دليل CodeQL على الرأسين المذكورين أعلاه في هذه المراجعة.
 - نجاح الاختبارات يثبت الوظائف التي شُغّلت فقط، ولا يثبت خلو CodeQL alerts أو Dependabot alerts، ولا وجود Unity أو Android build أو خادم/شبكة فعلية.
-- قراءة branch-protection بتاريخ 2026-11-27 لم تكن متاحة بسبب `403 Resource not accessible by integration`؛ الحالة `UNKNOWN / NOT VERIFIED`. أعادت قراءة repository rulesets المتاحة `[]`، لكنها لا تحسم قواعد المؤسسة أو أي طبقات حماية خارج نطاق القراءة.
+- قراءة branch-protection بتاريخ 2026-11-28 لم تكن متاحة بسبب `403 Resource not accessible by integration`؛ الحالة `UNKNOWN / NOT VERIFIED`. أعادت قراءة repository rulesets المتاحة `[]`، لكنها لا تحسم قواعد المؤسسة أو أي طبقات حماية خارج نطاق القراءة.
 - أعادت واجهات قراءة التنبيهات/الإعدادات ذات الصلة أخطاء صلاحيات أو لم تكن مدعومة في التكامل؛ لا تستنتج خلو المستودع من التنبيهات. Secret scanning وPush protection آخر حالة موثقة لهما هي القراءة المؤرخة 2026-11-24، ولم تتوفر إعادة تأكيد أحدث.
-
-لكل تهديد لاحقاً: Asset وEntry Point وAbuse Case وImpact وControl وTest وEvidence وResidual Risk. لا تُعامل هذه الوثيقة كدليل على أن الضابط موجود.
 
 لكل تهديد لاحقاً: Asset وEntry Point وAbuse Case وImpact وControl وTest وEvidence وResidual Risk. لا تُعامل هذه الوثيقة كدليل على أن الضابط موجود.
