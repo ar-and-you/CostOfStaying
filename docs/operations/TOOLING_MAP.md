@@ -36,7 +36,7 @@ gitleaks وactionlint وzizmor وCODEOWNERS وفحوص network integration وUni
 
 ## تحقق حي حديث — 2026-11-27
 
-على SHA `bfbed74ae24e8e5e49baff84e7a18b0e99b55807`: Domain/Python CI run 45916990172، Core CI run 45916990210، وDocumentation Governance run 45916990106 اكتملت جميعها بنجاح. Domain/Python شغّل أيضاً `tools/github_workflow_tests` ونجحت. CodeQL dynamic run 45916990557 كان قيد التنفيذ عند آخر قراءة؛ لا تُسجل له نتيجة نجاح بعد. راجع [GITHUB_TOOLING.md](GITHUB_TOOLING.md) لسجل التشغيلات والحدود.
+على SHA `bfbed74ae24e8e5e49baff84e7a18b0e99b55807`: Domain/Python CI run 45918459199، Core CI run 45918459203، وDocumentation Governance run 45918459124 اكتملت جميعها بنجاح. Domain/Python شغّل أيضاً `tools/github_workflow_tests` ونجحت. CodeQL dynamic run 45918459371 كان قيد التنفيذ عند آخر قراءة؛ لا تُسجل له نتيجة نجاح بعد. راجع [GITHUB_TOOLING.md](GITHUB_TOOLING.md) لسجل التشغيلات والحدود.
 
 
 ## إعدادات GitHub — قراءة محدودة الصلاحيات (2026-11-27)

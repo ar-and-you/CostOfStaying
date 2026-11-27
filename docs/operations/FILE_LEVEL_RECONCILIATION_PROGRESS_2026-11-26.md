@@ -1172,6 +1172,20 @@
 - أضيف اختباران يغطيان exception في policy/validator بعد dequeue، مع إثبات Unavailable وعدم تسليم command واستهلاك sequence المقبول.
 - صُحح تعليق payload validation: الخدمة تعيد التحقق لكنها لا clone/freeze؛ host مسؤول عن immutable DTO أو ownership حصري.
 - سُجلت مسؤولية raw frame/serializer quotas قبل deserialization.
-- لا تغيير قواعد gameplay أو authorization policy؛ .NET CI pending.
+- لا تغيير قواعد gameplay أو authorization policy؛ Domain 62/62 وCore 248/248 وDocumentation Governance نجحت على SHA الناتج، وCodeQL C# ظل قيد التشغيل عند آخر قراءة.
 
-**الحالة:** STAGE 62 COMPLETE — POST-DEQUEUE FAIL-CLOSED TESTS ADDED; CI VERIFICATION PENDING.
+**الحالة:** STAGE 62 COMPLETE — POST-DEQUEUE FAIL-CLOSED TESTS ADDED; DOMAIN/CORE/DOC CI SUCCESS ON SHA d9c4e93.
+
+
+---
+
+## المرحلة 63 — تحديث أدلة CI بعد اختبارات post-dequeue (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE63_CI_EVIDENCE_REFRESH_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE63_CI_EVIDENCE_REFRESH_2026-11-27.md)
+
+- SHA d9c4e93: Domain 62/62، Core 248/248، Documentation Governance success.
+- اختبارا post-dequeue exception دخلا في Core CI 248/248.
+- CodeQL Python/Actions success؛ C# in_progress عند آخر قراءة.
+- حُدث GITHUB_TOOLING وTOOLING_MAP وD-08 في سجل القرارات، وأغلق انتظار CI للمرحلة 62.
+
+**الحالة:** STAGE 63 COMPLETE — DOMAIN/CORE/DOC CI VERIFIED; CODEQL C# REMAINS IN_PROGRESS.

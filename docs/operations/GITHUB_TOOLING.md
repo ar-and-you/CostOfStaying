@@ -1,5 +1,16 @@
 # أدوات GitHub — الحالة الفعلية وخطة الاستكمال
 
+## 0.5 تحقق CI بعد تقوية fail-closed dequeue — SHA `d9c4e93e94c38d1c91c25414c96174eb4d8fa78e` (2026-11-27)
+
+| الفحص | Run ID | النتيجة |
+|---|---:|---|
+| Domain and Python CI | [45918459199](https://github.com/ar-and-you/CostOfStaying/actions/runs/45918459199) | success — 62/62 Domain tests |
+| Core CI (.NET 10) | [45918459203](https://github.com/ar-and-you/CostOfStaying/actions/runs/45918459203) | success — 248/248 Core tests |
+| Documentation Governance | [45918459124](https://github.com/ar-and-you/CostOfStaying/actions/runs/45918459124) | success |
+| CodeQL dynamic | [45918459371](https://github.com/ar-and-you/CostOfStaying/actions/runs/45918459371) | Python وActions success؛ C# in_progress عند آخر قراءة |
+
+هذا التشغيل يتضمن اختبارَي post-dequeue exception المضافين في المرحلة 62. النتائج تخص SHA d9c4e93 فقط؛ CodeQL C# لم يكتمل، ولا يثبت التشغيل خلو alerts أو وجود transport/server/Unity runtime.
+
 ## 0.5 قراءة إعدادات GitHub محدودة الصلاحيات — SHA `35ddccfb149ba70b0fdc9c20ecbc6ebf8ccda5ed` (2026-11-27)
 
 - Branch protection endpoint على `main`: HTTP 403 `Resource not accessible by integration`؛ الحالة `UNKNOWN / NOT VERIFIED`.

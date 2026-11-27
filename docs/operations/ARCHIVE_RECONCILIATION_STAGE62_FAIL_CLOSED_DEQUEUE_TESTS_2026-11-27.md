@@ -27,6 +27,6 @@
 - لا سياسة gameplay جديدة ولا permissive default.
 - policy/validator يجب أن يبقيا bounded, synchronous, deterministic, side-effect-free, no I/O.
 - الخدمات single-writer/server-serialized؛ لا thread safety أو distributed guarantees.
-- لم يُشغّل .NET محلياً؛ يلزم انتظار Core CI على SHA الناتج.
+- لم يُشغّل .NET محلياً؛ تم التحقق عبر Domain CI وCore CI وDocumentation Governance على SHA الناتج؛ CodeQL C# بقي in_progress عند آخر قراءة.
 
 **الحالة:** STAGE 62 COMPLETE — POST-DEQUEUE EXCEPTION PATHS NOW HAVE REGRESSION COVERAGE; PAYLOAD OWNERSHIP CONTRACT CLARIFIED.

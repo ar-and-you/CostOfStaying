@@ -49,7 +49,7 @@
 | D-05 | OPEN_OWNER_DECISION | أثر موت/انقطاع اللاعب بعد فتح التصويت |
 | D-06 | OPEN_OWNER_DECISION | سياسة Collapse عند تأخر Tick: skip أم bounded catch-up أم replay |
 | D-07 | OPEN_OWNER_DECISION | حد Domain/Core وخرائط الأنواع والهويات والوقت |
-| D-08 | VERIFIED_AT_SHA | RequestId null/empty/whitespace مرفوض؛ Domain CI نجح 62/62 على SHA bfbed74ae24e8e5e49baff84e7a18b0e99b55807 (run 45916990172). لا يعني ذلك persistence أو concurrent replay guarantees |
+| D-08 | VERIFIED_AT_SHA | RequestId null/empty/whitespace مرفوض؛ Domain CI نجح 62/62 على SHA d9c4e93e94c38d1c91c25414c96174eb4d8fa78e (run 45918459199). لا يعني ذلك persistence أو concurrent replay guarantees |
 
 D-08 موثق على SHA المذكور فقط؛ لا تنقل نتيجته إلى SHA أحدث دون check run جديد. D-01/D-02 مثبتان باختبارات الانحدار وضمن تشغيل Domain CI نفسه.
 
