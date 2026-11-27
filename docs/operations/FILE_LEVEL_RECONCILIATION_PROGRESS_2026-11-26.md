@@ -727,3 +727,18 @@
 - لا استيراد أو استبدال أو حذف أو تشغيل .NET/CI.
 
 **الحالة:** STAGE 32 COMPLETE — LEGACY TEST SCENARIO NAMES RETAINED; 10 LIVE ADDITIONAL TEST NAMES IDENTIFIED; ASSERTION PARITY NOT CLAIMED.
+
+
+---
+
+## المرحلة 33 — مصفوفة المصالحة الشاملة للمسارات الأرشيفية مع main (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE33_GLOBAL_PATH_CROSSWALK_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE33_GLOBAL_PATH_CROSSWALK_2026-11-27.md)
+
+- تم توحيد تقاطع المسارات: 309 مسارات أرشيفية معيارية، 226 ملفاً حياً، 138 مشتركة، 171 أرشيفية فقط، و88 حية فقط.
+- 1,543 ظهور ملف مشروع غير Git، 404 SHA-256 فريدة، و71 مسار مشروع متعدد البصمات.
+- للمسارات المشتركة: 78 تطابق Git blob و60 اختلافاً موزعة على docs/src/tests/tools/.github والجذر.
+- مصالحة المسارات والـblob للمجموعات المشتركة موثقة؛ salvage الدلالي للمسارات الأرشيفية فقط لم يُغلق.
+- لا حذف أو استبدال أو نقل أو استيراد، ولا تشغيل .NET/CI.
+
+**الحالة:** STAGE 33 COMPLETE — GLOBAL PATH CROSSWALK RECORDED; SEMANTIC SALVAGE AND OWNER DECISIONS OPEN.
