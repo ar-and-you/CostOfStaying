@@ -904,3 +904,18 @@
 - لا تعديل source/tests أو تشغيل جديد. مراجعة أجسام اختبارات Core.Tests الستة القديمة ما زالت مفتوحة.
 
 **الحالة:** `STAGE 44 COMPLETE — DOMAIN TEST BODY/ASSERTION CROSSWALK; LEGACY CORE TEST BODY REVIEW OPEN.`
+
+
+---
+
+## المرحلة 45 — مراجعة أجسام اختبارات Core القديمة مقابل Domain الحي (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE45_LEGACY_CORE_TEST_BODY_CROSSWALK_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE45_LEGACY_CORE_TEST_BODY_CROSSWALK_2026-11-27.md)
+
+- تمت مراجعة ستة ملفات Core.Tests أرشيفية: 37 method و83 assertion مقابل 48 method و126 assertion في Domain.Tests الحية.
+- كل السيناريوهات الـ37 والـassertions القديمة ممثلة في Domain الحالي؛ أضيفت 11 methods و43 assertions.
+- اختبار Transfer الحي يثبت أحداث الرفض دون تغيير gameplay state؛ RequestId validation مضافة.
+- الملفات الأرشيفية تنتمي لحد Core قديم؛ استعادتها ستكرر Domain tests وتخلط المسؤوليات.
+- لا استيراد أو حذف أو تعديل source/tests، ولا تشغيل جديد.
+
+**الحالة:** STAGE 45 COMPLETE — LEGACY CORE TEST BODY/ASSERTION CROSSWALK CLOSED; NO RESTORATION REQUIRED.
