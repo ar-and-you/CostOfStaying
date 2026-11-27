@@ -29,7 +29,7 @@
   - Core CI (.NET 10) — run `46079246422`.
   - Documentation Governance — run `46079246436`.
 - ضمن Domain/Python CI على SHA نفسه: `actionlint v1.7.12` و`zizmor v1.33.1` نجحا؛ اجتازت اختبارات workflow hygiene السبعة، Python compile، Domain NUnit، ومحاكاة/Playtest CLI وsmoke tests.
-- CodeQL Python وActions analysis نجحا. تحليل C# ما زال قيد التشغيل عند آخر قراءة، والـPR CodeQL check العام `neutral` بسبب تحذير GitHub بأن إعداد Default setup للغة C# الموجود على `main` لم يُعثر عليه في PR؛ لذلك مقارنة التنبيهات غير مكتملة ولا يجوز وصف CodeQL كنجاح كامل.
+- اكتملت CodeQL analyses للغات C# وPython وActions بنجاح على SHA `dc33a8040d8ee29c96cba440678e9c6733f30565`، وأصبح PR CodeQL check العام `success` بعد اكتمال تحليل C#. هذا يثبت اكتمال التحليل على ذلك الرأس، ولا يثبت أن عدد التنبيهات صفر؛ لم تُقرأ قائمة التنبيهات في هذه المراجعة.
 - CodeFactor أعاد `failure` مع issue واحدة بدرجة Minor؛ تفاصيلها لم تكن متاحة عبر تكامل GitHub ولم تُنسب إلى ملف بالتخمين. Codacy أعاد `action_required` بلا ملخص تشخيصي.
 - لا يوجد دليل على خلو CodeQL alerts أو Dependabot alerts. صلاحية التكامل الحالية `admin=false`؛ branch-protection endpoint أعاد `403 Resource not accessible by integration` في 2026-11-28، لذا الحماية وإعدادات secret scanning/push protection `UNKNOWN / NOT VERIFIED`.
 - لا تثبت هذه النتائج وجود Unity أو Android build أو transport/server runtime أو اختبار شبكة/لعب بشري.
