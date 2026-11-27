@@ -31,18 +31,17 @@ namespace CostOfStaying.Domain.Tests
         }
 
         [Test]
-        public void Transfer_Does_Not_Trust_Client_Distance_Without_Server_Check()
+        public void Transfer_Rejects_OutOfRange_Distance_Supplied_To_Domain()
         {
-            // The domain receives distanceMeters as server-measured; if the
-            // server passes a large distance the transfer must be rejected.
+            // Domain validates the supplied distance; it cannot measure positions.
+            // A trusted server adapter must supply the measured value.
             var config = new MatchConfig { TransferRangeMeters = 2.0, TransferCooldownSeconds = 0, CollapseIntervalSeconds = 1000, CollapseIntervalThreeAliveSeconds = 1000 };
             var clock = new ManualClock(0);
             var match = new Match(Guid.NewGuid(), config, clock);
             var a = Guid.NewGuid(); var b = Guid.NewGuid();
             match.AddPlayer(a); match.AddPlayer(b); match.Start();
             match.Players[a].Debuffs.Add(new Debuff("d", 0.01, 10, true));
-            // Server measured distance is 10m — must reject even if client
-            // claimed 1m in its intent (intent.ClaimedDistance is ignored).
+            // A supplied value of 10m exceeds the configured range and is rejected.
             var r = match.TryTransfer(a, b, distanceMeters: 10.0, requestId: "r");
             Assert.That(r, Is.EqualTo(Match.TransferResult.RejectedOutOfRange));
         }
