@@ -211,8 +211,8 @@ namespace CostOfStaying.Core.Tests
         {
             CoreComposition composition = CoreComposition.Create(new MatchId(5));
             sessions = composition.CreateSessionRegistry(8);
-            match = composition.CreateMatchLifecycle(new MatchId(5));
-            players = composition.CreateMatchPlayerRegistry(match.MatchId, 8);
+            match = composition.CreateMatchLifecycle();
+            players = composition.CreateMatchPlayerRegistry(8);
             queue = composition.CreateCommandAdmissionQueue<MutablePayload>(8, 8, 8);
             IMatchCommandAuthorizationService<MutablePayload> authorization =
                 composition.CreateMatchCommandAuthorizationService(sessions, match, players, queue, new AllowAllPolicy());
