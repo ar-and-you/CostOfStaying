@@ -5,8 +5,9 @@ using System.Linq;
 namespace CostOfStaying.Domain
 {
     /// <summary>
-    /// Server-authoritative match aggregate. All state transitions are validated
-    /// here; clients send intents that the server checks (ADR-002, RULE-01..05).
+    /// Domain match aggregate. It validates gameplay state transitions using
+    /// supplied inputs and an injected clock. This assembly has no transport,
+    /// authentication, or server runtime; a host adapter must enforce those boundaries.
     /// This class has no Unity or FishNet dependencies.
     /// </summary>
     public sealed class Match
@@ -95,13 +96,13 @@ namespace CostOfStaying.Domain
         }
 
         // -----------------------------------------------------------------
-        // Tick — server heartbeat (vitality drain, debuff expiry, collapse, vote, time limit)
+        // Tick — simulation advance (vitality drain, debuff expiry, collapse, vote, time limit)
         // -----------------------------------------------------------------
 
         /// <summary>
-        /// Advance server simulation by deltaSeconds. Caller is the dedicated
-        /// server tick using its monotonic clock. Delta is derived from
-        /// NowSeconds difference; this method does not read wall time.
+        /// Advance the simulation by the caller-provided deltaSeconds. A production
+        /// host should derive this from a monotonic clock; this aggregate does not
+        /// read wall time, authenticate the caller, or verify the delta's source.
         /// </summary>
         public void Tick(double deltaSeconds)
         {
