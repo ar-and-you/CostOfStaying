@@ -167,6 +167,40 @@ namespace CostOfStaying.Core.Tests
             Assert.That(queue.PendingCount, Is.Zero);
         }
 
+        [Test]
+        public void TryTakeNext_ValidatorExceptionFailsClosedAndKeepsAcceptedSequenceConsumed()
+        {
+            int validatorCalls = 0;
+            var service = CreateService(
+                out SessionRegistry sessions,
+                out IMatchPlayerRegistry players,
+                out CommandAdmissionQueue<MutablePayload> queue,
+                out _,
+                out _,
+                _ =>
+                {
+                    validatorCalls++;
+                    if (validatorCalls == 2)
+                        throw new InvalidOperationException("synthetic dequeue validator exception");
+                    return Result.Success();
+                });
+            SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(10), new ActorId(7));
+            players.Register(new VitalityAccount(new ActorId(7)));
+            var envelope = CreateEnvelope(session.SessionId, 1, new MutablePayload { IsValid = true });
+
+            Assert.That(service.TryAdmit(envelope).IsSuccess, Is.True);
+            Assert.That(queue.PendingCount, Is.EqualTo(1));
+            Assert.That(validatorCalls, Is.EqualTo(1));
+
+            Assert.That(service.TryTakeNext().ErrorCode, Is.EqualTo(CoreErrorCode.Unavailable));
+            Assert.That(queue.PendingCount, Is.Zero);
+            Assert.That(validatorCalls, Is.EqualTo(2));
+
+            Assert.That(service.TryAdmit(envelope).ErrorCode, Is.EqualTo(CoreErrorCode.Conflict));
+            Assert.That(queue.PendingCount, Is.Zero);
+            Assert.That(validatorCalls, Is.EqualTo(3));
+        }
+
         private static IMatchCommandPayloadValidationService<MutablePayload> CreateService(
             out SessionRegistry sessions,
             out IMatchPlayerRegistry players,

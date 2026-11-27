@@ -86,6 +86,7 @@ D-08 موثق على SHA المذكور فقط؛ لا تنقل نتيجته إل
 - ConnectionAwareSessionCleanupService يمنع التنظيف ما دام session مربوطاً باتصال، ويجب حقنه بنفس ConnectionSessionRegistry الذي تستخدمه ingress.
 - الاختبارات تغطي queue full/duplicate/jump، reset مع pending، cleanup قبل/بعد drain، connection binding/detach، وإعادة استخدام سعة tracked sessions.
 - هذه الخدمات single-writer/server-serialized؛ لا تدعي thread safety أو persistence أو distributed cleanup.
+- MatchCommandPayloadValidationService يعيد التحقق قبل handler handoff لكنه لا ينسخ أو يجمد TCommand؛ يجب أن تكون DTOs immutable أو تنتقل ملكيتها حصرياً إلى host ولا تتغير بعد handoff. حدود frame/serializer تُفرض قبل deserialization.
 
 لا يحتاج هذا الجزء تغييراً حالياً. يبقى transport ingress/egress وin-flight command coordinator وdurable replay store مسؤوليات host مستقبلي.
 

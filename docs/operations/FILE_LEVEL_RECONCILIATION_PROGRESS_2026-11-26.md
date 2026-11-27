@@ -1161,3 +1161,17 @@
 - لا تغيير code/tests؛ KEEP_LIVE.
 
 **الحالة:** STAGE 61 COMPLETE — CORE QUEUE/CLEANUP CONTRACTS MAPPED AND TESTED.
+
+
+---
+
+## المرحلة 62 — تقوية اختبارات فشل التفويض والتحقق بعد dequeue (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE62_FAIL_CLOSED_DEQUEUE_TESTS_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE62_FAIL_CLOSED_DEQUEUE_TESTS_2026-11-27.md)
+
+- أضيف اختباران يغطيان exception في policy/validator بعد dequeue، مع إثبات Unavailable وعدم تسليم command واستهلاك sequence المقبول.
+- صُحح تعليق payload validation: الخدمة تعيد التحقق لكنها لا clone/freeze؛ host مسؤول عن immutable DTO أو ownership حصري.
+- سُجلت مسؤولية raw frame/serializer quotas قبل deserialization.
+- لا تغيير قواعد gameplay أو authorization policy؛ .NET CI pending.
+
+**الحالة:** STAGE 62 COMPLETE — POST-DEQUEUE FAIL-CLOSED TESTS ADDED; CI VERIFICATION PENDING.

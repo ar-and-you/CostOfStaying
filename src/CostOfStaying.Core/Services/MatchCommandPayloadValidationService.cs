@@ -10,8 +10,9 @@ namespace CostOfStaying.Core.Services
     /// The application must supply a validator; there is no permissive default.
     ///
     /// Validation runs before authorization/queue admission so malformed commands do not
-    /// consume queue capacity or sequence state. It runs again after dequeue so mutable
-    /// reference payloads cannot be changed while queued and bypass validation.
+    /// consume queue capacity or sequence state. It runs again after dequeue to detect mutation
+    /// while queued. This service does not clone or freeze TCommand: the host must use immutable
+    /// payloads or transfer exclusive ownership and prevent mutation after handoff.
     ///
     /// Validators must be bounded, synchronous, deterministic from the payload,
     /// side-effect-free and free of I/O. They must not mutate match/player/queue state.

@@ -221,6 +221,42 @@ namespace CostOfStaying.Core.Tests
             Assert.That(queue.PendingCount, Is.Zero);
         }
 
+        [Test]
+        public void TryTakeNext_PolicyExceptionFailsClosedAndKeepsAcceptedSequenceConsumed()
+        {
+            int policyCalls = 0;
+            var service = CreateService(
+                out SessionRegistry sessions,
+                out IMatchLifecycle match,
+                out IMatchPlayerRegistry players,
+                out CommandAdmissionQueue<string> queue,
+                out _,
+                _ =>
+                {
+                    policyCalls++;
+                    if (policyCalls == 2)
+                        throw new InvalidOperationException("synthetic dequeue policy exception");
+                    return Result.Success();
+                });
+            MoveToRunning(match);
+            ActorId actor = new ActorId(42);
+            SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(20), actor);
+            players.Register(new VitalityAccount(actor));
+            CommandEnvelope<string> envelope = CreateEnvelope(session.SessionId, 1);
+
+            Assert.That(service.TryAdmit(envelope).IsSuccess, Is.True);
+            Assert.That(queue.PendingCount, Is.EqualTo(1));
+            Assert.That(policyCalls, Is.EqualTo(1));
+
+            Assert.That(service.TryTakeNext().ErrorCode, Is.EqualTo(CoreErrorCode.Unavailable));
+            Assert.That(queue.PendingCount, Is.Zero);
+            Assert.That(policyCalls, Is.EqualTo(2));
+
+            Assert.That(service.TryAdmit(envelope).ErrorCode, Is.EqualTo(CoreErrorCode.Conflict));
+            Assert.That(queue.PendingCount, Is.Zero);
+            Assert.That(policyCalls, Is.EqualTo(3));
+        }
+
         private static IMatchCommandAuthorizationService<string> CreateService(
             out SessionRegistry sessions,
             out IMatchLifecycle match,
