@@ -51,3 +51,6 @@ jobs:
 
       - name: Run simulated-playtest CLI regression tests
         run: python3 tools/playtest/test_cli.py
+
+      - name: Run bounded simulated-playtest smoke test
+        run: python3 tools/playtest/test_smoke.py -v
