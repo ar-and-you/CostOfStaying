@@ -20,3 +20,15 @@
 gitleaks وactionlint وzizmor وCODEOWNERS وفحوص network integration وUnity Test Framework وبناء/أداء Android وDedicated Server وBackend وhuman playtest ما زالت غير متاحة/غير منفذة في الشجرة المفحوصة. Secret scanning وPush protection مفعّلان في فحص 2026-11-24. كانت تنبيهات Dependabot ورسم الاعتماديات مسجلتين على أنهما مفعّلان في فحص 2026-11-22، لكن لم يُعد فحص إعداد التنبيهات؛ كما تعذرت قراءة قائمة التنبيهات في 2026-11-24 بسبب `403 Resource not accessible by integration`، ولا يُعرف محتواها أو عددها. Dependabot security updates معطّلة ولا يوجد `dependabot.yml`. تعذرت أيضاً قراءة تنبيهات Code Scanning بسبب 403. لا توجد repository rulesets وحماية `main` غائبة في فحص 2026-11-24.
 
 قبل إضافة أي أداة: وثّق سبب الحاجة، الترخيص، الإصدار المثبت، صلاحيات التشغيل، مسارات CI، وكيفية التعامل مع false positives. لا تضف خدمة مدفوعة بلا موافقة مالك.
+
+
+## فحص ثابت لسلامة Workflows
+
+أضيفت `tools/github_workflow_tests/` واختباراتها ضمن `ci.yml` باستخدام Python standard library فقط. تتحقق من:
+- صلاحية `contents: read` على مستوى Workflow.
+- تثبيت مراجع Actions على SHA كامل من 40 خانة.
+- timeout موجب لكل Job.
+- تعطيل `persist-credentials` في خطوات checkout.
+- عدم إدخال `pull_request_target` أو `workflow_run` دون مراجعة أمنية مستقلة.
+
+هذا فحص ثابت ضيق لنمط الملفات الحالية؛ لا يحل محل actionlint أو zizmor أو قراءة إعدادات GitHub أو Secret Scanning، ولا يثبت سلامة runtime.
