@@ -86,8 +86,6 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 - لا global active-match cap في CoreComposition، ولا payload size limit داخل TCommand. Create() لا يستقبل MatchId ولا يفرض instance-per-match؛ composition واحد قد يشارك BetrayalLedger بين عدة MatchIds إذا أسيء استخدامه.
 - يلزم host roster/authority validation قبل BetrayalLedger.TryRecord، مع سياسة event retention وmatch concurrency قبل الإنتاج.
 
-
-
 مراجعة المرحلة 61 أكدت سلوك التنفيذ والاختبارات التالية:
 
 - CommandAdmissionQueue يفحص صلاحية envelope ثم queue capacity قبل استهلاك sequence؛ FullQueue_RejectsWithoutConsumingSequence يثبت أن نفس sequence يمكن إعادة محاولته بعد زوال backpressure.
@@ -120,3 +118,36 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 6. لا جمع playtest بشري دون D7، ولا اعتماد التوازن دون D8.
 
 **مصادر التفاصيل:** ADVISORY_PLAN_2026-11-26.md، DOMAIN_DEFECT_REVIEW_2026-11-25.md، STATUS_AND_EVIDENCE.md، DOMAIN_CORE.md، PLAYTEST_PLAN.md، وتقارير المراحل 22 و24 و54–58.
+
+
+## 8. قرارات وحدود العمل الأمني — 2026-11-27
+
+هذه الإضافة تسجل توجيهات مالك المشروع وخطة التحقق؛ ولا تعتبر Findings مغلقة أو ADR مقبولاً.
+
+| الرمز | القرار/التوجيه | الحالة |
+|---|---|---|
+| SEC-01 | كل أمر حساس يحتاج authorization policy صريحة؛ لا permissive default. غياب الربط يجب أن يفشل عند composition/startup قبل قبول الأوامر. | OWNER_APPROVED_DIRECTION |
+| SEC-02 | لا مزود خارجي أو تكامل هوية/تخزين قبل إغلاق F-001 وF-002 بأدلة واختبارات. | OWNER_APPROVED_GATE |
+| SEC-03 | تسجيل Betrayal يجب أن يصدر من Gameplay handler موثوق بعد التحقق من هوية Actor وVictim وعضويتهما وسلطة الفعل. | OWNER_APPROVED_DIRECTION; IMPLEMENTATION_OPEN |
+| SEC-04 | عزل MatchId يجب أن يكون invariant بنيوياً، بعد جرد موارد Core وتصنيف Match/Host/Session scope. | OWNER_APPROVED_DIRECTION; IMPLEMENTATION_OPEN |
+| SEC-05 | لا retention cap أو eviction أو snapshot policy قبل تحديد عمر المباراة، الاستئناف، عدد اللاعبين، ومعدل الأحداث. | OWNER_APPROVED_CONSTRAINT |
+| SEC-06 | لا اعتماد مزود خارجي ولا إضافة عقود IPlayerAuth/ISaveStore قبل إثبات الحاجة بعد إغلاق مراحل Core. | OWNER_APPROVED_GATE |
+
+### قرارات مالك لا تزال مطلوبة
+
+لم يقدم مالك المشروع بعد سيناريو دورة حياة مباراة معتمداً. تبقى القيم التالية **UNKNOWN / OPEN_OWNER_DECISION** ولا يجوز اختلاقها أو استنتاجها من قيم الاختبار:
+
+- الحد الأدنى/الأقصى للاعبين في المباراة.
+- مدة المباراة المتوقعة والحد الأقصى التشغيلي.
+- هل يمكن استئناف المباراة بعد disconnect؟ وما نافذة الاستئناف؟
+- هل تستمر المباراة بعد إعادة تشغيل المضيف؟ وإذا نعم، ما RPO/RTO المطلوب؟
+- معدل/عدد أحداث Betrayal المتوقع في مباراة واحدة.
+- ما البيانات التي يجب الاحتفاظ بها بعد انتهاء المباراة ومدة الاحتفاظ.
+
+بناءً على ذلك، لا يمكن إعلان المرحلة 0 مكتملة بالكامل: تم تثبيت حدود الثقة والبوابات الأمنية، لكن سيناريو المنتج اللازم لحسم F-003 ما زال قرار مالك مفتوحاً.
+
+### حالة F-001 وF-002 عند بدء التنفيذ
+
+- F-001: Core يفرض policy غير null لكل `MatchCommandAuthorizationService<TCommand>` instance ويعيد التقييم قبل admission وبعد dequeue. لا توجد حالياً concrete Gameplay command DTOs أو policies إنتاجية أو registry شامل يثبت اكتمال التغطية. لا تغلق F-001 قبل إنشاء/حصر الأوامر واختبار missing registration وwrong policy.
+- F-002: `BetrayalLedger` يتحقق من بنية الحدث والتسلسل وexact replay، لكنه لا يتحقق من membership أو gameplay authority. `CoreComposition.BetrayalLedger` يعرض واجهة `IBetrayalLedger` علناً. لا تغلق F-002 قبل حصر جميع المستهلكين وتوفير مسار handler موثوق واختبارات العضوية والسلطة.
+- لا يُدعى تشغيل اختبارات أو تغيير Source في هذه الإضافة؛ هي سجل قرار/خط أساس فقط.
