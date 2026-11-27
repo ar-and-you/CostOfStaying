@@ -135,12 +135,12 @@ namespace CostOfStaying.Core.Tests
         {
             CoreComposition composition = CoreComposition.Create(new MatchId(9));
             var sessions = composition.CreateSessionRegistry(4);
-            match = (MatchLifecycle)composition.CreateMatchLifecycle(new MatchId(9));
+            match = (MatchLifecycle)composition.CreateMatchLifecycle();
             Assert.That(match.TryTransition(MatchPhase.Waiting).IsSuccess, Is.True);
             Assert.That(match.TryTransition(MatchPhase.Starting).IsSuccess, Is.True);
             Assert.That(match.TryTransition(MatchPhase.Running).IsSuccess, Is.True);
 
-            IMatchPlayerRegistry players = composition.CreateMatchPlayerRegistry(match.MatchId, 4);
+            IMatchPlayerRegistry players = composition.CreateMatchPlayerRegistry(4);
             var actorId = new ActorId(77);
             Assert.That(players.Register(new VitalityAccount(actorId)).IsSuccess, Is.True);
 
