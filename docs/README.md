@@ -56,6 +56,7 @@
 - [المرحلة 71 — تطبيع فهرس ADR والمرشحات المتعارضة](operations/ARCHIVE_RECONCILIATION_STAGE71_ADR_CATALOGUE_NORMALIZATION_2026-11-27.md)
 - [المرحلة 72 — جرد الاعتماديات وجاهزية Dependabot](operations/ARCHIVE_RECONCILIATION_STAGE72_DEPENDABOT_DEPENDENCY_READINESS_2026-11-27.md)
 - [المرحلة 73 — تدقيق تاريخ Git للأسرار وحدود التنفيذ](operations/ARCHIVE_RECONCILIATION_STAGE73_GIT_HISTORY_SECRET_SCAN_BLOCKER_2026-11-27.md)
+- [المرحلة 74 — التحقق النهائي من CI وربط النتائج بـ SHA](operations/ARCHIVE_RECONCILIATION_STAGE74_FINAL_CI_SHA_VERIFICATION_2026-11-27.md)
 - [المرحلة 75 — دمج smoke test لمحاكاة اللعب وأدوات Audit في CI](operations/ARCHIVE_RECONCILIATION_STAGE75_PLAYTEST_AUDIT_CI_INTEGRATION_2026-11-27.md)
 
 لا يحتوي `main` حالياً سجلات ADR مقبولة. القالب والفهرس لا يشكلان بحد ذاتهما قراراً معمارياً.
