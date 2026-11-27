@@ -10,10 +10,8 @@ SHA_PIN = re.compile(r"^[^@\s]+@([0-9a-f]{40})$")
 
 
 def workflow_files():
-    return sorted(
-        path for path in WORKFLOW_DIR.glob("*.yml")
-        if path.name != ".gitkeep"
-    )
+    candidates = set(WORKFLOW_DIR.glob("*.yml")) | set(WORKFLOW_DIR.glob("*.yaml"))
+    return sorted(path for path in candidates if path.name != ".gitkeep")
 
 
 def job_sections(text):
