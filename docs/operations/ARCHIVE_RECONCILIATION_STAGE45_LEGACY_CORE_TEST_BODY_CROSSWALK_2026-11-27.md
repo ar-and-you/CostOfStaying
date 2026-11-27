@@ -14,12 +14,12 @@
 | CollapseTests.cs | 3 | 6 | 4 | 8 |
 | SecurityTests.cs | 4 | 6 | 9 | 23 |
 | SpiritTests.cs | 5 | 12 | 5 | 12 |
-| TransferTests.cs | 10 | 27 | 11 | 37 |
+| TransferTests.cs | 10 | 27 | 10 | 37 |
 | VitalityTests.cs | 6 | 13 | 7 | 15 |
 | VoteAndEndgameTests.cs | 9 | 19 | 12 | 31 |
-| **الإجمالي** | **37** | **83** | **48** | **126** |
+| **الإجمالي** | **37** | **83** | **47** | **126** |
 
-تعني Assertions هنا استدعاءات NUnit من نوع `Assert.That` و`Assert.Throws` معاً. المجموعة الأرشيفية تحتوي 83 استدعاء Assert.That ولا Assert.Throws؛ الحية تحتوي 124 Assert.That و2 Assert.Throws. أضيفت 11 methods و43 استدعاء assertion إجمالاً.
+تعني Assertions هنا استدعاءات NUnit من نوع `Assert.That` و`Assert.Throws` معاً. المجموعة الأرشيفية تحتوي 83 استدعاء Assert.That ولا Assert.Throws؛ الحية تحتوي 124 Assert.That و2 Assert.Throws. أضيفت 10 methods و43 استدعاء assertion إجمالاً.
 
 ## نتائج المراجعة
 
