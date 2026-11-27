@@ -1,5 +1,17 @@
 # أدوات GitHub — الحالة الفعلية وخطة الاستكمال
 
+## 0.4 أحدث تحقق مباشر — SHA `bfbed74ae24e8e5e49baff84e7a18b0e99b55807` (2026-11-27)
+
+| الفحص | Run ID | النتيجة |
+|---|---:|---|
+| Domain and Python CI | [45916990172](https://github.com/ar-and-you/CostOfStaying/actions/runs/45916990172) | `completed / success` |
+| Core CI (.NET 10) | [45916990210](https://github.com/ar-and-you/CostOfStaying/actions/runs/45916990210) | `completed / success` |
+| Documentation Governance | [45916990106](https://github.com/ar-and-you/CostOfStaying/actions/runs/45916990106) | `completed / success` |
+| CodeQL dynamic | [45916990557](https://github.com/ar-and-you/CostOfStaying/actions/runs/45916990557) | `in_progress` وقت التحديث |
+
+تضمنت Domain/Python نجاح Python compileall، واختبارات `tools/github_workflow_tests`، وDomain NUnit، واختبارات محاكي Python وCLI. اكتملت Core NUnit بنجاح. نجح فحص روابط Markdown وإمكانية الوصول من الفهرس؛ خطوة PR scope guard تخطت في Push event كما هو متوقع. هذه النتائج تخص SHA أعلاه فقط. لا يثبت نجاح CodeQL خلو التنبيهات، ولا تثبت هذه التشغيلات وجود Unity أو خادم أو transport أو human playtest.
+
+
 ## 0.3 أحدث تحقق مباشر — SHA `3c4c27ad16a2b5d8547f11a181ea75f3cf54f9fe` (2026-11-26)
 
 تم ربط تشغيلات Push بنتيجة الالتزام نفسه بعد تحديث المهارات الست وفهرسة تقارير مصالحة الأرشيف:
