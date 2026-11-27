@@ -126,6 +126,7 @@
 - [المرحلة 38 — مراجعة salvage لوثائق المعمارية والشبكة الأرشيفية — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE38_ARCHITECTURE_DOCS_SALVAGE_2026-11-27.md)
 - [المرحلة 39 — مراجعة salvage لوثائق أنظمة اللعب الأرشيفية — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE39_GAME_SYSTEMS_SALVAGE_2026-11-27.md)
 - [المرحلة 40 — تدقيق أصل الاستيراد وملف IMPORT_MANIFEST التاريخي — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE40_IMPORT_PROVENANCE_REVIEW_2026-11-27.md)
+- [المرحلة 41 — سجل موحد لمرشحات الاستفادة من الأرشيف — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE41_SALVAGE_CANDIDATE_REGISTER_2026-11-27.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
