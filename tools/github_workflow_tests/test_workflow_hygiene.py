@@ -6,7 +6,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW_DIR = ROOT / ".github" / "workflows"
 EXPECTED_WORKFLOWS = {"ci.yml", "core-ci.yml", "docs-governance.yml"}
-SHA_PIN = re.compile(r"^[^@\\s]+@([0-9a-f]{40})$")
+SHA_PIN = re.compile(r"^[^@\s]+@([0-9a-f]{40})$")
 
 
 def workflow_files():
@@ -30,16 +30,16 @@ def job_sections(text):
     for line in lines[jobs_index + 1:]:
         if line and not line[0].isspace():
             break
-        match = re.match(r"^  ([A-Za-z0-9_-]+):\\s*$", line)
+        match = re.match(r"^  ([A-Za-z0-9_-]+):\s*$", line)
         if match:
             if current_name is not None:
-                sections.append((current_name, "\\n".join(current_lines)))
+                sections.append((current_name, "\n".join(current_lines)))
             current_name = match.group(1)
             current_lines = [line]
         elif current_name is not None:
             current_lines.append(line)
     if current_name is not None:
-        sections.append((current_name, "\\n".join(current_lines)))
+        sections.append((current_name, "\n".join(current_lines)))
     return sections
 
 
@@ -48,10 +48,10 @@ def step_sections(job_text):
     lines = job_text.splitlines()
     starts = [
         index for index, line in enumerate(lines)
-        if re.match(r"^      -\\s+", line)
+        if re.match(r"^      -\s+", line)
     ]
     return [
-        "\\n".join(lines[start:starts[position + 1] if position + 1 < len(starts) else len(lines)])
+        "\n".join(lines[start:starts[position + 1] if position + 1 < len(starts) else len(lines)])
         for position, start in enumerate(starts)
     ]
 
@@ -73,12 +73,12 @@ class WorkflowHygieneTests(unittest.TestCase):
         for path, text in self.contents.items():
             with self.subTest(workflow=path.name):
                 match = re.search(
-                    r"(?ms)^permissions:\\s*\\n(?P<body>(?:^[ \\t]+[^\\n]*\\n?)*)",
+                    r"(?ms)^permissions:\s*\n(?P<body>(?:^[ \t]+[^\n]*\n?)*)",
                     text,
                 )
                 self.assertIsNotNone(match, "Explicit top-level permissions are required.")
                 entries = re.findall(
-                    r"(?m)^  ([A-Za-z0-9_-]+):\\s*([A-Za-z]+)\\s*$",
+                    r"(?m)^  ([A-Za-z0-9_-]+):\s*([A-Za-z]+)\s*$",
                     match.group("body"),
                 )
                 self.assertEqual(entries, [("contents", "read")])
@@ -88,19 +88,19 @@ class WorkflowHygieneTests(unittest.TestCase):
             for job_name, section in job_sections(text):
                 with self.subTest(workflow=path.name, job=job_name):
                     blocks = re.findall(
-                        r"(?m)^    permissions:\\s*\\n((?:^      [^\\n]*\\n?)*)",
+                        r"(?m)^    permissions:\s*\n((?:^      [^\n]*\n?)*)",
                         section,
                     )
                     for block in blocks:
                         entries = re.findall(
-                            r"(?m)^      ([A-Za-z0-9_-]+):\\s*([A-Za-z]+)\\s*$",
+                            r"(?m)^      ([A-Za-z0-9_-]+):\s*([A-Za-z]+)\s*$",
                             block,
                         )
                         self.assertEqual(entries, [("contents", "read")])
 
     def test_external_actions_are_pinned_to_full_commit_shas(self):
         for path, text in self.contents.items():
-            references = re.findall(r"(?m)^\\s*uses:\\s*([^\\s#]+)", text)
+            references = re.findall(r"(?m)^\s*uses:\s*([^\s#]+)", text)
             with self.subTest(workflow=path.name):
                 self.assertTrue(references, "Expected at least one action reference.")
                 for reference in references:
@@ -114,7 +114,7 @@ class WorkflowHygieneTests(unittest.TestCase):
                 for job_name, section in sections:
                     self.assertRegex(
                         section,
-                        r"(?m)^    timeout-minutes:\\s*[1-9][0-9]*\\s*$",
+                        r"(?m)^    timeout-minutes:\s*[1-9][0-9]*\s*$",
                         f"Job {job_name} must have a positive timeout-minutes.",
                     )
 
@@ -124,11 +124,11 @@ class WorkflowHygieneTests(unittest.TestCase):
                 checkout_count = 0
                 for job_name, job in job_sections(text):
                     for block in step_sections(job):
-                        if re.search(r"(?m)^\\s+uses:\\s*actions/checkout@", block):
+                        if re.search(r"(?m)^\s+uses:\s*actions/checkout@", block):
                             checkout_count += 1
                             self.assertRegex(
                                 block,
-                                r"(?m)^\\s+persist-credentials:\\s*false\\s*$",
+                                r"(?m)^\s+persist-credentials:\s*false\s*$",
                                 f"Checkout in job {job_name} must disable persisted credentials.",
                             )
                 self.assertGreater(checkout_count, 0, "Expected an explicit checkout step.")
