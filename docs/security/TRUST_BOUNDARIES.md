@@ -10,7 +10,7 @@
 3. لا تُعد هوية Actor موثوقة إلا بعد أن يحلها مضيف موثوق من جلسة مصادق عليها. Core الحالي لا يصادق Credentials بنفسه.
 4. لا يُقبل أمر حساس إلا بسياسة Gameplay صريحة ومحددة لنوع الأمر. غياب السياسة أو فشل تهيئتها يجب أن يمنع تشغيل مسار الأمر؛ لا توجد سياسة سماح افتراضية.
 5. لا يثبت اجتياز بوابة Admission وحده أن الفعل نُفّذ أو أن أثره مشروع؛ يجب على معالج Gameplay الموثوق إعادة التحقق من شروط الفعل قبل تغيير الحالة.
-6. يجب أن تكون كل حالة وسجل Match-scoped معزولة عن المباريات الأخرى. أصبح `CoreComposition` يتطلب `MatchId` صالحاً ويربط به ledger وMatchLifecycle وMatchPlayerRegistry وVitalityAccount وCommandAdmissionQueue والـmatch services؛ تبقى اختبارات العزل مطلوبة قبل إغلاق F-004.
+6. يجب أن تكون كل حالة وسجل Match-scoped معزولة عن المباريات الأخرى. أصبح `CoreComposition` يتطلب `MatchId` صالحاً ويربط به ledger وMatchLifecycle وMatchPlayerRegistry وVitalityAccount وCommandAdmissionQueue والـmatch services؛ اجتازت اختبارات Core على فرع المراجعة، والإغلاق على main ينتظر المراجعة والدمج.
 7. لا يُعتمد مزود خارجي أو يُدخل إلى الحل قبل إغلاق F-001 وF-002 بأدلة واختبارات.
 
 ## 2. مناطق الثقة
@@ -70,7 +70,7 @@
 
 ## 6. Match isolation ودورة الحياة
 
-**الوضع الحالي بعد تعديل F-004 على فرع العمل:** `CoreComposition.Create(MatchId)` يتطلب معرفاً صالحاً. `VitalityAccount` و`CommandAdmissionQueue` يحملان MatchId غير قابل للتغيير، ويرفض `MatchPlayerRegistry.Register` حساباً من مباراة أخرى. `CreateMatchLifecycle()` و`CreateMatchPlayerRegistry(capacity)` وmatch service factories تستخدم/تتحقق من MatchId الخاص بالتركيب. لا يمكن استخدام composition واحد أو queue/account واحد لتبادل حالة بين MatchIds عبر API العامة. لم تُشغّل الاختبارات بعد، ولم يُدمج التغيير في main.
+**الوضع الحالي بعد تعديل F-004 على فرع العمل:** `CoreComposition.Create(MatchId)` يتطلب معرفاً صالحاً. `VitalityAccount` و`CommandAdmissionQueue` يحملان MatchId غير قابل للتغيير، ويرفض `MatchPlayerRegistry.Register` حساباً من مباراة أخرى. `CreateMatchLifecycle()` و`CreateMatchPlayerRegistry(capacity)` وmatch service factories تستخدم/تتحقق من MatchId الخاص بالتركيب. لا يمكن استخدام composition واحد أو queue/account واحد لتبادل حالة بين MatchIds عبر API العامة. اجتاز Core CI عدد 256/256 اختباراً على الرأس `289affbd14970b7c374fce3e9a861bd06e7c78fa`؛ الدمج في main لم يحدث بعد.
 
 **المطلوب قبل اعتماد العزل:** ربط composition أو ledger بهوية مباراة واحدة، ورفض إنشاء/تمرير موارد Match-scoped بمعرف مختلف، واختبار عزل تركيبتين. يجب جرد الموارد أولاً للتمييز بين Match-scoped وHost-scoped وSession-scoped.
 
