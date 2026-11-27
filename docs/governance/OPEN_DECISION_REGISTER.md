@@ -83,7 +83,7 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 
 - SessionRegistry وMatchPlayerRegistry وConnectionSessionRegistry وCommandAdmissionQueue وCommandSequenceTracker محدودة بسعات صريحة من host.
 - BetrayalLedger._events غير محدود، و_scores لا يملك سقفاً مستقلاً؛ exact replay behavior يعتمد على سجل الأحداث.
-- لا global active-match cap في CoreComposition، ولا payload size limit داخل TCommand. على فرع hardening الحالي يتطلب `Create(MatchId)` معرفاً صالحاً؛ MatchLifecycle وMatchPlayerRegistry وVitalityAccount وCommandAdmissionQueue والـmatch service factories مربوطة بالـscope نفسه، مع رفض تسجيل حساب أو queue من MatchId آخر؛ لم تُشغّل الاختبارات بعد ولم يُدمج التغيير في main.
+- لا global active-match cap في CoreComposition، ولا payload size limit داخل TCommand. على فرع hardening الحالي يتطلب `Create(MatchId)` معرفاً صالحاً؛ MatchLifecycle وMatchPlayerRegistry وVitalityAccount وCommandAdmissionQueue والـmatch service factories مربوطة بالـscope نفسه، مع رفض تسجيل حساب أو queue من MatchId آخر؛ اجتاز Core CI عدد 256/256 اختباراً على الرأس `289affbd14970b7c374fce3e9a861bd06e7c78fa`، ولم يُدمج التغيير في main.
 - يلزم host roster/authority validation قبل BetrayalLedger.TryRecord، مع سياسة event retention وmatch concurrency قبل الإنتاج.
 
 مراجعة المرحلة 61 أكدت سلوك التنفيذ والاختبارات التالية:
@@ -129,7 +129,7 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 | SEC-01 | كل أمر حساس يحتاج authorization policy صريحة؛ لا permissive default. غياب الربط يجب أن يفشل عند composition/startup قبل قبول الأوامر. | OWNER_APPROVED_DIRECTION |
 | SEC-02 | لا مزود خارجي أو تكامل هوية/تخزين قبل إغلاق F-001 وF-002 بأدلة واختبارات. | OWNER_APPROVED_GATE |
 | SEC-03 | تسجيل Betrayal يجب أن يصدر من Gameplay handler موثوق بعد التحقق من هوية Actor وVictim وعضويتهما وسلطة الفعل. | OWNER_APPROVED_DIRECTION; IMPLEMENTATION_OPEN |
-| SEC-04 | عزل MatchId يجب أن يكون invariant بنيوياً، بعد جرد موارد Core وتصنيف Match/Host/Session scope. | OWNER_APPROVED_DIRECTION; IMPLEMENTED_ON_REVIEW_BRANCH_PENDING_TESTS |
+| SEC-04 | عزل MatchId يجب أن يكون invariant بنيوياً، بعد جرد موارد Core وتصنيف Match/Host/Session scope. | OWNER_APPROVED_DIRECTION; IMPLEMENTED_AND_TESTED_ON_REVIEW_BRANCH; MAIN_MERGE_PENDING |
 | SEC-05 | لا retention cap أو eviction أو snapshot policy قبل تحديد عمر المباراة، الاستئناف، عدد اللاعبين، ومعدل الأحداث. | OWNER_APPROVED_CONSTRAINT |
 | SEC-06 | لا اعتماد مزود خارجي ولا إضافة عقود IPlayerAuth/ISaveStore قبل إثبات الحاجة بعد إغلاق مراحل Core. | OWNER_APPROVED_GATE |
 
@@ -150,5 +150,5 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 
 - F-001: Core يفرض policy غير null لكل `MatchCommandAuthorizationService<TCommand>` instance ويعيد التقييم قبل admission وبعد dequeue، كما توجد اختبارات رفض uninitialized/exception. لا توجد حالياً concrete Gameplay command DTOs أو policies إنتاجية أو registry شامل يثبت اكتمال التغطية. لا تغلق F-001 قبل إنشاء/حصر الأوامر واختبار missing registration وwrong policy.
 - F-002: `BetrayalLedger` يتحقق من بنية الحدث والتسلسل وexact replay، لكنه لا يتحقق من membership أو gameplay authority. `CoreComposition.BetrayalLedger` يعرض واجهة قراءة عامة فقط؛ `TryRecord` أصبح internal لمنع التسجيل من مستهلك خارجي أو عبر cast، وأضيف اختبار لسطح API العام. لا يوجد بعد Trusted Gameplay Handler أو membership/authority checks؛ لذلك لا تغلق F-002.
-- F-004: على فرع العمل أصبح `CoreComposition.Create(MatchId)` إلزامياً، كما أصبحت VitalityAccount وCommandAdmissionQueue مرتبطة بـMatchId وتُرفض مشاركة الحساب/الطابور عبر المباريات. أضيفت اختبارات للـscope، لكنها لم تُشغّل بعد؛ لذلك الحالة IMPLEMENTED_PENDING_TESTS وليست CLOSED.
-- لم تُشغّل اختبارات .NET أو CI حتى الآن. التغييرات المصدرية والاختبارات المذكورة موجودة على فرع المراجعة فقط ولم تُدمج في `main`.
+- F-004: على فرع العمل أصبح `CoreComposition.Create(MatchId)` إلزامياً، كما أصبحت VitalityAccount وCommandAdmissionQueue مرتبطة بـMatchId وتُرفض مشاركة الحساب/الطابور عبر المباريات. اجتاز Core CI عدد 256/256 اختباراً؛ الحالة IMPLEMENTED_AND_TESTED_ON_REVIEW_BRANCH، والدمج في `main` ما زال معلقاً.
+- Core CI وDocumentation Governance اجتازا على رأس المراجعة؛ Domain/Python CI كان قيد التشغيل وقت آخر تحديث. التغييرات المصدرية والاختبارات موجودة على فرع المراجعة فقط ولم تُدمج في `main`.
