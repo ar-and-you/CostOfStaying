@@ -800,3 +800,17 @@
 - لا اعتماد أرقام أو استيراد/استبدال أو تعديل قواعد؛ لا تشغيل قياس/اختبارات.
 
 **الحالة:** STAGE 37 COMPLETE — QUALITY DOCS RETAINED LIVE; PERFORMANCE/NETWORK TEST DEFAULTS AND BALANCE QUESTIONS LEFT AS NON-BINDING CANDIDATES.
+
+
+---
+
+## المرحلة 38 — مراجعة salvage لوثائق المعمارية والشبكة الأرشيفية (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE38_ARCHITECTURE_DOCS_SALVAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE38_ARCHITECTURE_DOCS_SALVAGE_2026-11-27.md)
+
+- تمت مراجعة 6 وثائق معمارية؛ النسخ الحية أدق وتمنع ادعاء وجود Unified Core أو stack أو deployment غير معتمد.
+- المرشحان التاريخيان: tick-rate sweep عند 10/15/20Hz، وMatchId/event IDs فريدة؛ لم يعتمدا كمتطلبات.
+- لا اختيار PlayFab/Nakama أو Unity/FishNet أو تنفيذ transport/server/Backend من الأرشيف.
+- لا حذف أو استبدال أو نقل أو استيراد أو تشغيل قياسات شبكة.
+
+**الحالة:** STAGE 38 COMPLETE — ARCHITECTURE DOCS RETAINED LIVE; TICK-RATE AND IDENTIFIER IDEAS LEFT AS NON-BINDING DESIGN CANDIDATES.
