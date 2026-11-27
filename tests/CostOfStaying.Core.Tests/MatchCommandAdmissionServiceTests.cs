@@ -15,7 +15,7 @@ namespace CostOfStaying.Core.Tests
         {
             var sessions = new SessionRegistry(4);
             var players = new MatchPlayerRegistry(new MatchId(1), 4);
-            var queue = new CommandAdmissionQueue<string>(8, 4, 4);
+            var queue = new CommandAdmissionQueue<string>(new MatchId(1), 8, 4, 4);
             var inner = new CommandAdmissionService<string>(sessions, queue);
 
             Assert.Throws<System.ArgumentNullException>(() =>
