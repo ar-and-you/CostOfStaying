@@ -40,6 +40,9 @@ jobs:
       - name: Verify Python syntax
         run: python3 -m compileall -q tools/balance_simulator tools/playtest
 
+      - name: Run GitHub workflow hygiene tests
+        run: python3 -m unittest discover -s tools/github_workflow_tests -v
+
       - name: Run Domain NUnit tests
         run: dotnet test tests/CostOfStaying.Domain.Tests/CostOfStaying.Domain.Tests.csproj --configuration Release
 
