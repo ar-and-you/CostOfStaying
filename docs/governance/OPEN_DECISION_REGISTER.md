@@ -1,7 +1,8 @@
 # سجل القرارات المفتوحة وبوابات الاعتماد
 
-**تاريخ اللقطة:** 2026-11-27  
-**المرجع:** main  
+**تاريخ اللقطة:** 2026-11-28  
+**مرجع `main`:** `e7e5b5e54f46490c44aaf30888280d55239bb670`  
+**فرع المراجعة الأمني:** `security/core-trust-boundaries-phase0` عند `5f8db71a34ed4b680dd0d7a0d24f0726e6c8924a` (غير مدمج)  
 **الحالة:** سجل تجميعي للتتبع فقط؛ ليس ADR ولا موافقة على أي قرار.
 
 يمنع هذا السجل تحويل المقترحات أو التنفيذ التاريخي أو نتائج المحاكاة إلى سياسة نافذة. الإغلاق يتطلب قرار مالك مكتوباً، مع تحديث المصدر الحاكم والفهرس والأدلة.
@@ -13,16 +14,17 @@
 | D0 — توثيق مسارات الشبكة والخادم كتوجهات مقترحة | COMPLETE | ROADMAP يصف Unity/network/server كمسارات مستقبلية لا كتنفيذ قائم |
 | D1 — مصالحة واعتماد ADR catalogue | OPEN_OWNER_DECISION | لا توجد ADR مقبولة في docs/adr؛ تعارض ADR-005 وفجوة ADR-024 ومرشحات أخرى موثقة في المرحلة 22 |
 | D2 — عقد Domain/Core وVitality/lifecycle | OPEN_OWNER_DECISION | مصفوفة توافق المرحلة 58 جاهزة؛ لا mapping معتمد ولا ترحيل |
-| D3 — branch protection وسياسة الفروع | BLOCKED_BY_EVIDENCE_AND_OWNER | قراءة 2026-11-22 تاريخية؛ endpoint أعاد 403 في 2026-11-26؛ الحالة الحالية UNKNOWN، ولا تغيير إعدادات دون قرار |
+| D3 — branch protection وسياسة الفروع | BLOCKED_BY_EVIDENCE_AND_OWNER | قراءة 2026-11-22 تاريخية؛ endpoint أعاد 403 في 2026-11-28؛ الحالة UNKNOWN/NOT VERIFIED، ولا تغيير إعدادات دون قرار |
 | D4 — قرارات المنتج D-R1..D-R7 | OPEN_OWNER_DECISION | جميع القرارات أدناه مفتوحة |
 | D5a — Unity editor/version | OPEN_TECHNICAL_SPIKE | لا Unity project أو prototype؛ لا اعتماد إصدار نهائي |
 | D5b — transport/network/authentication boundary | OPEN_TECHNICAL_SPIKE | لا adapter أو credential provider؛ host يجب أن يصادق credentials ويربط account→ActorId، ويضع Pending TTL/rate limits ويغلق الجلسات stale |
 
-تنبيه المرحلة 68: payload validator ينفذ قبل auth admission، لذا يجب أن يبقى bounded/synchronous/no-I/O؛ raw frame/serializer quotas وموثوقية ReceivedAt/ServerTick مسؤولية host قبل استدعاء Core.
 | D6 — hosting/operations | OPEN_OWNER_DECISION | لا اختيار مزود أو نموذج نشر أو server runtime |
 | D7 — consent/privacy/retention protocol | OPEN_OWNER_DECISION | لا بروتوكول موافقة/احتفاظ/حذف معتمد لجلسات بشرية |
 | D8 — 10 جلسات بشرية وقرار القواعد/التوازن | BLOCKED_ON_HUMAN_PLAYTEST | سجلات المحاكاة العشرة لا تحتسب جلسات بشرية؛ راجع PLAYTEST_PLAN والمرحلة 24 |
 | D9 — pre-production exit criteria | OPEN | لا توجد حزمة قبول نهائية تثبت جاهزية الإنتاج |
+
+تنبيه المرحلة 68: payload validator ينفذ قبل auth admission، لذا يجب أن يبقى bounded/synchronous/no-I/O؛ raw frame/serializer quotas وموثوقية ReceivedAt/ServerTick مسؤولية host قبل استدعاء Core.
 
 ## 2. قرارات المنتج D-R1–D-R7
 
