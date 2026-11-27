@@ -2,7 +2,7 @@
 
 > تنبيه حوكمي: أرقام ADR المشار إليها في نسخ سابقة هي مواد أرشيفية ما لم توجد في `docs/adr/` بحالة مقبولة على `main`.
 
-**مرجع الشجرة الحالي لهذه المراجعة:** `0ebb36090f0c1ab254d4402c2a738dd6a7d5b1a5` (2026-11-27). النتائج التشغيلية المفصلة أدناه تاريخية ومقيدة بكل SHA مذكور؛ أحدث مجموعة نتائج مكتملة موثقة تخص `94b341a681930e875fdbeee6ff3ccecb77476a14`، ولا تثبت نجاح CI على SHA الحالي. قراءات إعدادات GitHub محدودة الصلاحيات ومؤرخة كما هو موضح أدناه.
+**مرجع الشجرة الحالي لهذه المراجعة:** `60d15bc8f7aafb99f31ea2d61a6fd750719e53d8` (2026-11-27). تم التحقق من check-runs على SHA نفسه: Domain/Python CI وCore CI وDocumentation Governance وCodeQL dynamic اكتملت جميعها بنجاح؛ التفاصيل أدناه. نتائج CI مقيدة بهذا SHA ولا تثبت تكاملات غير موجودة. قراءات إعدادات GitHub محدودة الصلاحيات ومؤرخة كما هو موضح أدناه.
 
 | المجال | الموجود | ما لا يثبته |
 |---|---|---|
@@ -51,3 +51,15 @@ Branch protection endpoint أعاد 403، لذا حالته UNKNOWN/NOT VERIFIED
 - Documentation Governance run 45919285865: success.
 - CodeQL dynamic run 45919285741: C# وPython وActions جميعها completed/success.
 - هذه نتائج على SHA المحدد فقط. CodeQL success لا يثبت خلو alerts؛ إعدادات branch protection وDependabot/Code Scanning/Secret Scanning alerts لا تزال غير قابلة للتحقق من صلاحيات التكامل الحالية.
+
+
+## تحقق CI حي على رأس main — 2026-11-27 — SHA `60d15bc8f7aafb99f31ea2d61a6fd750719e53d8`
+
+| الفحص | Run ID | Check run IDs | النتيجة |
+|---|---:|---|---|
+| Domain and Python CI | 45979032679 | 140440309145 | completed / success |
+| Core CI (.NET 10) | 45979032628 | 140437943795 | completed / success |
+| Documentation Governance | 45979032548 | 140440278573 | completed / success |
+| CodeQL dynamic — C# / Python / Actions | 45979033244 | 140437951581 / 140437950908 / 140437951445 | completed / success |
+
+جميع التشغيلات الأربعة أعلاه حدثت على SHA نفسه، وهو main HEAD في لقطة الفحص. نجاح Domain/Python وCore يثبت فقط الاختبارات المحددة في Workflows؛ ونجاح Documentation Governance يثبت فحوص الحوكمة المهيأة. اسم تشغيل CodeQL في Actions هو `Push on main`، لكن check-runs الفعلية تُظهر ثلاث وظائف Analyze (csharp/python/actions) مكتملة بنجاح. لا يثبت نجاح CodeQL خلو قائمة التنبيهات. كما لا يثبت أي من هذه التشغيلات وجود Unity أو Android build أو transport/network runtime أو Dedicated Server أو human playtest.
