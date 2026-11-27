@@ -712,3 +712,18 @@
 - لا حذف أو استبدال أو نقل أو استيراد، ولا تشغيل .NET/CI.
 
 **الحالة:** STAGE 31 COMPLETE — ALL 50 LIVE SOURCE PATHS CROSSWALKED; 47 EXACT, 3 KEEP_LIVE DIFFS, 8 LEGACY ARCHIVE-ONLY.
+
+
+---
+
+## المرحلة 32 — مراجعة فروق محتوى اختبارات Domain الأرشيفية (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE32_DOMAIN_TEST_SEMANTIC_CROSSWALK_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE32_DOMAIN_TEST_SEMANTIC_CROSSWALK_2026-11-27.md)
+
+- تمت مراجعة أسماء حالات الاختبار في خمسة ملفات Domain.Tests مختلفة المحتوى؛ كل الأسماء الأرشيفية موجودة في الملفات الحية.
+- main يضيف 10 أسماء اختبارات: Collapse (1)، Security (5)، Vitality (1)، Vote/Endgame (3).
+- CollapseTests له نسختان أرشيفيتان مختلفتان ولا تطابق الحي، لكن أسماء السيناريوهات باقية.
+- المقارنة على مستوى أسماء الاختبارات/مجالاتها، لا تثبت تكافؤ assertions أو fixtures.
+- لا استيراد أو استبدال أو حذف أو تشغيل .NET/CI.
+
+**الحالة:** STAGE 32 COMPLETE — LEGACY TEST SCENARIO NAMES RETAINED; 10 LIVE ADDITIONAL TEST NAMES IDENTIFIED; ASSERTION PARITY NOT CLAIMED.
