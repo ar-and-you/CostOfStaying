@@ -32,7 +32,7 @@ namespace CostOfStaying.Core.Domain
 
         public Result Register(IVitalityAccount account)
         {
-            if (account is null || !account.PlayerId.IsValid)
+            if (account is null || !account.PlayerId.IsValid || account.MatchId != MatchId)
                 return Result.Failure(CoreErrorCode.InvalidArgument);
 
             if (_accounts.ContainsKey(account.PlayerId))
