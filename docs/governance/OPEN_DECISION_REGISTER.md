@@ -45,7 +45,7 @@
 | D-01 | FIXED_IN_LIVE | احتساب Debuff حسب مدة نشاطه داخل Tick طويل |
 | D-02 | FIXED_IN_LIVE | رفض Debuff/config للقيم غير الصالحة |
 | D-03 | OPEN_OWNER_DECISION | مجموعات Match/Player العامة قابلة للتعديل؛ يلزم API encapsulation وخطة توافق |
-| D-04 | OPEN_OWNER_DECISION | Events/RequestIds/EchoIds ومدخلات النص بلا سياسة retention/size |
+| D-04 | OPEN_OWNER_DECISION | Domain Events/RequestIds/EchoIds وCore BetrayalLedger._events/_scores ومدخلات النص/payload بلا سياسة retention/size أو global match cap |
 | D-05 | OPEN_OWNER_DECISION | أثر موت/انقطاع اللاعب بعد فتح التصويت |
 | D-06 | OPEN_OWNER_DECISION | سياسة Collapse عند تأخر Tick: skip أم bounded catch-up أم replay |
 | D-07 | OPEN_OWNER_DECISION | حد Domain/Core وخرائط الأنواع والهويات والوقت |
@@ -76,6 +76,15 @@ D-08 موثق على SHA المذكور فقط؛ لا تنقل نتيجته إل
 **حالة D1:** OPEN_OWNER_DECISION. بعض نسخ ADR-008..014 تصف APPROVED بموجب ADR-027 داخل الأرشيف، لكن لا توجد سجلات ADR مقبولة في docs/adr على main. لا تُعامل هذه الحالة الأرشيفية كاعتماد نافذ.
 
 ## 5. عقد Queue admission وتنظيف Session
+
+### ملحق سعة Core (المرحلة 64)
+
+- SessionRegistry وMatchPlayerRegistry وConnectionSessionRegistry وCommandAdmissionQueue وCommandSequenceTracker محدودة بسعات صريحة من host.
+- BetrayalLedger._events غير محدود، و_scores لا يملك سقفاً مستقلاً؛ exact replay behavior يعتمد على سجل الأحداث.
+- لا global active-match cap في CoreComposition، ولا payload size limit داخل TCommand.
+- يلزم host roster/authority validation قبل BetrayalLedger.TryRecord، مع سياسة event retention وmatch concurrency قبل الإنتاج.
+
+
 
 مراجعة المرحلة 61 أكدت سلوك التنفيذ والاختبارات التالية:
 

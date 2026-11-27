@@ -59,6 +59,8 @@
 
 **تفصيل المرحلة 55:** `Emit` يضيف كل حدث إلى List طوال عمر Match، بما في ذلك أحداث رفض النقل. كل Transfer ناجح يضيف RequestId إلى HashSet بلا TTL أو سقف، وتحتفظ Player بـCollectedEchoIds لكل معرف فريد. `TrySendHint` يخزن نص hint داخل الحدث، و`requestId` يدخل في تفاصيل بعض الرفض؛ لم يظهر حد طول موحد لهذه المدخلات. لا توجد rate limiter أو transport/server runtime في الشجرة، لذا هذا خطر سعة وتكامل مستقبلي وليس ادعاءً بوجود استغلال شبكي حالي.
 
+**إضافة المرحلة 64 — Core:** CoreComposition ينشئ BetrayalLedger لكل match scope؛ ledger يحتفظ بكل BetrayalEvent في Dictionary بلا capacity أو retention API، كما يحتفظ بـActor score dictionary بلا حد مستقل. TryRecord لا يتحقق من Actor/Victim membership في MatchPlayerRegistry؛ لذلك host يجب أن يتحقق من roster/authority قبل التسجيل. exact-old-replay semantics تعتمد على الاحتفاظ بالحدث الأصلي، فلا يجوز eviction عشوائي.
+
 لا يمكن تحديد cap رقمي من المصدر وحده: إخلاء RequestIds قبل نهاية المباراة قد يعيد فتح replay، وتقليص Events قد يفقد سجل التدقيق ما لم يوجد sink دائم، وحد Echo/Hint/ID يحتاج عقد منتج وقياس workload. المطلوب تحديد عمر المباراة، معدل/عدد الأوامر، حدود أحجام النصوص، حفظ الأحداث، ونطاق idempotency بعد restart.
 
 ### D-05 — سياسة تصويت اللاعب الذي يموت أو ينقطع أثناء التصويت

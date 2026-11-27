@@ -65,3 +65,22 @@ Core VitalityAccount ليس Match gameplay aggregate: منشؤه الداخلي 
 5. تشغيل CI على SHA الترحيل وتحديث الوثائق والفهارس في الدفعة نفسها.
 
 لا يوجد ADR مقبول على `main` حالياً؛ السجلات المتنافسة محفوظة في `docs/archive/` فقط.
+
+
+## حدود الذاكرة في Core
+
+| المخزن | الحد الحالي | تحرير السعة |
+|---|---|---|
+| SessionRegistry | capacity صريح وقت الإنشاء | إزالة Closed بعد drain/reset |
+| MatchPlayerRegistry | capacity صريح وقت الإنشاء | Remove(actorId) |
+| ConnectionSessionRegistry | capacity صريح وقت الإنشاء | TryDetach(connectionId) |
+| CommandAdmissionQueue | queue capacity صريح | TryDequeue |
+| CommandSequenceTracker | maximumTrackedSessions وmaximumSequenceJump صريحان | ResetSession بعد cleanup |
+| BetrayalLedger._events | غير محدود داخل عمر CoreComposition | لا clear/retention API؛ يُحرر عند إسقاط composition |
+| BetrayalLedger._scores | لا حد مستقل؛ يعتمد على ActorIds المقبولة في TryRecord | لا remove/reset API |
+
+كل registries المحدودة تتطلب capacities من host عند الإنشاء؛ لا توجد defaults تشغيلية أو workload-derived values. CoreComposition ينشأ لكل match scope، ولا يفرض حداً عالمياً لعدد compositions/المباريات النشطة. كما أن TCommand generic لا يضع حد حجم؛ raw frame/serializer/decompression quotas مسؤولية transport قبل بناء envelope.
+
+BetrayalLedger يستقبل BetrayalEvent بعد التحقق من non-zero ActorId/VictimId وعدم self-betrayal وتسلسل EventSequenceId، لكنه لا يتحقق من عضوية Actor/Victim في MatchPlayerRegistry. Host يجب أن يتحقق من roster والسلطة قبل TryRecord. يخزن ledger كل sequence/event فريد للتمييز بين exact replay وsequence reuse المختلف؛ لذلك لا يمكن تقليم السجل دون قرار يغير idempotency semantics.
+
+**القرار:** لا cap رقمي أو eviction policy من دون workload ومدة match وقرار الاحتفاظ. D-04 يشمل الآن Core ledger إضافة إلى Domain event/request/echo collections.

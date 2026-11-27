@@ -1189,3 +1189,18 @@
 - حُدث GITHUB_TOOLING وTOOLING_MAP وD-08 في سجل القرارات، وأغلق انتظار CI للمرحلة 62.
 
 **الحالة:** STAGE 63 COMPLETE — DOMAIN/CORE/DOC CI VERIFIED; CODEQL C# REMAINS IN_PROGRESS.
+
+
+---
+
+## المرحلة 64 — مراجعة حدود السعة والاحتفاظ في Core (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE64_CORE_CAPACITY_RETENTION_REVIEW_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE64_CORE_CAPACITY_RETENTION_REVIEW_2026-11-27.md)
+
+- Session/Player/Connection registries والـQueue وSequenceTracker محدودة بسعات صريحة يحددها host.
+- BetrayalLedger يحتفظ بكل الأحداث والدرجات بلا cap/retention API؛ exact replay semantics تعتمد على الحدث الأصلي.
+- لا تحقق roster membership داخل TryRecord؛ host مسؤول عن authority validation.
+- لا global active-match cap أو TCommand payload size limit.
+- D-04 توسع ليشمل Core ledger؛ لا cap أو eviction دون سياسة وقياس.
+
+**الحالة:** STAGE 64 COMPLETE — CORE CAPACITY BOUNDS MAPPED; UNBOUNDED LEDGER/HOST LIMITS OPEN.
