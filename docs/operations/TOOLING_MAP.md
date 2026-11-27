@@ -42,3 +42,12 @@ gitleaks وactionlint وzizmor وCODEOWNERS وفحوص network integration وUni
 ## إعدادات GitHub — قراءة محدودة الصلاحيات (2026-11-27)
 
 Branch protection endpoint أعاد 403، لذا حالته UNKNOWN/NOT VERIFIED. Repository rulesets أعادت `[]` ضمن نطاق القراءة. Endpoints الخاصة بـDependabot/Code Scanning/Secret Scanning alerts غير مدعومة في التكامل الحالي؛ لا يمكن الجزم بوجود التنبيهات أو خلوها. لم تُغيّر الإعدادات. التفاصيل في [GITHUB_TOOLING.md](GITHUB_TOOLING.md) وتقرير المرحلة 54.
+
+
+## تحقق حي أحدث — 2026-11-27 — SHA `94b341a681930e875fdbeee6ff3ccecb77476a14`
+
+- Domain/Python CI run 45919285815: Domain NUnit 62/62، Python simulator 11/11، وworkflow hygiene 6/6؛ success.
+- Core CI run 45919285831: NUnit 248/248؛ success.
+- Documentation Governance run 45919285865: success.
+- CodeQL dynamic run 45919285741: C# وPython وActions جميعها completed/success.
+- هذه نتائج على SHA المحدد فقط. CodeQL success لا يثبت خلو alerts؛ إعدادات branch protection وDependabot/Code Scanning/Secret Scanning alerts لا تزال غير قابلة للتحقق من صلاحيات التكامل الحالية.

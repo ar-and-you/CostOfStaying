@@ -1279,3 +1279,19 @@
 - لا تغيير code/tests/workflows؛ alerts غير مقروءة بـ403.
 
 **الحالة:** STAGE 69 COMPLETE — SECURITY DOCS MATCH CURRENT EVIDENCE; RUNTIME SECURITY GAPS OPEN.
+
+
+---
+
+## المرحلة 70 — تحديث أدلة CI وCodeQL على رأس main الحالي (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE70_CURRENT_HEAD_CI_EVIDENCE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE70_CURRENT_HEAD_CI_EVIDENCE_2026-11-27.md)
+
+- تحققنا من التشغيلات المرتبطة مباشرة بـSHA `94b341a681930e875fdbeee6ff3ccecb77476a14` قبل تحديث الأدلة.
+- Domain NUnit 62/62، Python simulator 11/11، وworkflow hygiene 6/6 — success.
+- Core NUnit 248/248 — success؛ Documentation Governance — success.
+- CodeQL C# وPython وActions — completed/success.
+- حُدثت GITHUB_TOOLING وTOOLING_MAP وSECURITY_TEST_PLAN وسجل D-08 لتتطابق مع SHA الحالي.
+- لا يعني نجاح CodeQL خلو التنبيهات؛ branch protection وalerts ما زالت غير قابلة للتحقق بصلاحيات التكامل. لم تتغير إعدادات GitHub.
+
+**الحالة:** STAGE 70 COMPLETE — CURRENT-HEAD CI AND CODEQL EVIDENCE REFRESHED; EXTERNAL SECURITY ALERT VISIBILITY REMAINS BLOCKED.

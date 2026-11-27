@@ -156,6 +156,7 @@
 - [المرحلة 67 — مراجعة حدود المصادقة والجلسات Pending — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE67_AUTH_PENDING_SESSION_BOUNDARY_2026-11-27.md)
 - [المرحلة 68 — مراجعة ترتيب command ingress وحدود الثقة — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE68_COMMAND_INGRESS_TRUST_CHAIN_2026-11-27.md)
 - [المرحلة 69 — مصالحة نموذج التهديد وخطة الاختبار الأمني مع التنفيذ — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE69_SECURITY_DOCS_IMPLEMENTATION_CROSSWALK_2026-11-27.md)
+- [المرحلة 70 — تحديث أدلة CI وCodeQL على رأس main الحالي — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE70_CURRENT_HEAD_CI_EVIDENCE_2026-11-27.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)

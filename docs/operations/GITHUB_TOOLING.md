@@ -1,3 +1,18 @@
+## 0.6 تحقق CI حي على الرأس الحالي — SHA `94b341a681930e875fdbeee6ff3ccecb77476a14` (2026-11-27)
+
+| الفحص | Run ID | Job ID | النتيجة |
+|---|---:|---:|---|
+| Domain and Python CI | 45919285815 | 140245891186 | success — Domain NUnit 62/62؛ Python simulator 11/11؛ workflow hygiene 6/6 |
+| Core CI (.NET 10) | 45919285831 | 140245891232 | success — Core NUnit 248/248 |
+| Documentation Governance | 45919285865 | 140245891424 | success |
+| CodeQL dynamic — C# | 45919285741 | 140245895248 | success |
+| CodeQL dynamic — Python | 45919285741 | 140245895605 | success |
+| CodeQL dynamic — Actions | 45919285741 | 140245895659 | success |
+
+هذه النتائج مرتبطة حصراً بـSHA `94b341a681930e875fdbeee6ff3ccecb77476a14`. سجلات الوظائف تؤكد 62/62 Domain، و248/248 Core، و11 اختبار simulator، و6 اختبارات workflow hygiene. نجاح CodeQL لا يكشف قائمة alerts ولا يثبت خلوها. لم تتغير إعدادات GitHub؛ قراءة branch protection والتنبيهات ما زالت محدودة الصلاحيات.
+
+---
+
 # أدوات GitHub — الحالة الفعلية وخطة الاستكمال
 
 ## 0.5 تحقق CI بعد تقوية fail-closed dequeue — SHA `d9c4e93e94c38d1c91c25414c96174eb4d8fa78e` (2026-11-27)
