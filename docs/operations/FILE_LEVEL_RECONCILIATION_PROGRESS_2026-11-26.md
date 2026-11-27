@@ -697,3 +697,18 @@
 - لا استعادة أو حذف أو تعديل، ولا تشغيل .NET/CI.
 
 **الحالة:** STAGE 30 COMPLETE — 37/37 LEGACY TEST NAMES MAPPED TO LIVE DOMAIN TESTS; ASSERTION-LEVEL EQUIVALENCE NOT CLAIMED.
+
+
+---
+
+## المرحلة 31 — إغلاق مطابقة محتوى ملفات المصدر مع الأرشيف (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE31_SOURCE_FULL_BLOB_CROSSWALK_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE31_SOURCE_FULL_BLOB_CROSSWALK_2026-11-27.md)
+
+- تم crosswalk كامل لكل 50 مسار src حي مع 58 مساراً أرشيفياً و268 ظهوراً.
+- 47/50 تطابق بايتياً مع نسخة أرشيفية؛ 3 مختلفة المحتوى: Domain/Debuff.cs وMatch.cs وMatchConfig.cs، والقرار KEEP_LIVE.
+- 8 مسارات أرشيفية فقط تحت Core القديم؛ لا استيراد.
+- ملفا csproj لهما نسختان أرشيفيتان والنسخة الحية تطابق إحداهما.
+- لا حذف أو استبدال أو نقل أو استيراد، ولا تشغيل .NET/CI.
+
+**الحالة:** STAGE 31 COMPLETE — ALL 50 LIVE SOURCE PATHS CROSSWALKED; 47 EXACT, 3 KEEP_LIVE DIFFS, 8 LEGACY ARCHIVE-ONLY.
