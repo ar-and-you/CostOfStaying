@@ -265,8 +265,9 @@ namespace CostOfStaying.Domain
         /// <summary>
         /// Attempt a suffering transfer. All conditions are checked atomically;
         /// on failure no gameplay state changes; rejection events may be recorded (RULE-02).
-        /// distanceMeters is the server-measured distance; the client never
-        /// decides range.
+        /// distanceMeters is supplied by the caller. A trusted server integration
+        /// must measure it; this aggregate validates the supplied value but does not
+        /// measure player positions or authenticate the caller.
         /// </summary>
         public TransferResult TryTransfer(Guid sourceId, Guid targetId, double distanceMeters, string requestId)
         {
