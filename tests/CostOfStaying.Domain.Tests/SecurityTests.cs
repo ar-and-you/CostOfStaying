@@ -5,9 +5,9 @@ using CostOfStaying.Domain;
 namespace CostOfStaying.Domain.Tests
 {
     /// <summary>
-    /// Server-authority invariants (ADR-002): clients cannot directly mutate
-    /// vitality, betrayal, decay rate, or match outcome. All mutations go
-    /// through validated Match methods using server clock.
+    /// Domain-side invariants for a future server-authoritative integration.
+    /// These tests exercise the Match API; they do not prove a trusted transport
+    /// or server adapter exists.
     /// </summary>
     [TestFixture]
     public class SecurityTests
@@ -15,9 +15,8 @@ namespace CostOfStaying.Domain.Tests
         [Test]
         public void Player_State_Cannot_Be_Mutated_Directly_From_Outside_Domain()
         {
-            // Verify that Player setters are internal — external code cannot do
-            // player.Vitality = 999. This is a compile-time guarantee, but we
-            // test the runtime that Tick is the only way to change vitality.
+            // Player setters are internal. This runtime test verifies the Tick
+            // mutation path; it is not a separate-assembly compile-time test.
             var config = new MatchConfig { BaseDecayPerSecond = 0.1, CollapseIntervalSeconds = 1000, CollapseIntervalThreeAliveSeconds = 1000 };
             var clock = new ManualClock(0);
             var match = new Match(Guid.NewGuid(), config, clock);
@@ -122,7 +121,7 @@ namespace CostOfStaying.Domain.Tests
         }
 
         [Test]
-        public void Transfer_Rejects_NonFinite_And_Negative_Server_Distances()
+        public void Transfer_Rejects_NonFinite_And_Negative_Distances_Supplied_To_Domain()
         {
             var config = new MatchConfig { TransferCooldownSeconds = 0 };
             var match = new Match(Guid.NewGuid(), config, new ManualClock(0));
