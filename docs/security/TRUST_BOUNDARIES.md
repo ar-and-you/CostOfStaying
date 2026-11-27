@@ -8,7 +8,7 @@
 1. العميل والجهاز والشبكة ومدخلات النقل غير موثوقة.
 2. لا يقرر العميل نتائج اللعب أو تغييرات الحالة؛ يرسل نوايا/أوامر فقط.
 3. لا تُعد هوية Actor موثوقة إلا بعد أن يحلها مضيف موثوق من جلسة مصادق عليها. Core الحالي لا يصادق Credentials بنفسه.
-4. لا يُقبل أمر حساس إلا بسياسة Gameplay صريحة ومحددة لنوع الأمر. غياب السياسة أو فشل تهيئتها يجب أن يمنع تشغيل مسار الأمر؛ لا توجد سياسة سماح افتراضية.
+4. لا يُقبل أمر حساس إلا بسياسة Gameplay صريحة ومحددة لنوع الأمر. غياب السياسة أو فشل تهيئتها يجب أن يمنع تشغيل مسار الأمر؛ لا توجد سياسة سماح افتراضية. مصانع admission الأدنى التي لا تطبق Gameplay policy أصبحت internal وليست public ingress.
 5. لا يثبت اجتياز بوابة Admission وحده أن الفعل نُفّذ أو أن أثره مشروع؛ يجب على معالج Gameplay الموثوق إعادة التحقق من شروط الفعل قبل تغيير الحالة.
 6. يجب أن تكون كل حالة وسجل Match-scoped معزولة عن المباريات الأخرى. أصبح `CoreComposition` يتطلب `MatchId` صالحاً ويربط به ledger وMatchLifecycle وMatchPlayerRegistry وVitalityAccount وCommandAdmissionQueue والـmatch services؛ اجتازت اختبارات Core على فرع المراجعة، والإغلاق على main ينتظر المراجعة والدمج.
 7. لا يُعتمد مزود خارجي أو يُدخل إلى الحل قبل إغلاق F-001 وF-002 بأدلة واختبارات.
@@ -36,7 +36,7 @@
 | MatchPlayerRegistry | roster لمباراة واحدة | وجود Actor ضمن roster وسعة التسجيل، ورفض VitalityAccount المنتمي إلى MatchId آخر | لا يقرر وحده صلاحية كل فعل أو حالة اللاعب. |
 | Command envelope/queue | command payload reference، sequence/admission، queue capacity، MatchId الخاص بالطابور | envelope والـsequence والحدود المحددة للطابور؛ queue يحمل MatchId وتتحقق factories من تطابق scope | لا يثبت سلامة payload من ناحية Gameplay ولا ينسخ/يجمد DTO. |
 | Payload validation service | تمرير payload validator قبل/بعد مسار التفويض وفق تركيب الخدمة | نتيجة validator المقدمة من التطبيق | لا يفرض raw frame/serializer quotas ولا يضمن immutability للـTCommand. |
-| MatchCommandAuthorizationService<T> | بوابة تفويض عامة لنوع T | session→Actor، roster، phase/player context، policy قبل admission وبعد dequeue | لا يوفر سياسات Gameplay فعلية تلقائياً ولا يضمن أن كل command type في المنتج مسجل. |
+| MatchCommandAuthorizationService<T> | بوابة تفويض عامة لنوع T | session→Actor، roster، phase/player context، policy قبل admission وبعد dequeue | لا يوفر سياسات Gameplay فعلية تلقائياً ولا يضمن أن كل command type في المنتج مسجل. مصانع admission-only أصبحت internal لمنع public bypass. |
 | Gameplay policy<T> | قرار سماح/رفض لنوع أمر محدد؛ يملكها التطبيق/المضيف | يجب أن تكون pure وside-effect-free وأن ترفض الحالات غير المصرح بها | لا توجد حالياً سياسات Gameplay إنتاجية معتمدة أو أنواع أوامر Gameplay ملموسة في Core. |
 | Gameplay handler (مستقبلي) | تنفيذ الفعل وامتلاك mutation | يجب أن يعيد التحقق من preconditions والعضوية والسلطة والحالة الحالية | لا يوجد handler متكامل موصول بطابور Core في main. |
 | BetrayalLedger | سجل الأحداث والدرجات داخل عمر instance | event validity، actor/victim non-zero، عدم self-betrayal، sequence monotonicity، exact replay | لا يتحقق من roster membership أو authorization؛ لا retention/persistence؛ single-writer فقط. |
@@ -53,7 +53,7 @@
 - لا يوجد transport ingress أو credential provider أو Dedicated Server في main.
 - Core يملك primitives للجلسات والعضوية والـqueue والـpayload validation والـauthorization.
 - `MatchCommandAuthorizationService<TCommand>` يتطلب policy غير null عند الإنشاء، ويعيد التحقق قبل القبول وبعد dequeue. هذا fail-closed على مستوى instance، لكنه ليس registry يثبت اكتمال سياسات جميع أنواع الأوامر.
-- لا توجد concrete Gameplay command DTOs أو سياسات لعب إنتاجية معتمدة أو handlers تربط Core بـDomain.
+- لا توجد concrete Gameplay command DTOs أو سياسات لعب إنتاجية معتمدة أو handlers تربط Core بـDomain. راجع [جرد الأوامر الحساسة وسياسات التفويض](SENSITIVE_COMMAND_POLICY_CATALOG.md)؛ كل mutation معروفة مصنفة مع TBD صريح.
 - يجب أن تكون DTOs immutable أو تنتقل ملكيتها حصرياً للمضيف بعد handoff؛ validator لا يجمد الكائن.
 - حدود frame size وdecompression وserializer recursion والـrate limiting تقع قبل Core في host/transport.
 
@@ -65,6 +65,7 @@
 - Trusted Gameplay Handler مسؤول عن التحقق النهائي من Actor وVictim والسلطة والـpreconditions ثم إصدار الحدث.
 - لا يكفي مرور الأمر عبر `MatchCommandAuthorizationService` لإثبات أن التسجيل جاء من handler موثوق.
 - `CoreComposition.BetrayalLedger` يكشف الآن واجهة قراءة عامة فقط؛ أزيل `TryRecord` من `IBetrayalLedger` وأصبح method داخلياً على `BetrayalLedger` لمنع المستهلك الخارجي من التسجيل المباشر أو الوصول إليه عبر cast.
+- `VictimId` و`ActorId` نوعان منفصلان، ولا يوجد حالياً mapping contract بينهما؛ لذلك لا يمكن ادعاء التحقق من عضوية Victim في `MatchPlayerRegistry` قبل حسم هذا الربط.
 - هذا تخفيف فعلي لمسار التجاوز العام، لكنه لا يثبت وجود Trusted Gameplay Handler ولا يضيف membership/authority validation؛ لذلك تبقى F-002 مفتوحة.
 - لا تُضف retention أو eviction قبل قرار عمر المباراة ودلالات replay والاستعادة.
 
