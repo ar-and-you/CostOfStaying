@@ -17,7 +17,7 @@
 | إحياء — `TryResurrect(uint)` | `Core/Domain/VitalityAccount.cs` | Spirit → Alive وCurrent | يتطلب Spirit ومقداراً موجباً؛ يحد Current بـMaximum | **TBD**؛ تعليق الكود يحيل التفويض والتكلفة وcooldown إلى المستدعي، لكن لا توجد سياسة معتمدة | غياب policy أو عدم حسم شروطها = رفض؛ لا تستنتج صلاحية Spirit أو أي دور من primitive |
 | إقصاء — `TryEliminate()` | `Core/Domain/VitalityAccount.cs` | Alive/Spirit → Eliminated | يرفض فقط إذا كانت الحالة Eliminated؛ وإلا يجعلها نهائية | **TBD**؛ لا توجد قاعدة منتج أو عملية Domain موحدة معتمدة | غياب policy صريحة = رفض |
 | نقل المعاناة — `Match.TryTransfer(sourceId,targetId,distanceMeters,requestId)` | `Domain/Match.cs` | Debuffs للطرفين، LastTransferAt، ProcessedRequestIds، BetrayalPoints، Events | الكود يتحقق من نشاط المباراة، المدخلات، التكرار، اختلاف الطرفين، وجود اللاعبين، Alive، وجود عبء قابل للنقل، المسافة، cooldown، وسعة الهدف؛ ثم ينقل العبء ويزيد Betrayal عند النجاح | **TBD** كصلاحية أمر: لا يوجد Core command DTO أو host adapter يثبت هوية المصدر أو يقيس المسافة. قواعد RULE-02 ما زالت PROPOSED FOR PLAYTEST | الشروط الحالية هي منطق aggregate وليست إثباتاً لهوية المستدعي أو موثوقية distance؛ يجب رفض ingress غير المصرح |
-| تسجيل حدث Betrayal — `BetrayalLedger.TryRecord(BetrayalEvent)` | `Core/Domain/BetrayalLedger.cs` | سجل الأحداث ودرجة Actor | يتحقق من بنية الحدث، عدم self-betrayal، تسلسل الحدث وexact replay | **TBD**؛ يتطلب handler موثوقاً وعضوية الطرفين وسلطة الفعل | لا يوجد مسار Gameplay موثوق مكتمل حالياً؛ لا تسجيل حتى اكتماله |
+| تسجيل حدث Betrayal — `BetrayalLedger.TryRecord(BetrayalEvent)` | `Core/Domain/BetrayalLedger.cs` | سجل الأحداث ودرجة Actor | يتحقق من صلاحية الهويات غير الصفرية وبنية الحدث وتسلسل الحدث وexact replay؛ لا يستطيع مقارنة ActorId وVictimId عددياً لإثبات self-betrayal لأنهما مجالا هوية مختلفان | **TBD**؛ يتطلب handler موثوقاً وعضوية الطرفين وسلطة الفعل | لا يوجد مسار Gameplay موثوق مكتمل حالياً؛ لا تسجيل حتى اكتماله |
 
 ## 2. حدود الهوية التي تمنع اختراع تحقق العضوية
 
@@ -75,7 +75,7 @@
 - لكل command: allow/deny حسب phase وactor state.
 - policy خاطئة أو permissive → deny وفق مواصفة الأمر المعتمدة.
 - كل command حساس في catalog مسجل مرة واحدة ولا توجد أوامر حساسة خارج catalog.
-- Betrayal: Actor غير عضو، Victim غير عضو، Actor غير مطابق للهوية المصادق عليها، والسلطة غير متحققة.
+- Betrayal: Actor غير عضو، Victim غير عضو بعد اعتماد mapping، Actor غير مطابق للهوية المصادق عليها، والسلطة غير متحققة، وself-targeting بعد اعتماد هوية هدف canonical؛ لا تستخدم مقارنة القيم الرقمية بين ActorId وVictimId.
 
 ## 6. المراجع الحاكمة
 
