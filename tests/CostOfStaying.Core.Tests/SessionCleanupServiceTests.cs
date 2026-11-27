@@ -13,7 +13,7 @@ namespace CostOfStaying.Core.Tests
         public void Constructor_RejectsNullDependencies()
         {
             var sessions = new SessionRegistry(4);
-            var queue = new CommandAdmissionQueue<string>(4, 4, 4);
+            var queue = new CommandAdmissionQueue<string>(new MatchId(1), 4, 4, 4);
             Assert.Throws<System.ArgumentNullException>(() => new SessionCleanupService<string>(null!, queue));
             Assert.Throws<System.ArgumentNullException>(() => new SessionCleanupService<string>(sessions, null!));
         }
@@ -88,7 +88,7 @@ namespace CostOfStaying.Core.Tests
             out CommandAdmissionQueue<string> queue)
         {
             sessions = new SessionRegistry(4);
-            queue = new CommandAdmissionQueue<string>(4, 1, 4);
+            queue = new CommandAdmissionQueue<string>(new MatchId(1), 4, 1, 4);
             return new SessionCleanupService<string>(sessions, queue);
         }
 
