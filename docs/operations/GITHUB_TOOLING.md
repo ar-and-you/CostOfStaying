@@ -186,7 +186,7 @@
 - **Dependabot security updates:** معطّلة في قراءة 2026-11-24. لم يُضف `.github/dependabot.yml`، ولن تُفعّل التحديثات الأمنية الآلية دون توجيه جديد من مالك المشروع؛ تجنباً لفتح PRs آلية. لا تخلط بين تنبيهات Dependabot (التي لم تُقرأ) والتحديثات الآلية.
 - **CodeQL:** أظهرت المراجعة المؤرخة 2026-11-22 إعداد GitHub default setup للغات C# وPython وGitHub Actions، باستخدام query suite `default` وthreat model `remote_and_local`. لا ينتج ذلك ملف workflow في المستودع. اكتمل التشغيل الأول [45004680726](https://github.com/ar-and-you/CostOfStaying/actions/runs/45004680726) بحالة `completed/success` على SHA الأساس `1b209b79261cba617bb68615746f115970422a8f`. لم تُعد قراءة إعداد CodeQL في فحص 2026-11-24.
 - **قراءة Code Scanning:** أعادت `GET /code-scanning/alerts?per_page=1` في 2026-11-24 الخطأ `403 Resource not accessible by integration`. نجاح تشغيل CodeQL لا يكشف وحده قائمة التنبيهات؛ لا يمكن الجزم بعدم وجود نتائج.
-- لا يوجد في المستودع حالياً `security.yml` أو gitleaks أو actionlint أو zizmor workflow، ولا اختبارات إعداد GitHub في `tools/github_config_tests/`.
+- لا يوجد `security.yml` أو gitleaks أو اختبارات إعداد GitHub في `tools/github_config_tests/`. أضيف تشغيل `actionlint` و`zizmor` داخل `ci.yml` على فرع المراجعة الأمني فقط؛ يلزم انتظار CI على الرأس الناتج قبل تسجيلهما كـVERIFIED، ولا يعدّان جزءاً من `main` قبل الدمج.
 
 ## 4. حماية الفرع والحوكمة
 
