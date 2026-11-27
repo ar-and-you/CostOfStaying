@@ -638,3 +638,18 @@
 - لا حذف أو نقل أو استيراد أو دفع bundles/ZIP.
 
 **الحالة:** STAGE 26 COMPLETE — LEGACY SNAPSHOT/ARCHIVE MATERIAL TRIAGED; LIVE MAIN REMAINS SOLE AUTHORITY.
+
+
+---
+
+## المرحلة 27 — مطابقة أدوات المشروع وفرز الأدوات الأرشيفية (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE27_TOOLS_CROSSWALK_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE27_TOOLS_CROSSWALK_2026-11-27.md)
+
+- 14 مسار tools أرشيفياً؛ 7 مشتركة بالاسم مع main، و7 أرشيفية فقط.
+- من المسارات المشتركة: presets.json تطابق بايتياً؛ 6 ملفات أخرى مختلفة المحتوى، والنسخ الحية تبقى.
+- الأدوات الأرشيفية فقط تعتمد على حوكمة/Workflows/قوالب غير موجودة؛ tools/audit.py وgithub_config_tests وrepo_setup وagent dispatch لا تنقل كما هي.
+- ملف pycache لا يستورد. الأدوات الحية فقط تشمل docs_audit.sh وplaytest/test_cli.py.
+- لا حذف أو استبدال أو نقل أو استيراد أو تشغيل للأدوات الأرشيفية.
+
+**الحالة:** STAGE 27 COMPLETE — TOOLS CROSSWALKED; LEGACY TOOLING BLOCKED BY MISSING/STALE DEPENDENCIES.
