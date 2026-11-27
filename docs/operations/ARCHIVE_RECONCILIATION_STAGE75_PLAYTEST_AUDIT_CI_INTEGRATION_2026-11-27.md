@@ -61,6 +61,15 @@
 
 ## 6. التحقق
 
-تُربط نتيجة الاختبار والتشغيل بـSHA الذي يحتوي التغييرات. عند إعداد هذا التقرير كانت تشغيلات CI على SHA المرحلة السابقة قد بدأت/اكتملت جزئياً؛ لا يُعلن نجاح smoke test الجديد قبل قراءة تشغيل Domain/Python على SHA الذي يتضمن `test_smoke.py`. يجب تحديث سجل التحقق بعد انتهاء تشغيلات Actions الفعلية.
+تم التحقق من تشغيلات Actions على SHA `181a4ba486d5d7533afd9112637f9e12b4db5bd5`، وهو يتضمن `test_smoke.py` وتعديل workflow:
+
+| الفحص | Run ID | Job ID | النتيجة |
+|---|---:|---:|---|
+| Domain and Python CI | 45984301902 | 140455855830 | completed / success؛ بما في ذلك bounded simulated-playtest smoke test |
+| Core CI (.NET 10) | 45984301845 | 140455855858 | completed / success |
+| Documentation Governance | 45984301778 | 140455855173 | completed / success |
+| CodeQL dynamic — C# / Python / Actions | 45984301398 | 140455860345 / 140455860339 / 140455859843 | جميع الوظائف completed / success |
+
+تؤكد سجلات الوظائف نجاح Domain NUnit وPython simulator وCLI regression و`Run bounded simulated-playtest smoke test` على SHA نفسه. نجاح CodeQL يثبت اكتمال التحليل فقط؛ لا يكشف قائمة alerts ولا يثبت خلوها. هذه نتائج تشغيلات SHA المحدد، وليست ضماناً تلقائياً لأي commit لاحق.
 
 **الحالة:** STAGE 75 IMPLEMENTED — BOUNDED SIMULATED-PLAYTEST SMOKE TEST ADDED TO CI; LEGACY AUDIT TOOL IMPORT REMAINS OUT OF SCOPE PENDING VERIFIED SOURCE.
