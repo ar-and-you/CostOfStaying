@@ -10,7 +10,7 @@
 3. لا تُعد هوية Actor موثوقة إلا بعد أن يحلها مضيف موثوق من جلسة مصادق عليها. Core الحالي لا يصادق Credentials بنفسه.
 4. لا يُقبل أمر حساس إلا بسياسة Gameplay صريحة ومحددة لنوع الأمر. غياب السياسة أو فشل تهيئتها يجب أن يمنع تشغيل مسار الأمر؛ لا توجد سياسة سماح افتراضية.
 5. لا يثبت اجتياز بوابة Admission وحده أن الفعل نُفّذ أو أن أثره مشروع؛ يجب على معالج Gameplay الموثوق إعادة التحقق من شروط الفعل قبل تغيير الحالة.
-6. يجب أن تكون كل حالة وسجل Match-scoped معزولة عن المباريات الأخرى. القيد الحالي في CoreComposition غير مفروض بالكامل بعد.
+6. يجب أن تكون كل حالة وسجل Match-scoped معزولة عن المباريات الأخرى. أصبح `CoreComposition` يتطلب `MatchId` صالحاً ويربط به ledger وMatch factories؛ تبقى اختبارات العزل مطلوبة قبل إغلاق F-004.
 7. لا يُعتمد مزود خارجي أو يُدخل إلى الحل قبل إغلاق F-001 وF-002 بأدلة واختبارات.
 
 ## 2. مناطق الثقة
@@ -40,7 +40,7 @@
 | Gameplay policy<T> | قرار سماح/رفض لنوع أمر محدد؛ يملكها التطبيق/المضيف | يجب أن تكون pure وside-effect-free وأن ترفض الحالات غير المصرح بها | لا توجد حالياً سياسات Gameplay إنتاجية معتمدة أو أنواع أوامر Gameplay ملموسة في Core. |
 | Gameplay handler (مستقبلي) | تنفيذ الفعل وامتلاك mutation | يجب أن يعيد التحقق من preconditions والعضوية والسلطة والحالة الحالية | لا يوجد handler متكامل موصول بطابور Core في main. |
 | BetrayalLedger | سجل الأحداث والدرجات داخل عمر instance | event validity، actor/victim non-zero، عدم self-betrayal، sequence monotonicity، exact replay | لا يتحقق من roster membership أو authorization؛ لا retention/persistence؛ single-writer فقط. |
-| CoreComposition | إنشاء Core services ويمتلك ledger واحداً | لا يفرض MatchId عند الإنشاء | يمكن إساءة استخدام instance واحد عبر عدة MatchIds؛ host contract حالياً وليس invariant مفروضاً. |
+| CoreComposition | إنشاء Core services ويمتلك ledger واحداً لمباراة واحدة | يفرض `Create(MatchId)` صالحاً؛ MatchLifecycle وMatchPlayerRegistry وmatch services تُنشأ/تُقبل فقط ضمن MatchId نفسه | لا يفرض global active-match cap؛ host مسؤول عن إنشاء composition مستقل لكل مباراة وإدارة دورة حياته. |
 | Domain Match | gameplay aggregate الحالي: Vitality/Collapse/Transfer/Vote/Spirit/events | قواعد المجال داخل aggregate وفق API الحالي | ليس Core host ولا transport؛ بعض المدخلات مثل distance يقدمها caller؛ لا ضمان شبكي. |
 
 ## 4. سلسلة الأمر وحدودها الحالية
@@ -70,7 +70,7 @@
 
 ## 6. Match isolation ودورة الحياة
 
-**الوضع الحالي:** `CoreComposition.Create()` لا يستقبل MatchId؛ ويملك ledger واحداً، بينما يستطيع instance نفسه إنشاء MatchLifecycle وMatchPlayerRegistry بمعرفات مختلفة. لذلك فإن instance-per-match توجيه موثق وليس invariant مفروضاً. لا يوجد دليل على تلوث runtime فعلي لعدم وجود host متصل.
+**الوضع الحالي بعد تعديل F-004 على فرع العمل:** `CoreComposition.Create(MatchId)` يتطلب معرفاً صالحاً، ويحتفظ به كهوية scope. `CreateMatchLifecycle()` و`CreateMatchPlayerRegistry(capacity)` يستخدمان هذا المعرف حصراً، كما ترفض factories تمرير match/roster من scope آخر. لا يمكن استخدام instance واحد لإنشاء موارد لمعرفات متعددة عبر API العامة. لم يُشغّل الاختبار بعد، ولم يُدمج التغيير في main.
 
 **المطلوب قبل اعتماد العزل:** ربط composition أو ledger بهوية مباراة واحدة، ورفض إنشاء/تمرير موارد Match-scoped بمعرف مختلف، واختبار عزل تركيبتين. يجب جرد الموارد أولاً للتمييز بين Match-scoped وHost-scoped وSession-scoped.
 
