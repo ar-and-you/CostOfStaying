@@ -18,6 +18,10 @@
 
 راجع [المرحلة 72 — جرد الاعتماديات وجاهزية Dependabot](../operations/ARCHIVE_RECONCILIATION_STAGE72_DEPENDABOT_DEPENDENCY_READINESS_2026-11-27.md). لم يُضف `.github/dependabot.yml` ولم تُفعّل PRs آلية: سياسة Git الحية تعتمد الدفع المباشر إلى `main`، والاتصال المتاح لا يملك صلاحية إدارة المستودع (`admin=false`). حالة التنبيهات والإعدادات الحالية UNKNOWN / NOT VERIFIED؛ لا تُستنتج خلوها من خطأ 403.
 
+## تدقيق تاريخ Git — 2026-11-27
+
+محاولة mirror clone في المرحلة 73 تعذرت بسبب `Could not resolve host: github.com`، ولم يكن Gitleaks مثبتاً في بيئة التنفيذ. لذلك **لم يُنفذ مسح تاريخي كامل** ولا يجوز إعلان خلو المستودع من الأسرار. راجع [تقرير المرحلة 73](../operations/ARCHIVE_RECONCILIATION_STAGE73_GIT_HISTORY_SECRET_SCAN_BLOCKER_2026-11-27.md) لإجراءات الإغلاق.
+
 ## جرد أسرار CI المستقبلية
 
 لا يحتاج خطّا CI الحاليان إلى أسرار نشر. تُضاف الأسرار فقط عند إدخال تكامل يتطلبها، ويفضل وضعها داخل GitHub Environment مخصص لكل بيئة.
