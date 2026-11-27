@@ -19,6 +19,7 @@ namespace CostOfStaying.Core.Tests
             int capacity)
         {
             return new CommandAdmissionQueue<TestCommand>(
+                new MatchId(1),
                 maximumSequenceJump,
                 maximumTrackedSessions,
                 capacity);
