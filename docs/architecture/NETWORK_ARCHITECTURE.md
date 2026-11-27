@@ -29,3 +29,10 @@ Core يعرّف SessionState: Pending, Authenticated, Disconnected, Closed. Sess
 SessionRegistry يسمح بأكثر من SessionId لنفس ActorId ولا يفرض سياسة multi-session. ConnectionSessionRegistry يفرض one-to-one بين TransportConnectionId وSessionId، لكنه يسمح لعدة sessions بالارتباط بنفس ActorId؛ يجب أن يخصص transport adapter ConnectionId جديداً غير معاد الاستخدام خلال عمر العملية. Detach/Close/queue drain خطوات منفصلة؛ لا يوجد reconnect coordinator أو session lease/timeout داخل Core.
 
 هذا وصف للـprimitives الحالية فقط؛ لا يحسم هل اللاعب يعود إلى نفس Match/roster/vote، أو هل يسمح المنتج بأكثر من جلسة نشطة للحساب نفسه.
+
+
+## Authentication and Pending Session boundary
+
+ConnectionSessionRegistry binds a server-issued TransportConnectionId to a registered Pending Session before authentication so trusted ingress can resolve the session while validating credentials. The binding itself does not authenticate. SessionLifecycle.TryAuthenticate accepts only a validated ActorId and stores no credential/token; CommandAdmissionService rejects commands until the state is Authenticated. The application/host must validate credentials and bind the resulting account to a server-issued ActorId before calling TryAuthenticate.
+
+A Pending session consumes bounded SessionRegistry and connection capacity until it is closed and cleaned up. Core has no pending-session TTL, authentication-failure counter, rate limiter, credential validator, identity provider, or account-to-ActorId mapping. Host must expire/close stale pending sessions, limit authentication attempts, and detach connection mappings on disconnect. TryAuthenticate is a trusted application boundary, not a credential check.

@@ -1234,3 +1234,18 @@
 - D-R3 وسياسة multi-session تبقيان مفتوحتين؛ لا تغيير source/tests.
 
 **الحالة:** STAGE 66 COMPLETE — SESSION RECONNECT BOUNDARY DOCUMENTED.
+
+
+---
+
+## المرحلة 67 — مراجعة حدود المصادقة والجلسات Pending (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE67_AUTH_PENDING_SESSION_BOUNDARY_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE67_AUTH_PENDING_SESSION_BOUNDARY_2026-11-27.md)
+
+- ConnectionSessionRegistry يربط connection server-issued بـPending Session قبل authentication؛ الربط لا يصادق.
+- TryAuthenticate يقبل ActorId موثوقاً من host؛ Core لا يتحقق من credentials ولا يخزن tokens.
+- Pending sessions تشغل capacity حتى close/detach/cleanup؛ لا TTL أو auth rate limiter داخل Core.
+- D5b يبقى مفتوحاً لاختيار transport/credential provider وpending-session policy.
+- لا تغيير code/tests.
+
+**الحالة:** STAGE 67 COMPLETE — AUTH/PENDING SESSION BOUNDARY DOCUMENTED.

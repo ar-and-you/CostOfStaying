@@ -16,7 +16,7 @@
 | D3 — branch protection وسياسة الفروع | BLOCKED_BY_EVIDENCE_AND_OWNER | قراءة 2026-11-22 تاريخية؛ endpoint أعاد 403 في 2026-11-26؛ الحالة الحالية UNKNOWN، ولا تغيير إعدادات دون قرار |
 | D4 — قرارات المنتج D-R1..D-R7 | OPEN_OWNER_DECISION | جميع القرارات أدناه مفتوحة |
 | D5a — Unity editor/version | OPEN_TECHNICAL_SPIKE | لا Unity project أو prototype؛ لا اعتماد إصدار نهائي |
-| D5b — transport/network library | OPEN_TECHNICAL_SPIKE | لا adapter أو prototype مقارنة؛ العميل/الخادم غير موجودين |
+| D5b — transport/network/authentication boundary | OPEN_TECHNICAL_SPIKE | لا adapter أو credential provider؛ host يجب أن يصادق credentials ويربط account→ActorId، ويضع Pending TTL/rate limits ويغلق الجلسات stale |
 | D6 — hosting/operations | OPEN_OWNER_DECISION | لا اختيار مزود أو نموذج نشر أو server runtime |
 | D7 — consent/privacy/retention protocol | OPEN_OWNER_DECISION | لا بروتوكول موافقة/احتفاظ/حذف معتمد لجلسات بشرية |
 | D8 — 10 جلسات بشرية وقرار القواعد/التوازن | BLOCKED_ON_HUMAN_PLAYTEST | سجلات المحاكاة العشرة لا تحتسب جلسات بشرية؛ راجع PLAYTEST_PLAN والمرحلة 24 |
