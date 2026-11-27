@@ -981,3 +981,17 @@
 - لا حذف أو نقل أو استيراد أو استبدال.
 
 **الحالة:** `STAGE 49 COMPLETE — ALL 100 ARCHIVE-ONLY DOC PATHS ACCOUNTED FOR; CONTENT-LEVEL RECONCILIATION REMAINS SCOPED TO PRIOR REPORTS.`
+
+
+---
+
+## المرحلة 50 — مصفوفة إغلاق المسارات الأرشيفية غير المنقولة على مستوى المستودع (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE50_GLOBAL_ARCHIVE_PATH_CLOSURE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE50_GLOBAL_ARCHIVE_PATH_CLOSURE_2026-11-27.md)
+
+- أُعيد تجميع crosswalk العالمي: 309 مسارات أرشيفية فريدة؛ main الحالي 243 tracked blobs؛ 138 مشتركة، 171 archive-only، و105 live-only.
+- مجموعات archive-only: docs100، src8، tests6، tools7، .github25، github15، root10؛ لكل مجموعة تقرير تصنيف.
+- Path-level reconciliation مكتمل ضمن الفئات السبع؛ content-level/semantic review جزئي ومقيد بالتقارير.
+- لا استيراد أو نقل أو حذف أو استبدال؛ main هو المصدر الوحيد الحي.
+
+**الحالة:** `STAGE 50 COMPLETE — GLOBAL ARCHIVE-ONLY PATH MATRIX RECONCILED; SEMANTIC AND OWNER-DECISION WORK REMAINS OPEN.`
