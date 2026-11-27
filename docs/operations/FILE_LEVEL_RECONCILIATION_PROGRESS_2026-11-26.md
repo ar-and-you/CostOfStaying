@@ -950,3 +950,18 @@
 - لا نقل أو تطبيق أو تعديل إعدادات GitHub، ولا تشغيل scanners أو تثبيت تبعيات.
 
 **الحالة:** `STAGE 47 COMPLETE — ARCHIVED GITHUB TEMPLATES/CONFIG REVIEWED; NO DIRECT IMPORT OR RULESET APPLICATION.`
+
+
+---
+
+## المرحلة 48 — إغلاق فجوة تصويت Spirit وتقوية اختبارات النقل (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE48_SPIRIT_AND_TRANSFER_TEST_STRENGTHENING_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE48_SPIRIT_AND_TRANSFER_TEST_STRENGTHENING_2026-11-27.md)
+
+- اكتُشف أن اختبار `Spirit_CannotTransferOrVote` القديم كان يختبر النقل فقط؛ فُصل إلى `Spirit_Cannot_Transfer` وأضيف `Spirit_Cannot_Cast_Vote` في حالة VoteOpen فعلية.
+- قُويت assertions في Transfer لحفظ المدة ورفض TargetFull وAtomic failure؛ تتحقق من هوية Debuffs وBetrayal وProcessedRequestIds وTransferRejected events.
+- القياس الحالي للمجموعة: 49 method و150 assertion في Domain مقابل 37 method و83 assertion في Core archive؛ كل السيناريوهات القديمة ممثلة دلالياً.
+- حُذف تقرير المرحلة 45 المكرر غير المفهرس بعد أن رصده Docs Governance كـorphan؛ بقي التقرير المعتمد مفهرساً.
+- لا تعديل production code أو قواعد لعب أو إعدادات GitHub. CI النهائي على الرأس بعد التوثيق مطلوب.
+
+**الحالة:** `STAGE 48 IMPLEMENTED — TEST ASSERTIONS STRENGTHENED; CI VERIFICATION PENDING.`
