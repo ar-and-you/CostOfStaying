@@ -174,6 +174,8 @@
 - [تكامل Unity وCI المحمول — غير منفذ](operations/UNITY_MOBILE_CI.md)
 - [تقرير الدمج الوثائقي المؤرخ](operations/MAIN_DOCUMENTATION_MERGE_2026-11-23.md)
 
+- [جرد الأوامر الحساسة وسياسات التفويض](security/SENSITIVE_COMMAND_POLICY_CATALOG.md) — عمليات mutation الحالية وحقول TBD وحدود F-001/F-002.
+
 ## الأرشيف التاريخي
 
 - [تنبيه الأرشيف وحدود سلطته](archive/README.md)
