@@ -142,7 +142,7 @@ namespace CostOfStaying.Core.Tests
 
             IMatchPlayerRegistry players = composition.CreateMatchPlayerRegistry(4);
             var actorId = new ActorId(77);
-            Assert.That(players.Register(new VitalityAccount(actorId)).IsSuccess, Is.True);
+            Assert.That(players.Register(new VitalityAccount(new MatchId(9), actorId)).IsSuccess, Is.True);
 
             session = new SessionLifecycle(new SessionId(12));
             Assert.That(sessions.Register(session).IsSuccess, Is.True);
