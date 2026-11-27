@@ -668,3 +668,17 @@
 - لا تغيير في workflows أو إعدادات GitHub، ولا تشغيل CI.
 
 **الحالة:** STAGE 28 COMPLETE — GITHUB CONFIG PATH/CURRENT WORKFLOW CROSSWALK; LEGACY WORKFLOW ADOPTION BLOCKED PENDING REVIEW.
+
+
+---
+
+## المرحلة 29 — مطابقة ملفات الجذر وإعدادات البناء العامة (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE29_ROOT_CONFIG_CROSSWALK_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE29_ROOT_CONFIG_CROSSWALK_2026-11-27.md)
+
+- 10 ملفات جذر مشتركة: 3 تطابقات بايتية (solution وLICENSE وglobal.json)، و7 اختلافات محتوى تبقى فيها النسخ الحية.
+- 4 إعدادات أرشيفية فقط: codespell، gitattributes، gitleaks، markdownlint؛ لم تثبت أداة/Workflow حي يستخدمها، وgitattributes يتطلب مراجعة خصوصاً مع ملفات Unity .meta.
+- 6 تقارير audit جذرية تطابق بايتياً نظائرها في docs/archive/legacy-full-backup؛ لا نسخ موازية.
+- لا تغيير في إعدادات البناء أو lint/security، ولا تشغيل build أو scans.
+
+**الحالة:** STAGE 29 COMPLETE — ROOT CONFIG CROSSWALK; FOUR ARCHIVE-ONLY TOOL CONFIGS REQUIRE EXPLICIT TOOLCHAIN ADOPTION.
