@@ -1204,3 +1204,18 @@
 - D-04 توسع ليشمل Core ledger؛ لا cap أو eviction دون سياسة وقياس.
 
 **الحالة:** STAGE 64 COMPLETE — CORE CAPACITY BOUNDS MAPPED; UNBOUNDED LEDGER/HOST LIMITS OPEN.
+
+
+---
+
+## المرحلة 65 — التحقق من عزل match scope في CoreComposition (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE65_CORECOMPOSITION_SCOPE_ISOLATION_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE65_CORECOMPOSITION_SCOPE_ISOLATION_2026-11-27.md)
+
+- CoreComposition موصوف بأنه instance لكل match لكنه لا يستقبل MatchId ولا يفرض ذلك.
+- يمكن composition واحد إنشاء عدة MatchLifecycle، بينما BetrayalLedger واحد مشترك ولا يحمل MatchId.
+- اختبارات composition تثبت العزل بين instances منفصلة فقط، ولا تمنع reuse داخل أكثر من match.
+- يجب على host فرض instance-per-match أو اعتماد API binding لاحقاً؛ لا تغيير source/tests الآن.
+- لا يوجد server host حالي، لذلك الخطر تكاملي مستقبلي.
+
+**الحالة:** STAGE 65 COMPLETE — CORE MATCH-SCOPE ISOLATION CONTRACT DOCUMENTED.

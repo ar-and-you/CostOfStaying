@@ -84,3 +84,8 @@ Core VitalityAccount ليس Match gameplay aggregate: منشؤه الداخلي 
 BetrayalLedger يستقبل BetrayalEvent بعد التحقق من non-zero ActorId/VictimId وعدم self-betrayal وتسلسل EventSequenceId، لكنه لا يتحقق من عضوية Actor/Victim في MatchPlayerRegistry. Host يجب أن يتحقق من roster والسلطة قبل TryRecord. يخزن ledger كل sequence/event فريد للتمييز بين exact replay وsequence reuse المختلف؛ لذلك لا يمكن تقليم السجل دون قرار يغير idempotency semantics.
 
 **القرار:** لا cap رقمي أو eviction policy من دون workload ومدة match وقرار الاحتفاظ. D-04 يشمل الآن Core ledger إضافة إلى Domain event/request/echo collections.
+
+
+### Scope isolation caveat for CoreComposition
+
+CoreComposition documents one instance per match scope and owns one BetrayalLedger, but its public Create() factory takes no MatchId and the instance can create multiple MatchLifecycle/MatchPlayerRegistry objects with different MatchIds. The ledger itself stores no MatchId. Reusing one composition across matches would therefore share event sequence and betrayal scores across those matches. Current tests prove separate composition instances isolate ledgers; they do not enforce one composition per match. Until the API binds a composition to one MatchId, the host must enforce this lifecycle invariant. No code change is made here because binding scope is a public API/design decision.

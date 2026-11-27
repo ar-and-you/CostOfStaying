@@ -33,6 +33,10 @@
 - يحتفظ بالأحداث القديمة لتمييز exact replay (يرجع false) عن إعادة استخدام sequence مع payload مختلف (يرمي InvalidOperationException).
 - أي eviction يغير replay semantics؛ لا ينفذ دون قرار retention واضح.
 
+## Scope isolation finding
+
+CoreComposition يوصي بإنشاء instance لكل match، لكنه لا يفرض ذلك: Create() بلا MatchId، ويمكن للinstance إنشاء أكثر من MatchLifecycle وMatchPlayerRegistry بمعرفات مختلفة، بينما BetrayalLedger واحد مشترك ولا يحمل BetrayalEvent أي MatchId. الاختبارات تثبت فقط أن compositionين منفصلين يملكان ledger منفصلين؛ لا تمنع مشاركة composition واحد بين matches. هذا قد يخلط sequence IDs وscores بين المباريات إذا خالف host العقد.
+
 ## القرار
 
 - D-04 يتسع ليشمل Core BetrayalLedger إضافة إلى Domain collections.

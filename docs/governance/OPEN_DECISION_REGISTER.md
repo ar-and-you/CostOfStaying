@@ -81,7 +81,7 @@ D-08 موثق على SHA المذكور فقط؛ لا تنقل نتيجته إل
 
 - SessionRegistry وMatchPlayerRegistry وConnectionSessionRegistry وCommandAdmissionQueue وCommandSequenceTracker محدودة بسعات صريحة من host.
 - BetrayalLedger._events غير محدود، و_scores لا يملك سقفاً مستقلاً؛ exact replay behavior يعتمد على سجل الأحداث.
-- لا global active-match cap في CoreComposition، ولا payload size limit داخل TCommand.
+- لا global active-match cap في CoreComposition، ولا payload size limit داخل TCommand. Create() لا يستقبل MatchId ولا يفرض instance-per-match؛ composition واحد قد يشارك BetrayalLedger بين عدة MatchIds إذا أسيء استخدامه.
 - يلزم host roster/authority validation قبل BetrayalLedger.TryRecord، مع سياسة event retention وmatch concurrency قبل الإنتاج.
 
 
