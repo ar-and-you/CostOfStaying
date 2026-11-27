@@ -117,12 +117,15 @@ namespace CostOfStaying.Domain.Tests
             clock.Advance(20);
             match.Tick(20);
             Assert.That(match.Players[pid].Debuffs.Count, Is.EqualTo(1));
-            // Advance past 30s debuff duration
+            string firstDebuffId = match.Players[pid].Debuffs[0].Id;
+
+            // Advance beyond the first debuff's 30s lifetime. The next collapse
+            // is due before this tick ends; Match processes it at the tick endpoint.
             clock.Advance(30);
             match.Tick(30);
-            // First debuff expired; but a second collapse happened at 40s, so one remains
-            // We check that the original expired: remaining debuff should be the second one
+
             Assert.That(match.Players[pid].Debuffs.Count, Is.EqualTo(1));
+            Assert.That(match.Players[pid].Debuffs[0].Id, Is.Not.EqualTo(firstDebuffId));
         }
 
         [Test]
@@ -146,14 +149,14 @@ namespace CostOfStaying.Domain.Tests
         }
 
         [Test]
-        public void Server_Clock_Is_Authority_Delta_Not_Client()
+        public void Tick_Uses_The_Delta_Provided_By_Its_Caller()
         {
             var match = CreateMatch();
             var clock = (ManualClock)match.Clock;
             var pid = Guid.NewGuid();
             match.AddPlayer(pid);
             match.Start();
-            // Client claims 1000s passed, but server delta is 10
+            // Domain consumes the supplied delta; this unit test does not establish a network trust boundary.
             clock.Advance(10);
             match.Tick(10);
             Assert.That(match.Players[pid].Vitality, Is.EqualTo(99.0).Within(1e-9));
