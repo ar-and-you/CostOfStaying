@@ -1219,3 +1219,18 @@
 - لا يوجد server host حالي، لذلك الخطر تكاملي مستقبلي.
 
 **الحالة:** STAGE 65 COMPLETE — CORE MATCH-SCOPE ISOLATION CONTRACT DOCUMENTED.
+
+
+---
+
+## المرحلة 66 — مراجعة دورة حياة Session وسياسة إعادة الاتصال (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE66_SESSION_RECONNECT_BOUNDARY_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE66_SESSION_RECONNECT_BOUNDARY_2026-11-27.md)
+
+- Disconnected Session لا يعاد تفعيله؛ إعادة الاتصال التقنية تتطلب SessionId جديداً.
+- SessionRegistry لا يفرض active-session cap لكل ActorId؛ ConnectionSessionRegistry يسمح بجلسات متعددة لنفس ActorId مع one-to-one connection/session.
+- لا reconnect token أو lease/timeout أو coordinator أو credentials داخل Core.
+- Close/detach/queue drain/cleanup خطوات منفصلة على host.
+- D-R3 وسياسة multi-session تبقيان مفتوحتين؛ لا تغيير source/tests.
+
+**الحالة:** STAGE 66 COMPLETE — SESSION RECONNECT BOUNDARY DOCUMENTED.
