@@ -1131,3 +1131,18 @@
 - لا قرارات مالك اتخذت نيابة عنه ولا تغيير كود/إعدادات/قواعد.
 
 **الحالة:** STAGE 59 COMPLETE — OPEN DECISIONS REGISTERED; NO OWNER DECISION ASSUMED.
+
+
+---
+
+## المرحلة 60 — مطابقة عقود ADR الأرشيفية 008–020 مع Core الحي (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE60_LEGACY_CORE_ADR_COVERAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE60_LEGACY_CORE_ADR_COVERAGE_2026-11-27.md)
+
+- تمت مطابقة 13 ADR تقنية أرشيفية مع Core الحي واختباراته.
+- ADR-008..013 و016 و018..020 لها تطبيقات عامة/اختبارات؛ ADR-014 type فقط، ADR-015 partial، ADR-017 boundary only.
+- حالات APPROVED في نسخ الأرشيف لا تعني قبولها في main؛ D1 يبقى مفتوحاً.
+- لا transport adapter أو credential provider أو concrete gameplay policy/DTOs أو persistent idempotency.
+- لا تغيير كود أو استيراد ADR.
+
+**الحالة:** STAGE 60 COMPLETE — LEGACY CORE CONTRACT COVERAGE MAPPED; NO ADR ACCEPTANCE IMPLIED.

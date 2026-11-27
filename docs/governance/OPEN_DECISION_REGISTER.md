@@ -53,7 +53,29 @@
 
 D-08 موثق على SHA المذكور فقط؛ لا تنقل نتيجته إلى SHA أحدث دون check run جديد. D-01/D-02 مثبتان باختبارات الانحدار وضمن تشغيل Domain CI نفسه.
 
-## 4. فجوات الأدلة الخارجية
+## 4. تغطية عقود Core في ADR الأرشيفية 008–020
+
+المرحلة 60 قارنت نصوص الأرشيف مع Core الحي. هذا تقاطع تنفيذ/اختبارات فقط، ولا يحول ADR الأرشيفية إلى قرارات مقبولة على main:
+
+| ADR | وضع Core الحالي | الفجوة المتبقية |
+|---|---|---|
+| 008 Command envelope/sequence | Implemented + NUnit | التسلسل per-session وفي الذاكرة؛ admission policy ليست اعتماداً منتجياً |
+| 009 Match player registry | Implemented + NUnit | membership فقط؛ لا يقرر قواعد lifecycle أو multi-session |
+| 010 Session lifecycle | Implemented + NUnit | reconnect policy تحتاج قراراً؛ Disconnected لا يعاد تفعيله |
+| 011 Bounded session registry | Implemented + NUnit | سعة التشغيل وسياسة تعدد الجلسات لكل Actor مفتوحة |
+| 012 Authenticated command admission | Implemented + NUnit | يعتمد على actor resolved من session؛ لا credential provider |
+| 013 Safe session cleanup | Implemented + NUnit | queue/replay cleanup؛ لا persistence |
+| 014 Victim scope | VictimId type only | أنواع الضحايا المسموحة ما زالت TBD |
+| 015 Command identity/idempotency | Partial | لا CommandId مستقل ولا result store دائم أو idempotency عبر reconnect/restart |
+| 016 Connection/session binding | Implemented + NUnit | transport adapter غير موجود؛ mapping in-memory فقط |
+| 017 Credential validation/actor binding | Boundary only | لا identity provider أو credential validator أو account-to-ActorId mapping |
+| 018 Match roster admission | Implemented + NUnit | لا policy تعدد الجلسات ولا transport routing |
+| 019 Match authorization boundary | Generic fail-closed service implemented | لا command-specific gameplay policies معتمدة |
+| 020 Typed payload validation | Generic validator gate implemented | لا concrete gameplay DTOs ولا raw frame/serializer quotas داخل Core |
+
+**حالة D1:** OPEN_OWNER_DECISION. بعض نسخ ADR-008..014 تصف APPROVED بموجب ADR-027 داخل الأرشيف، لكن لا توجد سجلات ADR مقبولة في docs/adr على main. لا تُعامل هذه الحالة الأرشيفية كاعتماد نافذ.
+
+## 5. فجوات الأدلة الخارجية
 
 - Branch protection: UNKNOWN بسبب 403؛ rulesets الفارغة في القراءة المتاحة لا تحسم جميع أشكال الحماية.
 - Dependabot alerts وCode Scanning alerts: لم تتوفر قراءة موثوقة بسبب 403؛ لا تسجلها على أنها خالية.
