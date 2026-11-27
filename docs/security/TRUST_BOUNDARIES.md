@@ -18,6 +18,8 @@
 
 منطق Domain يعمل داخل عملية .NET ويستقبل بعض القيم مثل المسافة من caller. توجد عقود وخدمات Core للأوامر والجلسات والتحقق. لا يعني ذلك وجود مصادقة transport أو قياس مسافة خادمي فعلي أو rate limiting شبكي.
 
+Core يتحقق من session Authenticated وmatch roster وauthorization policy وtyped payload قبل/بعد dequeue، ويطبق per-session sequence وbounded queue. Payload validation تسبق authentication، لذلك يجب أن تكون رخيصة ومحدودة. TryAuthenticate يستقبل ActorId موثوقاً من host؛ لا credential validation. BetrayalLedger لا يتحقق من roster membership، وCoreComposition لا يفرض instance-per-match.
+
 ## ما يجب اختباره قبل الاتصال
 
 Actor/session binding، match scoping، replay/idempotency، sequence ordering، payload limits، rate limits، authorization، reconnect، clock monotonicity، validation server-side، وإدارة الأسرار.

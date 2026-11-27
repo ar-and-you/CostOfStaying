@@ -1264,3 +1264,18 @@
 - لا تغيير source/tests؛ D5b مفتوح.
 
 **الحالة:** STAGE 68 COMPLETE — COMMAND INGRESS TRUST CHAIN DOCUMENTED.
+
+
+---
+
+## المرحلة 69 — مصالحة نموذج التهديد وخطة الاختبار الأمني مع التنفيذ (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE69_SECURITY_DOCS_IMPLEMENTATION_CROSSWALK_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE69_SECURITY_DOCS_IMPLEMENTATION_CROSSWALK_2026-11-27.md)
+
+- صُححت حالة branch protection إلى UNKNOWN بعد 403، وSecret scanning/Push protection إلى آخر حالة معروفة بتاريخ 2026-11-24.
+- حدثت Security Test Plan إلى 62/62 Domain و248/248 Core على SHA d9c4e93، وCodeQL Python/Actions success وC# in_progress.
+- صحح وجود tools/github_workflow_tests كفحوص hygiene، لا github_config_tests أو actionlint/zizmor/gitleaks.
+- أضيفت مخاطر Pending TTL/rate limits وpayload quotas وmutable DTOs وunbounded ledger/match scope.
+- لا تغيير code/tests/workflows؛ alerts غير مقروءة بـ403.
+
+**الحالة:** STAGE 69 COMPLETE — SECURITY DOCS MATCH CURRENT EVIDENCE; RUNTIME SECURITY GAPS OPEN.

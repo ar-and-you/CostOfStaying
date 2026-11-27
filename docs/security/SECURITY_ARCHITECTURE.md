@@ -15,6 +15,8 @@
 
 Domain وCore يحتويان اختبارات لبعض ثوابت المدخلات والأوامر والهوية والجلسات. خطا CI الحاليان للـDomain/Python والـCore يعملان بصلاحية contents: read.
 
+Core يوفّر session/sequence/queue/roster/authorization/payload-validation primitives مع fail-closed behavior واختبارات NUnit؛ لا يوجد credential provider أو concrete gameplay authorization policy أو transport adapter. queue والregistries محدودة بسعات يحددها host، لكن BetrayalLedger غير محدود ولا يفرض roster membership. Domain لا يزال يملك مجموعات public mutable وevent/request stores بلا retention caps.
+
 ## ما لم يثبت
 
 لا توجد خدمة شبكة أو خادم أو مصادقة إنتاجية أو penetration test أو workflow gitleaks. CodeQL Setup الديناميكي ظهر في تشغيل GitHub محدد؛ لا يوجد codeql.yml متتبع على main وقت الفحص. لا يثبت ذلك تدقيقاً أمنياً كاملاً.
