@@ -1040,3 +1040,18 @@
 - لا تعديل في الكود أو إعدادات GitHub.
 
 **الحالة:** `STAGE 53 COMPLETE — DOMAIN/CORE/DOCS CI VERIFIED ON SHA; CODEQL STATUS LEFT IN PROGRESS.`
+
+
+---
+
+## المرحلة 54 — قراءة إعدادات حماية GitHub وحدود صلاحيات التكامل (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE54_GITHUB_SETTINGS_READONLY_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE54_GITHUB_SETTINGS_READONLY_2026-11-27.md)
+
+- Branch protection endpoint أعاد 403؛ الحالة UNKNOWN/NOT VERIFIED.
+- Repository rulesets أعادت [] في نطاق القراءة.
+- Dependabot/Code Scanning/Secret Scanning alert endpoints غير مدعومة في التكامل الحالي؛ لا استنتاج عن وجود/غياب التنبيهات.
+- حُدّث GITHUB_TOOLING وTOOLING_MAP. لم تُغير أي إعدادات.
+- CI على SHA `35ddccfb149ba70b0fdc9c20ecbc6ebf8ccda5ed` كان pending/in progress؛ لا إعلان تحقق.
+
+**الحالة:** `STAGE 54 COMPLETE — GITHUB SETTINGS READ ATTEMPTED; ACCESS-LIMITED SECURITY STATES LEFT UNKNOWN.`
