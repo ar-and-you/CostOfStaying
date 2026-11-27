@@ -2,11 +2,11 @@
 
 > تنبيه حوكمي: أرقام ADR المشار إليها في نسخ سابقة هي مواد أرشيفية ما لم توجد في `docs/adr/` بحالة مقبولة على `main`.
 
-**SHA لقطة الشجرة:** `589e3beb65980f0b11c1207c3a905b76e2f01028` (2026-11-23). **إعادة قراءة إعدادات GitHub:** 2026-11-24. التشغيلات التاريخية على `1b209b79261cba617bb68615746f115970422a8f` موضحة في سجل الأدلة؛ أما التشغيلات على لقطة الشجرة الحالية فمبينة أدناه.
+**مرجع الشجرة الحالي لهذه المراجعة:** `0ebb36090f0c1ab254d4402c2a738dd6a7d5b1a5` (2026-11-27). النتائج التشغيلية المفصلة أدناه تاريخية ومقيدة بكل SHA مذكور؛ أحدث مجموعة نتائج مكتملة موثقة تخص `94b341a681930e875fdbeee6ff3ccecb77476a14`، ولا تثبت نجاح CI على SHA الحالي. قراءات إعدادات GitHub محدودة الصلاحيات ومؤرخة كما هو موضح أدناه.
 
 | المجال | الموجود | ما لا يثبته |
 |---|---|---|
-| Git/GitHub | `main` ومستودع GitHub | لا يثبت أن الفرع محمي؛ أعاد فحص 2026-11-24 عدم وجود حماية أو rulesets |
+| Git/GitHub | `main` ومستودع GitHub؛ آخر قراءة branch protection بتاريخ 2026-11-27 أعادت 403، والحالة UNKNOWN/NOT VERIFIED؛ repository rulesets أعادت `[]` ضمن نطاق القراءة | لا يثبت أن `main` محمي أو غير محمي على مستوى المؤسسة أو عبر قواعد غير متاحة للتكامل |
 | Domain | C# `netstandard2.1` واختبارات NUnit/.NET 8 | لا يثبت تشغيل خادم أو Unity |
 | Core | C# `netstandard2.1` وخدمات/عقود واختبارات NUnit/.NET 10 | لا يثبت دمج قواعد Domain داخل Core |
 | Domain/Python CI | `ci.yml`؛ run `45283036745` `completed/success` على SHA `589e3be` | يثبت الوظائف المحددة في workflow فقط؛ لا يثبت الأمن أو التوازن أو الشبكة |
@@ -41,7 +41,7 @@ gitleaks وactionlint وzizmor وCODEOWNERS وفحوص network integration وUni
 
 ## إعدادات GitHub — قراءة محدودة الصلاحيات (2026-11-27)
 
-Branch protection endpoint أعاد 403، لذا حالته UNKNOWN/NOT VERIFIED. Repository rulesets أعادت `[]` ضمن نطاق القراءة. Endpoints الخاصة بـDependabot/Code Scanning/Secret Scanning alerts غير مدعومة في التكامل الحالي؛ لا يمكن الجزم بوجود التنبيهات أو خلوها. لم تُغيّر الإعدادات. التفاصيل في [GITHUB_TOOLING.md](GITHUB_TOOLING.md) وتقرير المرحلة 54.
+Branch protection endpoint أعاد 403، لذا حالته UNKNOWN/NOT VERIFIED. Repository rulesets أعادت `[]` ضمن نطاق القراءة. Endpoints الخاصة بتنبيهات Dependabot وCode Scanning وSecret Scanning غير متاحة في التكامل الحالي؛ لا يمكن الجزم بوجود التنبيهات أو خلوها. Secret scanning وPush protection آخر حالة موثقة لهما تعود إلى 2026-11-24 ولم تُؤكد مجدداً. لم تُغيّر الإعدادات. التفاصيل في [GITHUB_TOOLING.md](GITHUB_TOOLING.md) وتقرير المرحلة 54.
 
 
 ## تحقق حي أحدث — 2026-11-27 — SHA `94b341a681930e875fdbeee6ff3ccecb77476a14`
