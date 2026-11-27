@@ -103,7 +103,7 @@ namespace CostOfStaying.Core.Tests
             CoreComposition composition = CoreComposition.Create(new MatchId(8));
             var match = composition.CreateMatchLifecycle();
             var roster = composition.CreateMatchPlayerRegistry(2);
-            roster.Register(new InvalidVitalityAccount(new ActorId(9)));
+            roster.Register(new InvalidVitalityAccount(new MatchId(8), new ActorId(9)));
             IMatchRosterSnapshotBuilder builder = composition.CreateMatchRosterSnapshotBuilder(match, roster);
 
             Result<MatchRosterSnapshot> result = builder.Build(new ServerTick(1), new StateRevision(1));
@@ -125,7 +125,12 @@ namespace CostOfStaying.Core.Tests
 
         private sealed class InvalidVitalityAccount : IVitalityAccount
         {
-            public InvalidVitalityAccount(ActorId playerId) => PlayerId = playerId;
+            public InvalidVitalityAccount(MatchId matchId, ActorId playerId)
+            {
+                MatchId = matchId;
+                PlayerId = playerId;
+            }
+            public MatchId MatchId { get; }
             public ActorId PlayerId { get; }
             public PlayerLifecycleState State => PlayerLifecycleState.Alive;
             public uint Current => 0;
