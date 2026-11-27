@@ -75,7 +75,21 @@ D-08 موثق على SHA المذكور فقط؛ لا تنقل نتيجته إل
 
 **حالة D1:** OPEN_OWNER_DECISION. بعض نسخ ADR-008..014 تصف APPROVED بموجب ADR-027 داخل الأرشيف، لكن لا توجد سجلات ADR مقبولة في docs/adr على main. لا تُعامل هذه الحالة الأرشيفية كاعتماد نافذ.
 
-## 5. فجوات الأدلة الخارجية
+## 5. عقد Queue admission وتنظيف Session
+
+مراجعة المرحلة 61 أكدت سلوك التنفيذ والاختبارات التالية:
+
+- CommandAdmissionQueue يفحص صلاحية envelope ثم queue capacity قبل استهلاك sequence؛ FullQueue_RejectsWithoutConsumingSequence يثبت أن نفس sequence يمكن إعادة محاولته بعد زوال backpressure.
+- بعد نجاح admission، يستهلك sequence حتى لو رفضت طبقة gameplay الأمر لاحقاً؛ هذا يحمي replay ولا يعني نجاح gameplay command.
+- ResetSession يرفض إزالة replay state طالما يوجد command من الجلسة في queue.
+- SessionCleanupService يشترط SessionState.Closed، ويستدعي ResetSession، ثم يزيل الجلسة؛ التعليق يلزم host بانتظار اكتمال أي handler سبق dequeue.
+- ConnectionAwareSessionCleanupService يمنع التنظيف ما دام session مربوطاً باتصال، ويجب حقنه بنفس ConnectionSessionRegistry الذي تستخدمه ingress.
+- الاختبارات تغطي queue full/duplicate/jump، reset مع pending، cleanup قبل/بعد drain، connection binding/detach، وإعادة استخدام سعة tracked sessions.
+- هذه الخدمات single-writer/server-serialized؛ لا تدعي thread safety أو persistence أو distributed cleanup.
+
+لا يحتاج هذا الجزء تغييراً حالياً. يبقى transport ingress/egress وin-flight command coordinator وdurable replay store مسؤوليات host مستقبلي.
+
+## 6. فجوات الأدلة الخارجية
 
 - Branch protection: UNKNOWN بسبب 403؛ rulesets الفارغة في القراءة المتاحة لا تحسم جميع أشكال الحماية.
 - Dependabot alerts وCode Scanning alerts: لم تتوفر قراءة موثوقة بسبب 403؛ لا تسجلها على أنها خالية.
@@ -84,7 +98,7 @@ D-08 موثق على SHA المذكور فقط؛ لا تنقل نتيجته إل
 - Unity/Android/server/network: لا runtime أو build فعلي في الشجرة.
 - Human playtest: لم تُسجل جلسات بشرية معتمدة؛ بيانات المحاكاة ليست بديلاً.
 
-## 5. قاعدة الإغلاق
+## 7. قاعدة الإغلاق
 
 1. لا إغلاق بوابة بعبارة أو تعليق داخل كود فقط؛ يلزم مصدر حاكم وقرار موثق عند الحاجة.
 2. لا تغيير branch protection أو required checks أو push policy دون D3.

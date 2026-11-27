@@ -147,6 +147,7 @@
 - [المرحلة 58 — مصفوفة توافق Domain/Core قبل أي ترحيل — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE58_DOMAIN_CORE_COMPATIBILITY_MATRIX_2026-11-27.md)
 - [المرحلة 59 — إنشاء سجل مركزي للقرارات المفتوحة وبوابات الاعتماد — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE59_OPEN_DECISION_REGISTER_2026-11-27.md)
 - [المرحلة 60 — مطابقة عقود ADR الأرشيفية 008–020 مع Core الحي — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE60_LEGACY_CORE_ADR_COVERAGE_2026-11-27.md)
+- [المرحلة 61 — مراجعة backpressure وتنظيف جلسات Core — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE61_CORE_QUEUE_CLEANUP_REVIEW_2026-11-27.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)

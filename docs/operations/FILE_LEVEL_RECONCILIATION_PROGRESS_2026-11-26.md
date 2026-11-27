@@ -1146,3 +1146,18 @@
 - لا تغيير كود أو استيراد ADR.
 
 **الحالة:** STAGE 60 COMPLETE — LEGACY CORE CONTRACT COVERAGE MAPPED; NO ADR ACCEPTANCE IMPLIED.
+
+
+---
+
+## المرحلة 61 — مراجعة backpressure وتنظيف جلسات Core (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE61_CORE_QUEUE_CLEANUP_REVIEW_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE61_CORE_QUEUE_CLEANUP_REVIEW_2026-11-27.md)
+
+- queue full يرفض قبل استهلاك sequence؛ الاختبار يثبت retry بعد زوال backpressure.
+- sequence يستهلك بعد admission حتى لو رفض gameplay لاحقاً.
+- cleanup يرفض pending commands، ويشترط Closed وdetached connection، مع انتظار host لاكتمال in-flight handler.
+- الخدمات single-writer/in-memory؛ لا persistence أو distributed/thread-safe semantics.
+- لا تغيير code/tests؛ KEEP_LIVE.
+
+**الحالة:** STAGE 61 COMPLETE — CORE QUEUE/CLEANUP CONTRACTS MAPPED AND TESTED.
