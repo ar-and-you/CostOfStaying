@@ -84,6 +84,7 @@ namespace CostOfStaying.Core.Tests
             CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var account = composition.CreateVitalityAccount(new ActorId(7), 150);
 
+            Assert.That(account.MatchId, Is.EqualTo(composition.MatchId));
             Assert.That(account.PlayerId, Is.EqualTo(new ActorId(7)));
             Assert.That(account.Current, Is.EqualTo(150u));
             Assert.That(account.Maximum, Is.EqualTo(150u));
@@ -147,6 +148,20 @@ namespace CostOfStaying.Core.Tests
 
             Assert.That(service.TryAdmit(envelope).IsSuccess, Is.True);
             Assert.That(queue.PendingCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void CreateMatchCommandAdmissionService_RejectsQueueFromAnotherMatch()
+        {
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
+            CoreComposition otherComposition = CoreComposition.Create(new MatchId(43));
+            var sessions = composition.CreateSessionRegistry(4);
+            IMatchPlayerRegistry players = composition.CreateMatchPlayerRegistry(4);
+            CommandAdmissionQueue<string> foreignQueue =
+                otherComposition.CreateCommandAdmissionQueue<string>(8, 4, 8);
+
+            Assert.Throws<System.ArgumentException>(() =>
+                composition.CreateMatchCommandAdmissionService(sessions, players, foreignQueue));
         }
 
         [Test]
