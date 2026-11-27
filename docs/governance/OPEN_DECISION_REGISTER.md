@@ -148,6 +148,7 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 
 ### حالة F-001 وF-002 عند بدء التنفيذ
 
-- F-001: Core يفرض policy غير null لكل `MatchCommandAuthorizationService<TCommand>` instance ويعيد التقييم قبل admission وبعد dequeue. لا توجد حالياً concrete Gameplay command DTOs أو policies إنتاجية أو registry شامل يثبت اكتمال التغطية. لا تغلق F-001 قبل إنشاء/حصر الأوامر واختبار missing registration وwrong policy.
-- F-002: `BetrayalLedger` يتحقق من بنية الحدث والتسلسل وexact replay، لكنه لا يتحقق من membership أو gameplay authority. `CoreComposition.BetrayalLedger` يعرض واجهة قراءة عامة فقط؛ `TryRecord` أصبح internal لمنع التسجيل من مستهلك خارجي أو عبر cast. هذا يغلق مسار الكتابة العام، لكنه لا يوفر بعد Trusted Gameplay Handler أو membership/authority checks. لا تغلق F-002 قبل توفير المسار الموثوق واختبارات العضوية والسلطة.
-- لا يُدعى تشغيل اختبارات أو تغيير Source في هذه الإضافة؛ هي سجل قرار/خط أساس فقط.
+- F-001: Core يفرض policy غير null لكل `MatchCommandAuthorizationService<TCommand>` instance ويعيد التقييم قبل admission وبعد dequeue، كما توجد اختبارات رفض uninitialized/exception. لا توجد حالياً concrete Gameplay command DTOs أو policies إنتاجية أو registry شامل يثبت اكتمال التغطية. لا تغلق F-001 قبل إنشاء/حصر الأوامر واختبار missing registration وwrong policy.
+- F-002: `BetrayalLedger` يتحقق من بنية الحدث والتسلسل وexact replay، لكنه لا يتحقق من membership أو gameplay authority. `CoreComposition.BetrayalLedger` يعرض واجهة قراءة عامة فقط؛ `TryRecord` أصبح internal لمنع التسجيل من مستهلك خارجي أو عبر cast، وأضيف اختبار لسطح API العام. لا يوجد بعد Trusted Gameplay Handler أو membership/authority checks؛ لذلك لا تغلق F-002.
+- F-004: على فرع العمل أصبح `CoreComposition.Create(MatchId)` إلزامياً، كما أصبحت VitalityAccount وCommandAdmissionQueue مرتبطة بـMatchId وتُرفض مشاركة الحساب/الطابور عبر المباريات. أضيفت اختبارات للـscope، لكنها لم تُشغّل بعد؛ لذلك الحالة IMPLEMENTED_PENDING_TESTS وليست CLOSED.
+- لم تُشغّل اختبارات .NET أو CI حتى الآن. التغييرات المصدرية والاختبارات المذكورة موجودة على فرع المراجعة فقط ولم تُدمج في `main`.
