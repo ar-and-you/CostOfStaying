@@ -123,6 +123,7 @@
 - [المرحلة 35 — مصالحة متطلبات التتبع الأرشيفية مع خريطة المتطلبات الحية — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE35_REQUIREMENT_TRACEABILITY_SALVAGE_2026-11-27.md)
 - [المرحلة 36 — مراجعة salvage لوثائق الأمن والخصوصية الأرشيفية — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE36_SECURITY_DOCS_SALVAGE_2026-11-27.md)
 - [المرحلة 37 — مراجعة salvage لوثائق الجودة والأداء واللعب الأرشيفية — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE37_QUALITY_DOCS_SALVAGE_2026-11-27.md)
+- [المرحلة 38 — مراجعة salvage لوثائق المعمارية والشبكة الأرشيفية — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE38_ARCHITECTURE_DOCS_SALVAGE_2026-11-27.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
