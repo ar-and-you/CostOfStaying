@@ -1,9 +1,10 @@
-# تحديث حالة الرأس — 2026-11-27
+# تحديث حالة الرأس — 2026-11-28
 
-- `main` HEAD عند آخر قراءة: `60d15bc8f7aafb99f31ea2d61a6fd750719e53d8`.
-- تم التحقق من check-runs المرتبطة بهذا SHA: Domain/Python CI وCore CI وDocumentation Governance وCodeQL dynamic اكتملت جميعها `completed/success`؛ التفاصيل في القسم 0.7 أدناه.
+- `main` HEAD عند آخر قراءة: `e7e5b5e54f46490c44aaf30888280d55239bb670`؛ لم تُرجع القراءة الحالية تشغيلات CI مرتبطة بهذا SHA، لذا لا يُسجل نجاح حديث على `main`.
+- فرع المراجعة `security/core-trust-boundaries-phase0` عند SHA `5f8db71a34ed4b680dd0d7a0d24f0726e6c8924a` أكمل Domain/Python CI (run `46078265183`)، وCore CI (.NET 10) (run `46078265114`)، وDocumentation Governance (run `46078265167`) بنجاح. هذه التشغيلات تخص ذلك الرأس قبل التعديلات الوثائقية الحالية، ويجب إعادة التحقق على SHA الناتج.
+- أحدث CodeQL موثق في هذا السجل يخص SHA `60d15bc8f7aafb99f31ea2d61a6fd750719e53d8`؛ لا يوجد دليل CodeQL على `main` الحالي أو رأس فرع المراجعة المذكور.
 - نتائج التشغيلات مقيدة بالـSHA المذكور، ولا تثبت وجود Unity أو Android أو transport/server runtime أو خلو تنبيهات CodeQL.
-- آخر قراءة branch-protection بتاريخ 2026-11-27 أعادت 403؛ الحالة UNKNOWN/NOT VERIFIED. قراءة repository rulesets أعادت `[]` ضمن النطاق المتاح ولا تحسم قواعد المؤسسة أو الحماية الموروثة.
+- آخر قراءة branch-protection بتاريخ 2026-11-28 أعادت 403؛ الحالة UNKNOWN/NOT VERIFIED. قراءة repository rulesets أعادت `[]` ضمن النطاق المتاح ولا تحسم قواعد المؤسسة أو الحماية الموروثة.
 - لم تُغيّر إعدادات GitHub في هذه المراجعة.
 
 ## 0.6 تحقق CI حي على SHA السابق — `94b341a681930e875fdbeee6ff3ccecb77476a14` (2026-11-27)
