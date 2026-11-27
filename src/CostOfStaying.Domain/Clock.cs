@@ -1,8 +1,9 @@
 namespace CostOfStaying.Domain
 {
     /// <summary>
-    /// Server-side time source. Per ADR-002 the server clock is the reference
-    /// for all timers; client time is never trusted for game decisions.
+    /// Time source injected into the Domain aggregate. A production host should
+    /// provide a monotonic clock; this interface does not authenticate a caller
+    /// or establish a client/server trust boundary.
     /// </summary>
     public interface IMatchClock
     {
@@ -31,7 +32,7 @@ namespace CostOfStaying.Domain
     }
 
     /// <summary>
-    /// Monotonic clock for the dedicated server. Uses Stopwatch so it is
+    /// Host-agnostic monotonic elapsed-time source. Uses Stopwatch so it is
     /// immune to wall-clock adjustments (NTP, user changes).
     /// </summary>
     public sealed class MonotonicClock : IMatchClock
