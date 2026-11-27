@@ -58,6 +58,8 @@
 - [المرحلة 73 — تدقيق تاريخ Git للأسرار وحدود التنفيذ](operations/ARCHIVE_RECONCILIATION_STAGE73_GIT_HISTORY_SECRET_SCAN_BLOCKER_2026-11-27.md)
 - [المرحلة 74 — التحقق النهائي من CI وربط النتائج بـ SHA](operations/ARCHIVE_RECONCILIATION_STAGE74_FINAL_CI_SHA_VERIFICATION_2026-11-27.md)
 - [المرحلة 75 — دمج smoke test لمحاكاة اللعب وأدوات Audit في CI](operations/ARCHIVE_RECONCILIATION_STAGE75_PLAYTEST_AUDIT_CI_INTEGRATION_2026-11-27.md)
+- [المرحلة 76 — إعادة فحص بوابات الأمن وصلاحيات المستودع](operations/ARCHIVE_RECONCILIATION_STAGE76_SECURITY_POSTURE_RECHECK_2026-11-27.md)
+- [المرحلة 77 — تجهيز التقاط أدلة اختبار اللعب البشري](operations/ARCHIVE_RECONCILIATION_STAGE77_HUMAN_PLAYTEST_EVIDENCE_2026-11-27.md)
 
 لا يحتوي `main` حالياً سجلات ADR مقبولة. القالب والفهرس لا يشكلان بحد ذاتهما قراراً معمارياً.
 
@@ -67,6 +69,7 @@
 - [مراجعة عيوب Domain والإصلاحات — 2026-11-25](quality/DOMAIN_DEFECT_REVIEW_2026-11-25.md)
 - [مصالحة تقرير الفحص العميق الأرشيفي مع المصدر الحي — 2026-11-26](quality/DEEP_AUDIT_ARCHIVE_CROSSCHECK_2026-11-26.md)
 - [خطة اختبار اللعب البشري](quality/PLAYTEST_PLAN.md)
+- [نموذج توثيق أدلة جلسة اللعب البشرية](quality/PLAYTEST_EVIDENCE_TEMPLATE.md)
 - [مراجعة مخاطر التوازن](quality/BALANCE_RISK_REVIEW.md)
 - [ميزانية الأداء المقترحة](quality/PERFORMANCE_BUDGET.md)
 - [بروتوكول قياس الأداء](quality/PERFORMANCE_TEST_PROTOCOL.md)
