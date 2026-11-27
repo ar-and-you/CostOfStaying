@@ -14,8 +14,6 @@ namespace CostOfStaying.Core.Domain
                 throw new ArgumentException("Actor identity must be non-zero.", nameof(actorId));
             if (!victimId.IsValid)
                 throw new ArgumentException("Victim identity must be non-zero.", nameof(victimId));
-            if (actorId.Value == victimId.Value)
-                throw new ArgumentException("Actor and victim must differ.", nameof(victimId));
 
             SequenceId = sequenceId;
             ActorId = actorId;
@@ -29,12 +27,12 @@ namespace CostOfStaying.Core.Domain
         public ulong ServerTick { get; }
 
         // Default(struct) bypasses the constructor; callers must validate this value.
-        // ServerTick is metadata, not the ledger ordering key.
+        // ServerTick is metadata, not the ledger ordering key. ActorId and VictimId are
+        // distinct identity domains; numeric equality cannot establish self-targeting.
         public bool IsValid =>
             SequenceId.IsValid &&
             ActorId.IsValid &&
-            VictimId.IsValid &&
-            ActorId.Value != VictimId.Value;
+            VictimId.IsValid;
 
         public bool Equals(BetrayalEvent other) =>
             SequenceId == other.SequenceId &&
