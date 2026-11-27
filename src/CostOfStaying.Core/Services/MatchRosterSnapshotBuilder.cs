@@ -49,7 +49,7 @@ namespace CostOfStaying.Core.Services
                     return Result<MatchRosterSnapshot>.Failure(lookup.ErrorCode);
 
                 IVitalityAccount account = lookup.Value;
-                if (account is null || account.PlayerId != actorId)
+                if (account is null || account.MatchId != _match.MatchId || account.PlayerId != actorId)
                     return Result<MatchRosterSnapshot>.Failure(CoreErrorCode.InvalidState);
 
                 var player = new PlayerStateSnapshot(
