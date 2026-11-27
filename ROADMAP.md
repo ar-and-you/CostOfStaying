@@ -66,8 +66,8 @@ Previous local reports record Domain/Core results for their respective source sn
 ## Phase 4 — Development tools
 
 - [x] 4.1 Python balance simulator and parameter sweep exist as exploratory tools.
-- [x] 4.2 Simulated-playtest harness exists; its output is not human-playtest evidence.
-- [ ] 4.3 Review and import `tools/audit.py`, GitHub configuration tests, and repository setup helpers.
+- [x] 4.2 Simulated-playtest harness exists; its output is not human-playtest evidence. A bounded one-session smoke test now runs in Domain/Python CI (`tools/playtest/test_smoke.py`); see `docs/operations/ARCHIVE_RECONCILIATION_STAGE75_PLAYTEST_AUDIT_CI_INTEGRATION_2026-11-27.md`.
+- [ ] 4.3 Review and import `tools/audit.py`, GitHub configuration tests, and repository setup helpers. The live `tools/` tree currently has no `tools/audit.py`, `tools/github_config_tests/`, or standalone setup helpers; do not claim these are active or import archive-only candidates without provenance review.
 - [ ] 4.4 Define and test bot-voting assumptions before interpreting outcome distributions as balance evidence.
 
 ## Phase 5 — CI/CD
