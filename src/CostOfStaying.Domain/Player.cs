@@ -4,8 +4,9 @@ using System.Collections.Generic;
 namespace CostOfStaying.Domain
 {
     /// <summary>
-    /// Server-owned player state. The client never writes these fields
-    /// directly; it sends intents that the server validates (ADR-002).
+    /// Player state within the Domain aggregate. Scalar setters are internal;
+    /// public collection properties remain mutable and are tracked as an
+    /// encapsulation risk (D-03), not a client/server security boundary.
     /// </summary>
     public sealed class Player
     {
@@ -28,10 +29,10 @@ namespace CostOfStaying.Domain
         /// <summary>Betrayal points. Cost only; never win points (RULE-05).</summary>
         public int BetrayalPoints { get; internal set; }
 
-        /// <summary>Server time of the last successful transfer (source cooldown).</summary>
+        /// <summary>Domain clock time of the last successful transfer (source cooldown).</summary>
         public double LastTransferAtSeconds { get; internal set; } = double.NegativeInfinity;
 
-        /// <summary>Server time at which the next collapse fires for this player.</summary>
+        /// <summary>Domain clock time at which the next collapse fires for this player.</summary>
         public double NextCollapseAtSeconds { get; internal set; }
 
         /// <summary>Interval used for the current collapse schedule (for ratio-preserving reschedule).</summary>
