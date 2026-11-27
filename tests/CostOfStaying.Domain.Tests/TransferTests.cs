@@ -57,29 +57,35 @@ namespace CostOfStaying.Domain.Tests
         }
 
         [Test]
-        public void Transfer_Fails_OutOfRange_NoSideEffects()
+        public void Transfer_Fails_OutOfRange_Without_Gameplay_Mutation()
         {
             var (match, clock, a, b) = SetupTwoPlayers();
             var debCountA = match.Players[a].Debuffs.Count;
             var betrayalA = match.Players[a].BetrayalPoints;
+            int eventsBefore = match.Events.Count;
             var result = match.TryTransfer(a, b, distanceMeters: 2.5, requestId: "req-3");
             Assert.That(result, Is.EqualTo(Match.TransferResult.RejectedOutOfRange));
             Assert.That(match.Players[a].Debuffs.Count, Is.EqualTo(debCountA));
             Assert.That(match.Players[a].BetrayalPoints, Is.EqualTo(betrayalA));
+            Assert.That(match.Events.Count, Is.EqualTo(eventsBefore + 1));
+            Assert.That(match.Events[match.Events.Count - 1].Kind, Is.EqualTo(DomainEventKind.TransferRejected));
         }
 
         [Test]
-        public void Transfer_Fails_Cooldown_NoSideEffects()
+        public void Transfer_Fails_Cooldown_Without_Gameplay_Mutation()
         {
             var (match, clock, a, b) = SetupTwoPlayers();
             match.TryTransfer(a, b, 1.0, "req-4");
             // Give A another debuff
             match.Players[a].Debuffs.Add(new Debuff("second", 0.05, 30, true));
             // Immediate second attempt should fail cooldown
+            int eventsBefore = match.Events.Count;
             var r2 = match.TryTransfer(a, b, 1.0, "req-5");
             Assert.That(r2, Is.EqualTo(Match.TransferResult.RejectedCooldown));
             Assert.That(match.Players[a].BetrayalPoints, Is.EqualTo(1)); // not incremented again
             Assert.That(match.Players[a].Debuffs.Count, Is.EqualTo(1)); // second debuff still there
+            Assert.That(match.Events.Count, Is.EqualTo(eventsBefore + 1));
+            Assert.That(match.Events[match.Events.Count - 1].Kind, Is.EqualTo(DomainEventKind.TransferRejected));
         }
 
         [Test]
