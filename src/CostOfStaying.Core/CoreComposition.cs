@@ -69,7 +69,7 @@ namespace CostOfStaying.Core
             return new MatchRosterSnapshotBuilder(match, players);
         }
 
-        public ICommandAdmissionService<TCommand> CreateCommandAdmissionService<TCommand>(
+        internal ICommandAdmissionService<TCommand> CreateCommandAdmissionService<TCommand>(
             ISessionRegistry sessions,
             CommandAdmissionQueue<TCommand> queue)
         {
@@ -77,7 +77,7 @@ namespace CostOfStaying.Core
             return new CommandAdmissionService<TCommand>(sessions, queue);
         }
 
-        public IMatchCommandAdmissionService<TCommand> CreateMatchCommandAdmissionService<TCommand>(
+        internal IMatchCommandAdmissionService<TCommand> CreateMatchCommandAdmissionService<TCommand>(
             ISessionRegistry sessions,
             IMatchPlayerRegistry players,
             CommandAdmissionQueue<TCommand> queue)
