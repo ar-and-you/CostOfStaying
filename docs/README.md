@@ -53,6 +53,7 @@
 - [تخطيط المستودع — مسودة غير ملزمة](architecture/REPO_LAYOUT.md)
 - [فهرس ADR وقواعد القبول](adr/README.md)
 - [قالب ADR](adr/ADR_TEMPLATE.md)
+- [المرحلة 71 — تطبيع فهرس ADR والمرشحات المتعارضة](operations/ARCHIVE_RECONCILIATION_STAGE71_ADR_CATALOGUE_NORMALIZATION_2026-11-27.md)
 
 لا يحتوي `main` حالياً سجلات ADR مقبولة. القالب والفهرس لا يشكلان بحد ذاتهما قراراً معمارياً.
 
