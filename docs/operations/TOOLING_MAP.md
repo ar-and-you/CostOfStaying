@@ -2,7 +2,7 @@
 
 > تنبيه حوكمي: أرقام ADR المشار إليها في نسخ سابقة هي مواد أرشيفية ما لم توجد في `docs/adr/` بحالة مقبولة على `main`.
 
-**لقطة `main` الحالية:** `e7e5b5e54f46490c44aaf30888280d55239bb670` (2026-11-27)؛ لم تُرجع القراءة الحالية تشغيلات CI مرتبطة بهذا SHA، لذا لا يُسجل نجاح CI حديث على `main`. **فرع المراجعة الأمني:** `security/core-trust-boundaries-phase0` عند `dc33a8040d8ee29c96cba440678e9c6733f30565`؛ اكتملت Domain/Python CI وCore CI وDocumentation Governance بنجاح (runs `46079246424`, `46079246422`, `46079246436` على الترتيب)، ونجح `actionlint` و`zizmor` ضمن Domain/Python CI. CodeQL Python وActions نجحا؛ C# ما زال قيد التشغيل والـPR check العام `neutral` بسبب عدم تطابق إعداد C# مع `main`. CodeFactor لديه Minor issue واحدة وCodacy `action_required`؛ لا تُعامل أي منهما كنجاح. جميع الأدلة مقيدة بالـSHA ولا تثبت تكاملات غير موجودة.
+**لقطة `main` الحالية:** `e7e5b5e54f46490c44aaf30888280d55239bb670` (2026-11-27)؛ لم تُرجع القراءة الحالية تشغيلات CI مرتبطة بهذا SHA، لذا لا يُسجل نجاح CI حديث على `main`. **فرع المراجعة الأمني:** `security/core-trust-boundaries-phase0` عند `dc33a8040d8ee29c96cba440678e9c6733f30565`؛ اكتملت Domain/Python CI وCore CI وDocumentation Governance بنجاح (runs `46079246424`, `46079246422`, `46079246436` على الترتيب)، ونجح `actionlint` و`zizmor` ضمن Domain/Python CI. اكتملت CodeQL analyses للغات C# وPython وActions، وأصبح PR CodeQL check العام `success` على SHA `dc33a8040d8ee29c96cba440678e9c6733f30565`؛ هذا لا يثبت أن قائمة التنبيهات فارغة. CodeFactor لديه Minor issue واحدة وCodacy `action_required`؛ لا تُعامل أي منهما كنجاح. جميع الأدلة مقيدة بالـSHA ولا تثبت تكاملات غير موجودة.
 
 | المجال | الموجود | ما لا يثبته |
 |---|---|---|
