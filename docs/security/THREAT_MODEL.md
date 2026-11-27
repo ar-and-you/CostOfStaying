@@ -21,11 +21,15 @@
 | Event/ledger memory growth | retention/caps/persistence | Domain event/request/echo stores وCore BetrayalLedger._events/_scores بلا سياسة retention/cap | 
 | Cross-match ledger contamination | per-match scope enforcement | CoreComposition موصوف instance-per-match لكن API لا يربطه بـMatchId؛ host يجب أن يفرض scope |
 
-## وضع CI
+## وضع CI والأدلة المرتبطة بالالتزام
 
-- ملفا CI موجودان ويشغّلان اختبارات محددة على GitHub Actions.
-- أحدث evidence موثق هنا: على SHA d9c4e93، Domain 62/62 وCore 248/248 وDocumentation Governance success؛ CodeQL Python/Actions success وC# in_progress عند آخر قراءة. هذه النتائج لا تثبت خلو alerts؛ راجع GITHUB_TOOLING.
-- قراءة 2026-11-22 التي قالت إن main غير محمي أصبحت تاريخية؛ قراءة branch-protection اللاحقة في 2026-11-26 أعادت 403، لذلك الحالة الحالية UNKNOWN. قراءة rulesets الفارغة لا تحسم كل أشكال الحماية.
-- أعادت واجهة قراءة تنبيهات Code Scanning `403 Resource not accessible by integration` في 2026-11-24؛ لم تُثبت هنا حالة أي تنبيه. لا تُعامل نجاح الاختبارات على أنه إثبات لأمن CI أو التطبيق أو الشبكة.
+- ملفات CI المتتبعة تشغّل اختبارات محددة لـDomain/Python وCore، ويوجد تدقيق وثائق مستقل. وجود الملفات لا يثبت نجاح تشغيل حديث.
+- أحدث مجموعة نتائج مكتملة موثقة في سجل الأدوات عند إعداد هذه اللقطة تخص SHA `94b341a681930e875fdbeee6ff3ccecb77476a14`، لا HEAD الحالي `0ebb36090f0c1ab254d4402c2a738dd6a7d5b1a5`: Domain NUnit `62/62`، Python simulator `11/11`، workflow hygiene `6/6`، Core NUnit `248/248`، Documentation Governance `success`، وCodeQL للغات C# وPython وGitHub Actions `completed/success`.
+- لا تُسقط نتائج `94b341a...` على HEAD الحالي `0ebb360...`؛ يلزم تشغيل أو قراءة check-runs مرتبطة بالـSHA الحالي قبل وصفه بأنه متحقق.
+- نجاح الاختبارات يثبت الوظائف التي شُغّلت فقط، ولا يثبت خلو CodeQL alerts أو Dependabot alerts، ولا وجود Unity أو Android build أو خادم/شبكة فعلية.
+- قراءة branch-protection بتاريخ 2026-11-27 لم تكن متاحة بسبب `403 Resource not accessible by integration`؛ الحالة `UNKNOWN / NOT VERIFIED`. أعادت قراءة repository rulesets المتاحة `[]`، لكنها لا تحسم قواعد المؤسسة أو أي طبقات حماية خارج نطاق القراءة.
+- أعادت واجهات قراءة التنبيهات/الإعدادات ذات الصلة أخطاء صلاحيات أو لم تكن مدعومة في التكامل؛ لا تستنتج خلو المستودع من التنبيهات. Secret scanning وPush protection آخر حالة موثقة لهما هي القراءة المؤرخة 2026-11-24، ولم تتوفر إعادة تأكيد أحدث.
+
+لكل تهديد لاحقاً: Asset وEntry Point وAbuse Case وImpact وControl وTest وEvidence وResidual Risk. لا تُعامل هذه الوثيقة كدليل على أن الضابط موجود.
 
 لكل تهديد لاحقاً: Asset وEntry Point وAbuse Case وImpact وControl وTest وEvidence وResidual Risk. لا تُعامل هذه الوثيقة كدليل على أن الضابط موجود.
