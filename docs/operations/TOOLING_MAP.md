@@ -32,3 +32,8 @@ gitleaks وactionlint وzizmor وCODEOWNERS وفحوص network integration وUni
 - عدم إدخال `pull_request_target` أو `workflow_run` دون مراجعة أمنية مستقلة.
 
 هذا فحص ثابت ضيق لنمط الملفات الحالية؛ لا يحل محل actionlint أو zizmor أو قراءة إعدادات GitHub أو Secret Scanning، ولا يثبت سلامة runtime.
+
+
+## تحقق حي حديث — 2026-11-27
+
+على SHA `bfbed74ae24e8e5e49baff84e7a18b0e99b55807`: Domain/Python CI run 45916990172، Core CI run 45916990210، وDocumentation Governance run 45916990106 اكتملت جميعها بنجاح. Domain/Python شغّل أيضاً `tools/github_workflow_tests` ونجحت. CodeQL dynamic run 45916990557 كان قيد التنفيذ عند آخر قراءة؛ لا تُسجل له نتيجة نجاح بعد. راجع [GITHUB_TOOLING.md](GITHUB_TOOLING.md) لسجل التشغيلات والحدود.
