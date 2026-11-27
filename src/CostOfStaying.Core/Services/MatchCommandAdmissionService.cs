@@ -92,7 +92,7 @@ namespace CostOfStaying.Core.Services
                     : Result.Failure(player.ErrorCode);
             }
 
-            if (player.Value is null || player.Value.PlayerId != actorId)
+            if (player.Value is null || player.Value.MatchId != MatchId || player.Value.PlayerId != actorId)
                 return Result.Failure(CoreErrorCode.InvalidState);
 
             return Result.Success();
