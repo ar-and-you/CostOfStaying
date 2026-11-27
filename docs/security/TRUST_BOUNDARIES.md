@@ -23,7 +23,7 @@
 | Core session and command services | منفذ جزئياً | يتحقق من حالة الجلسة وربط Actor والعضوية والتسلسل والسعة وسياسة التفويض المقدمة من التطبيق. لا يصادق credentials ولا يثبت مصدر ReceivedAt/ServerTick. |
 | Gameplay handler / state owner | غير منفذ كطبقة متكاملة | يجب أن يملك قرار تنفيذ الفعل وتغيير الحالة، ويتحقق من قواعد اللعب والعضوية والسلطة على الأطراف قبل mutation أو event recording. |
 | Match runtime state | Domain منفذ جزئياً؛ Core primitives منفصلة | يجب أن تكون مملوكة لمباراة واحدة؛ لا يوجد حالياً دمج Domain/Core أو host ينسق دورة الحياة. |
-| Betrayal ledger | primitive منفذ داخل Core | يسجل أحداثاً صاغها المستدعي ويتحقق من صحة الحقول وتسلسل الحدث وexact replay؛ لا يتحقق من عضوية Actor/Victim أو سلطة الفعل. |
+| Betrayal ledger | primitive منفذ داخل Core | يتحقق من صحة الحقول وتسلسل الحدث وexact replay؛ واجهته العامة أصبحت read-only، وكتابة الأحداث assembly-internal. لا يتحقق من عضوية Actor/Victim أو سلطة الفعل داخل primitive. |
 | Persistence / backend | غير منفذ | لا قاعدة بيانات أو مخزن دائم أو استعادة أو مزود معتمد. |
 | Repository / CI | سطح حساس | تحكم الوصول والأسرار وسلسلة التوريد مسؤوليات تشغيلية مستقلة؛ لا يُفترض خلو التنبيهات دون قراءة موثوقة. |
 
@@ -63,8 +63,9 @@
 - Membership مسؤولية roster/match context.
 - Authorization policy مسؤولة عن حق Actor في طلب الفعل في phase/state محددة.
 - Trusted Gameplay Handler مسؤول عن التحقق النهائي من Actor وVictim والسلطة والـpreconditions ثم إصدار الحدث.
-- لا يكفي مرور الأمر عبر `MatchCommandAuthorizationService` لإثبات أن استدعاء `IBetrayalLedger.TryRecord` جاء من handler موثوق.
-- `CoreComposition.BetrayalLedger` يكشف الواجهة العامة حالياً؛ يجب تدقيق كل المراجع وإزالة/تقييد مسارات التسجيل المباشر قبل اعتبار F-002 مغلقة.
+- لا يكفي مرور الأمر عبر `MatchCommandAuthorizationService` لإثبات أن التسجيل جاء من handler موثوق.
+- `CoreComposition.BetrayalLedger` يكشف الآن واجهة قراءة عامة فقط؛ أزيل `TryRecord` من `IBetrayalLedger` وأصبح method داخلياً على `BetrayalLedger` لمنع المستهلك الخارجي من التسجيل المباشر أو الوصول إليه عبر cast.
+- هذا تخفيف فعلي لمسار التجاوز العام، لكنه لا يثبت وجود Trusted Gameplay Handler ولا يضيف membership/authority validation؛ لذلك تبقى F-002 مفتوحة.
 - لا تُضف retention أو eviction قبل قرار عمر المباراة ودلالات replay والاستعادة.
 
 ## 6. Match isolation ودورة الحياة
