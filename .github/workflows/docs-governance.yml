@@ -37,7 +37,7 @@ jobs:
           ((${#changed[@]} > 0)) || { echo "No changed paths detected"; exit 1; }
           for path in "${changed[@]}"; do
             case "$path" in
-              AGENTS.md|CONTRIBUTING.md|ROADMAP.md|README.md|SECURITY.md|CODE_OF_CONDUCT.md|\\
+              AGENTS.md|CONTRIBUTING.md|ROADMAP.md|README.md|SECURITY.md|CODE_OF_CONDUCT.md|\
               .github/workflows/docs-governance.yml|tools/docs_audit.sh|.agents/skills/*/SKILL.md)
                 ;;
               docs/*)
