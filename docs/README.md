@@ -129,6 +129,7 @@
 - [المرحلة 41 — سجل موحد لمرشحات الاستفادة من الأرشيف — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE41_SALVAGE_CANDIDATE_REGISTER_2026-11-27.md)
 - [المرحلة 42 — إصلاح RequestId الفارغ في Suffering Transfer — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE42_TRANSFER_REQUEST_ID_FIX_2026-11-27.md)
 - [المرحلة 43 — تصحيح اختبار RequestId وتدقيق حدود الثقة للمسافة — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE43_TRANSFER_FIXTURE_AND_TRUST_BOUNDARY_2026-11-27.md)
+- [المرحلة 44 — مطابقة أجسام الاختبارات وAssertions لملفات Domain الخمسة — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE44_DOMAIN_TEST_BODY_ASSERTION_CROSSWALK_2026-11-27.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
