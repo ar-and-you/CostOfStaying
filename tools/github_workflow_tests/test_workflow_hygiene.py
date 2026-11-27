@@ -87,13 +87,25 @@ class WorkflowHygieneTests(unittest.TestCase):
         for path, text in self.contents.items():
             for job_name, section in job_sections(text):
                 with self.subTest(workflow=path.name, job=job_name):
+                    declarations = re.findall(r"(?m)^    permissions:(.*)$", section)
+                    for declaration in declarations:
+                        self.assertEqual(
+                            declaration.strip(),
+                            "",
+                            "Job-level permissions must use an explicit block; inline forms are not accepted.",
+                        )
                     blocks = re.findall(
-                        r"(?m)^    permissions:\s*\n((?:^      [^\n]*\n?)*)",
+                        r"(?m)^    permissions:\\s*\\n((?:^      [^\\n]*\\n?)*)",
                         section,
+                    )
+                    self.assertEqual(
+                        len(blocks),
+                        len(declarations),
+                        "Every job-level permissions declaration must be parsed and checked.",
                     )
                     for block in blocks:
                         entries = re.findall(
-                            r"(?m)^      ([A-Za-z0-9_-]+):\s*([A-Za-z]+)\s*$",
+                            r"(?m)^      ([A-Za-z0-9_-]+):\\s*([A-Za-z]+)\\s*$",
                             block,
                         )
                         self.assertEqual(entries, [("contents", "read")])
