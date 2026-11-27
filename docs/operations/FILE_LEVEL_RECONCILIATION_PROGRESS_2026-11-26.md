@@ -814,3 +814,17 @@
 - لا حذف أو استبدال أو نقل أو استيراد أو تشغيل قياسات شبكة.
 
 **الحالة:** STAGE 38 COMPLETE — ARCHITECTURE DOCS RETAINED LIVE; TICK-RATE AND IDENTIFIER IDEAS LEFT AS NON-BINDING DESIGN CANDIDATES.
+
+
+---
+
+## المرحلة 39 — مراجعة salvage لوثائق أنظمة اللعب الأرشيفية (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE39_GAME_SYSTEMS_SALVAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE39_GAME_SYSTEMS_SALVAGE_2026-11-27.md)
+
+- تمت مراجعة ست وثائق systems؛ النسخ الحية تحتفظ بالمبادئ وتصحح حدود التنفيذ/الاعتماد.
+- لا استيراد قاعدة disconnect=No من ENDGAME الأرشيفية؛ القرار الشبكي ما زال TBD.
+- لا استيراد جداول Collapse/Combat أو عتبات Betrayal؛ القيم غير معتمدة.
+- لا تغيير في كود أو قواعد أو حذف/نقل/استبدال، ولا تشغيل اختبارات.
+
+**الحالة:** STAGE 39 COMPLETE — ALL SIX GAME-SYSTEM DOCS RETAIN LIVE; ARCHIVE-ONLY RULE VARIANTS REJECTED AS NON-AUTHORITATIVE.
