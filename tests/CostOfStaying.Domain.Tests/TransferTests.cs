@@ -52,7 +52,11 @@ namespace CostOfStaying.Domain.Tests
         {
             var (match, clock, a, b) = SetupTwoPlayers();
             match.Players[a].Debuffs[0].RemainingSeconds = 12.5;
-            match.TryTransfer(a, b, 1.0, "req-2");
+            var result = match.TryTransfer(a, b, 1.0, "req-2");
+            Assert.That(result, Is.EqualTo(Match.TransferResult.Success));
+            Assert.That(match.Players[a].Debuffs, Is.Empty);
+            Assert.That(match.Players[b].Debuffs.Count, Is.EqualTo(1));
+            Assert.That(match.Players[b].Debuffs[0].Id, Is.EqualTo("test-debuff"));
             Assert.That(match.Players[b].Debuffs[0].RemainingSeconds, Is.EqualTo(12.5).Within(1e-9));
         }
 
@@ -96,9 +100,20 @@ namespace CostOfStaying.Domain.Tests
             match.Players[b].Debuffs.Add(new Debuff("x1", 0.01, 10, true));
             match.Players[b].Debuffs.Add(new Debuff("x2", 0.01, 10, true));
             match.Players[b].Debuffs.Add(new Debuff("x3", 0.01, 10, true));
+            int eventsBefore = match.Events.Count;
+            int processedIdsBefore = match.ProcessedRequestIds.Count;
             var result = match.TryTransfer(a, b, 1.0, "req-6");
             Assert.That(result, Is.EqualTo(Match.TransferResult.RejectedTargetFull));
+            Assert.That(match.Players[a].Debuffs.Count, Is.EqualTo(1));
+            Assert.That(match.Players[a].Debuffs[0].Id, Is.EqualTo("test-debuff"));
+            Assert.That(match.Players[b].Debuffs.Count, Is.EqualTo(3));
+            Assert.That(match.Players[b].Debuffs[0].Id, Is.EqualTo("x1"));
+            Assert.That(match.Players[b].Debuffs[1].Id, Is.EqualTo("x2"));
+            Assert.That(match.Players[b].Debuffs[2].Id, Is.EqualTo("x3"));
             Assert.That(match.Players[a].BetrayalPoints, Is.EqualTo(0));
+            Assert.That(match.ProcessedRequestIds.Count, Is.EqualTo(processedIdsBefore));
+            Assert.That(match.Events.Count, Is.EqualTo(eventsBefore + 1));
+            Assert.That(match.Events[match.Events.Count - 1].Kind, Is.EqualTo(DomainEventKind.TransferRejected));
         }
 
         [Test]
@@ -185,10 +200,19 @@ namespace CostOfStaying.Domain.Tests
             match.Players[b].State = PlayerState.Spirit;
             var beforeA = match.Players[a].Debuffs.Count;
             var beforeB = match.Players[b].Debuffs.Count;
+            var sourceDebuffId = match.Players[a].Debuffs[0].Id;
+            var betrayalBefore = match.Players[a].BetrayalPoints;
+            int processedIdsBefore = match.ProcessedRequestIds.Count;
+            int eventsBefore = match.Events.Count;
             var result = match.TryTransfer(a, b, 1.0, "req-atomic");
             Assert.That(result, Is.EqualTo(Match.TransferResult.RejectedNotAlive));
             Assert.That(match.Players[a].Debuffs.Count, Is.EqualTo(beforeA));
+            Assert.That(match.Players[a].Debuffs[0].Id, Is.EqualTo(sourceDebuffId));
             Assert.That(match.Players[b].Debuffs.Count, Is.EqualTo(beforeB));
+            Assert.That(match.Players[a].BetrayalPoints, Is.EqualTo(betrayalBefore));
+            Assert.That(match.ProcessedRequestIds.Count, Is.EqualTo(processedIdsBefore));
+            Assert.That(match.Events.Count, Is.EqualTo(eventsBefore + 1));
+            Assert.That(match.Events[match.Events.Count - 1].Kind, Is.EqualTo(DomainEventKind.TransferRejected));
         }
     }
 }
