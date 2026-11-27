@@ -112,6 +112,19 @@ namespace CostOfStaying.Core.Tests
         }
 
         [Test]
+        public void Build_RejectsAccountFromAnotherMatchEvenWhenRegistryClaimsCurrentMatch()
+        {
+            CoreComposition composition = CoreComposition.Create(new MatchId(8));
+            var account = new VitalityAccount(new MatchId(9), new ActorId(90));
+            var foreignRegistry = new ForeignAccountMatchPlayerRegistry(new MatchId(8), account);
+            var builder = new MatchRosterSnapshotBuilder(composition.CreateMatchLifecycle(), foreignRegistry);
+
+            Assert.That(
+                builder.Build(new ServerTick(0), new StateRevision(0)).ErrorCode,
+                Is.EqualTo(CoreErrorCode.InvalidState));
+        }
+
+        [Test]
         public void Build_RejectsInvalidMatchPhase()
         {
             CoreComposition composition = CoreComposition.Create(new MatchId(9));
@@ -121,6 +134,28 @@ namespace CostOfStaying.Core.Tests
 
             Assert.That(builder.Build(new ServerTick(0), new StateRevision(0)).ErrorCode,
                 Is.EqualTo(CoreErrorCode.InvalidState));
+        }
+
+        private sealed class ForeignAccountMatchPlayerRegistry : IMatchPlayerRegistry
+        {
+            private readonly IVitalityAccount _account;
+
+            public ForeignAccountMatchPlayerRegistry(MatchId matchId, IVitalityAccount account)
+            {
+                MatchId = matchId;
+                _account = account;
+            }
+
+            public MatchId MatchId { get; }
+            public int Capacity => 1;
+            public int Count => 1;
+            public Result Register(IVitalityAccount account) => Result.Failure(CoreErrorCode.InvalidState);
+            public Result<IVitalityAccount> Get(ActorId actorId) =>
+                actorId == _account.PlayerId
+                    ? Result<IVitalityAccount>.Success(_account)
+                    : Result<IVitalityAccount>.Failure(CoreErrorCode.NotFound);
+            public Result Remove(ActorId actorId) => Result.Failure(CoreErrorCode.NotFound);
+            public IReadOnlyList<ActorId> GetPlayerIdsSnapshot() => new[] { _account.PlayerId };
         }
 
         private sealed class InvalidVitalityAccount : IVitalityAccount
