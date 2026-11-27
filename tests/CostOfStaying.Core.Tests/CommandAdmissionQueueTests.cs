@@ -26,6 +26,13 @@ namespace CostOfStaying.Core.Tests
         }
 
         [Test]
+        public void Constructor_RequiresValidMatchId()
+        {
+            Assert.Throws<System.ArgumentException>(() =>
+                new CommandAdmissionQueue<TestCommand>(default, 4, 2, 1));
+        }
+
+        [Test]
         public void Constructor_RejectsZeroCapacity()
         {
             Assert.Throws<System.ArgumentOutOfRangeException>(() =>
