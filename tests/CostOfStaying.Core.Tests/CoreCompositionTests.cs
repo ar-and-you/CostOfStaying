@@ -180,6 +180,20 @@ namespace CostOfStaying.Core.Tests
         }
 
         [Test]
+        public void CoreComposition_DoesNotExposeAdmissionOnlyFactoriesAsPublicIngress()
+        {
+            Assert.That(
+                typeof(CoreComposition).GetMethod("CreateCommandAdmissionService"),
+                Is.Null,
+                "Session-only admission must not be exposed as a public gameplay ingress.");
+
+            Assert.That(
+                typeof(CoreComposition).GetMethod("CreateMatchCommandAdmissionService"),
+                Is.Null,
+                "Membership-only admission must not bypass the explicit gameplay authorization policy.");
+        }
+
+        [Test]
         public void CreateMatchCommandAuthorizationService_UsesProvidedMatchAndPolicy()
         {
             CoreComposition composition = CoreComposition.Create(new MatchId(42));
