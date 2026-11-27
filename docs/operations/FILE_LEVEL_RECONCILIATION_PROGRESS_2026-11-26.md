@@ -682,3 +682,18 @@
 - لا تغيير في إعدادات البناء أو lint/security، ولا تشغيل build أو scans.
 
 **الحالة:** STAGE 29 COMPLETE — ROOT CONFIG CROSSWALK; FOUR ARCHIVE-ONLY TOOL CONFIGS REQUIRE EXPLICIT TOOLCHAIN ADOPTION.
+
+
+---
+
+## المرحلة 30 — مراجعة دلالية لاختبارات Core القديمة الأرشيفية (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE30_LEGACY_TEST_COVERAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE30_LEGACY_TEST_COVERAGE_2026-11-27.md)
+
+- تمت مراجعة 6 ملفات اختبارات قديمة تحت Core.Tests؛ 37 اسم حالة اختبار.
+- أسماء الحالات الـ37 كلها موجودة في ملفات Domain.Tests الحية المناظرة، مع حالات إضافية حية تغطي إصلاحات أحدث.
+- غياب الملفات من Core.Tests لا يعني فقد التغطية؛ قواعد اللعب تخص Domain حالياً، بينما Core.Tests يغطي خدمات الأوامر والجلسات.
+- المقارنة على مستوى أسماء الاختبارات فقط؛ لم يُدّع تطابق bodies/assertions.
+- لا استعادة أو حذف أو تعديل، ولا تشغيل .NET/CI.
+
+**الحالة:** STAGE 30 COMPLETE — 37/37 LEGACY TEST NAMES MAPPED TO LIVE DOMAIN TESTS; ASSERTION-LEVEL EQUIVALENCE NOT CLAIMED.
