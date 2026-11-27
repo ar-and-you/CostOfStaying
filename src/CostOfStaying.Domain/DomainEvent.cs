@@ -2,7 +2,7 @@ using System;
 
 namespace CostOfStaying.Domain
 {
-    /// <summary>Domain event kinds emitted by the server for replication to clients.</summary>
+    /// <summary>Domain event kinds emitted by the Match aggregate; a host adapter may replicate them.</summary>
     public enum DomainEventKind
     {
         MatchStarted,
@@ -20,8 +20,9 @@ namespace CostOfStaying.Domain
     }
 
     /// <summary>
-    /// Immutable record of a server-side state change. The network adapter
-    /// replicates these to clients; clients never originate them (ADR-002).
+    /// Immutable record emitted by a Domain state transition. A future host/network
+    /// adapter may replicate it; this Domain assembly does not implement transport
+    /// or authenticate the origin of an operation.
     /// </summary>
     public sealed class DomainEvent
     {
