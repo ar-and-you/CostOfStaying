@@ -265,7 +265,7 @@ namespace CostOfStaying.Core.Tests
             out DelegatePolicy policy,
             Func<MatchCommandAuthorizationContext<string>, Result> evaluate)
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(5));
             sessions = composition.CreateSessionRegistry(8);
             match = composition.CreateMatchLifecycle(new MatchId(5));
             players = composition.CreateMatchPlayerRegistry(match.MatchId, 8);
