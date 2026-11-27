@@ -12,6 +12,7 @@
 - [التحكم في التغيير والاعتماد](governance/CHANGE_CONTROL.md)
 - [سياسة Git والدمج](governance/GIT_AND_MERGE_POLICY.md)
 - [حالات العمل ومعايير الأدلة](governance/STATUS_AND_EVIDENCE.md)
+- [سجل القرارات المفتوحة وبوابات الاعتماد](governance/OPEN_DECISION_REGISTER.md)
 - [سياسة الوكلاء والأتمتة](governance/AI_AND_AUTOMATION_POLICY.md)
 - [سجل الحالة المؤرخ للمشروع](governance/PROJECT_STATUS.md)
 - [خطة التنفيذ الاستشارية — 2026-11-26 (PROPOSED)](plans/ADVISORY_PLAN_2026-11-26.md)

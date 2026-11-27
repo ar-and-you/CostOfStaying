@@ -29,7 +29,7 @@ The bundle includes a later hybrid-branch proposal (ADR-028), but its governance
 - [x] 0.3 Review `.gitignore` for .NET, Python and Unity; Unity `.meta` files must remain versioned.
 - [x] 0.4 Record the archive/live-tree divergence in `docs/operations/RECONCILIATION_2026-11-21.md`.
 - [x] 0.5 Add contribution guidance, a documentation index, and explicit verification/CI procedures.
-- [x] 0.6 Review branch safeguards without bypassing them; on 2026-11-22 the branch-protection endpoint reported `main` unprotected and the repository rulesets endpoint returned an empty list.
+- [x] 0.6 Review branch safeguards without bypassing them; the 2026-11-22 read reported main unprotected and rulesets empty, but a later branch-protection read on 2026-11-26 returned 403. Treat the earlier result as historical only; current protection status is UNKNOWN until a readable endpoint confirms it.
 
 ## Phase 1 — Documentation and decisions
 

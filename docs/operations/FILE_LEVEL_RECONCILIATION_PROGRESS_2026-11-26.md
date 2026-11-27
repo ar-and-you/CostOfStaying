@@ -1116,3 +1116,18 @@
 - لا تغيير source أو dependencies أو rules.
 
 **الحالة:** STAGE 58 COMPLETE — DOMAIN/CORE COMPATIBILITY MAPPED; PROJECTS REMAIN SEPARATE.
+
+
+---
+
+## المرحلة 59 — إنشاء سجل مركزي للقرارات المفتوحة وبوابات الاعتماد (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE59_OPEN_DECISION_REGISTER_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE59_OPEN_DECISION_REGISTER_2026-11-27.md)
+
+- أنشئ سجل مركزي يجمع D0–D9 وD-R1..D-R7 وعيوب Domain D-01..D-08 مع فصل واضح بين أنواع القرارات.
+- D0 مكتمل توثيقياً؛ D1–D9 تبقى مفتوحة/محجوبة حسب الأدلة.
+- D-08 موثق VERIFIED على SHA bfbed74ae24e8e5e49baff84e7a18b0e99b55807 (62/62 Domain tests)، لا على كل رأس لاحق.
+- صحح ROADMAP ليعرض branch protection الحالي UNKNOWN بعد 403؛ القراءة السابقة تاريخية.
+- لا قرارات مالك اتخذت نيابة عنه ولا تغيير كود/إعدادات/قواعد.
+
+**الحالة:** STAGE 59 COMPLETE — OPEN DECISIONS REGISTERED; NO OWNER DECISION ASSUMED.
