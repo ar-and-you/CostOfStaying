@@ -137,6 +137,7 @@
 - [المرحلة 49 — إغلاق تقاطع مسارات الوثائق الأرشيفية وتصنيف جميع المسارات غير الحية — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE49_DOCS_ARCHIVE_ONLY_COVERAGE_2026-11-27.md)
 - [المرحلة 50 — مصفوفة إغلاق المسارات الأرشيفية غير المنقولة على مستوى المستودع — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE50_GLOBAL_ARCHIVE_PATH_CLOSURE_2026-11-27.md)
 - [المرحلة 51 — مصالحة ميثاق وتصميم وقواعد اللعبة والمسرد — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE51_GAME_DESIGN_GLOSSARY_SALVAGE_2026-11-27.md)
+- [المرحلة 52 — إضافة فحوص ثابتة لسلامة GitHub Actions — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE52_WORKFLOW_HYGIENE_TESTS_2026-11-27.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
