@@ -872,4 +872,20 @@
 - توثقت حدود idempotency: الذاكرة/عمر Match فقط، وتكرار ID صالح يسجل TransferRejected دون mutation في حالة اللعب.
 - لم تُشغّل NUnit محلياً؛ يلزم انتظار Domain CI على SHA الجديد قبل إعلان VERIFIED.
 
-**الحالة:** STAGE 42 IMPLEMENTED IN MAIN — CI VERIFICATION PENDING.
+**الحالة:** STAGE 42 IMPLEMENTED; CI VERIFIED on SHA `77be997231cd93b6437d95b8ba3c9a2018ef861d` by Domain/Core/Docs runs 45915594682, 45915594692, and 45915594633. The initial failure was a malformed test fixture and is documented in stage 43.
+
+
+---
+
+## المرحلة 43 — تصحيح اختبار RequestId وتدقيق حدود الثقة للمسافة (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE43_TRANSFER_FIXTURE_AND_TRUST_BOUNDARY_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE43_TRANSFER_FIXTURE_AND_TRUST_BOUNDARY_2026-11-27.md)
+
+- فشل Domain CI الأول لأن الاختبار مرر `\\t` كنص literal (backslash + t)، لا Tab؛ شرط `IsNullOrWhiteSpace` تصرف كما ينبغي.
+- صُححت fixture إلى `"\t"` وأصبح اسم الاختبار يذكر Tab صراحة.
+- صُححت تعليقات Match وSecurityTests كي لا توحي بأن Domain يقيس المسافة أو يثبت وجود server adapter.
+- وُضح في وثيقة Suffering Transfer أن replay قد يسجل حدث تدقيق دون تغيير حالة اللعب.
+- على SHA `77be997231cd93b6437d95b8ba3c9a2018ef861d`: Domain NUnit 61/61؛ Python syntax/simulator/CLI ناجحة؛ Core NUnit ناجح؛ Documentation Governance ناجح.
+- لا يثبت هذا Network Adapter أو server measurement أو persistence أو concurrent processing.
+
+**الحالة:** `STAGE 43 COMPLETE — FIXTURE CORRECTED; CURRENT SHA CI VERIFIED.`
