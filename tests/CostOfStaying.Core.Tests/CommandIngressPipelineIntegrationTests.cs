@@ -133,7 +133,7 @@ namespace CostOfStaying.Core.Tests
             out RunningAlivePolicy policy,
             out MatchLifecycle match)
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(9));
             var sessions = composition.CreateSessionRegistry(4);
             match = (MatchLifecycle)composition.CreateMatchLifecycle(new MatchId(9));
             Assert.That(match.TryTransition(MatchPhase.Waiting).IsSuccess, Is.True);
