@@ -83,7 +83,7 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 
 - SessionRegistry وMatchPlayerRegistry وConnectionSessionRegistry وCommandAdmissionQueue وCommandSequenceTracker محدودة بسعات صريحة من host.
 - BetrayalLedger._events غير محدود، و_scores لا يملك سقفاً مستقلاً؛ exact replay behavior يعتمد على سجل الأحداث.
-- لا global active-match cap في CoreComposition، ولا payload size limit داخل TCommand. على فرع hardening الحالي يتطلب `Create(MatchId)` معرفاً صالحاً ويربط match factories بالمعرف نفسه؛ لم يُشغّل التحقق بعد ولم يُدمج التغيير في main.
+- لا global active-match cap في CoreComposition، ولا payload size limit داخل TCommand. على فرع hardening الحالي يتطلب `Create(MatchId)` معرفاً صالحاً؛ MatchLifecycle وMatchPlayerRegistry وVitalityAccount وCommandAdmissionQueue والـmatch service factories مربوطة بالـscope نفسه، مع رفض تسجيل حساب أو queue من MatchId آخر؛ لم تُشغّل الاختبارات بعد ولم يُدمج التغيير في main.
 - يلزم host roster/authority validation قبل BetrayalLedger.TryRecord، مع سياسة event retention وmatch concurrency قبل الإنتاج.
 
 مراجعة المرحلة 61 أكدت سلوك التنفيذ والاختبارات التالية:
