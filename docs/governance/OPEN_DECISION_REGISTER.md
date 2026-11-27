@@ -83,7 +83,7 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 
 - SessionRegistry وMatchPlayerRegistry وConnectionSessionRegistry وCommandAdmissionQueue وCommandSequenceTracker محدودة بسعات صريحة من host.
 - BetrayalLedger._events غير محدود، و_scores لا يملك سقفاً مستقلاً؛ exact replay behavior يعتمد على سجل الأحداث.
-- لا global active-match cap في CoreComposition، ولا payload size limit داخل TCommand. Create() لا يستقبل MatchId ولا يفرض instance-per-match؛ composition واحد قد يشارك BetrayalLedger بين عدة MatchIds إذا أسيء استخدامه.
+- لا global active-match cap في CoreComposition، ولا payload size limit داخل TCommand. على فرع hardening الحالي يتطلب `Create(MatchId)` معرفاً صالحاً ويربط match factories بالمعرف نفسه؛ لم يُشغّل التحقق بعد ولم يُدمج التغيير في main.
 - يلزم host roster/authority validation قبل BetrayalLedger.TryRecord، مع سياسة event retention وmatch concurrency قبل الإنتاج.
 
 مراجعة المرحلة 61 أكدت سلوك التنفيذ والاختبارات التالية:
@@ -129,7 +129,7 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 | SEC-01 | كل أمر حساس يحتاج authorization policy صريحة؛ لا permissive default. غياب الربط يجب أن يفشل عند composition/startup قبل قبول الأوامر. | OWNER_APPROVED_DIRECTION |
 | SEC-02 | لا مزود خارجي أو تكامل هوية/تخزين قبل إغلاق F-001 وF-002 بأدلة واختبارات. | OWNER_APPROVED_GATE |
 | SEC-03 | تسجيل Betrayal يجب أن يصدر من Gameplay handler موثوق بعد التحقق من هوية Actor وVictim وعضويتهما وسلطة الفعل. | OWNER_APPROVED_DIRECTION; IMPLEMENTATION_OPEN |
-| SEC-04 | عزل MatchId يجب أن يكون invariant بنيوياً، بعد جرد موارد Core وتصنيف Match/Host/Session scope. | OWNER_APPROVED_DIRECTION; IMPLEMENTATION_OPEN |
+| SEC-04 | عزل MatchId يجب أن يكون invariant بنيوياً، بعد جرد موارد Core وتصنيف Match/Host/Session scope. | OWNER_APPROVED_DIRECTION; IMPLEMENTED_ON_REVIEW_BRANCH_PENDING_TESTS |
 | SEC-05 | لا retention cap أو eviction أو snapshot policy قبل تحديد عمر المباراة، الاستئناف، عدد اللاعبين، ومعدل الأحداث. | OWNER_APPROVED_CONSTRAINT |
 | SEC-06 | لا اعتماد مزود خارجي ولا إضافة عقود IPlayerAuth/ISaveStore قبل إثبات الحاجة بعد إغلاق مراحل Core. | OWNER_APPROVED_GATE |
 
@@ -149,5 +149,5 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 ### حالة F-001 وF-002 عند بدء التنفيذ
 
 - F-001: Core يفرض policy غير null لكل `MatchCommandAuthorizationService<TCommand>` instance ويعيد التقييم قبل admission وبعد dequeue. لا توجد حالياً concrete Gameplay command DTOs أو policies إنتاجية أو registry شامل يثبت اكتمال التغطية. لا تغلق F-001 قبل إنشاء/حصر الأوامر واختبار missing registration وwrong policy.
-- F-002: `BetrayalLedger` يتحقق من بنية الحدث والتسلسل وexact replay، لكنه لا يتحقق من membership أو gameplay authority. `CoreComposition.BetrayalLedger` يعرض الآن واجهة قراءة عامة فقط؛ `TryRecord` أصبح internal لمنع التسجيل من مستهلك خارجي أو عبر cast. هذا يغلق مسار الكتابة العام، لكنه لا يوفر بعد Trusted Gameplay Handler أو membership/authority checks. لا تغلق F-002 قبل حصر جميع المستهلكين وتوفير المسار الموثوق واختبارات العضوية والسلطة.
+- F-002: `BetrayalLedger` يتحقق من بنية الحدث والتسلسل وexact replay، لكنه لا يتحقق من membership أو gameplay authority. `CoreComposition.BetrayalLedger` يعرض واجهة قراءة عامة فقط؛ `TryRecord` أصبح internal لمنع التسجيل من مستهلك خارجي أو عبر cast. هذا يغلق مسار الكتابة العام، لكنه لا يوفر بعد Trusted Gameplay Handler أو membership/authority checks. لا تغلق F-002 قبل توفير المسار الموثوق واختبارات العضوية والسلطة.
 - لا يُدعى تشغيل اختبارات أو تغيير Source في هذه الإضافة؛ هي سجل قرار/خط أساس فقط.
