@@ -757,3 +757,18 @@
 - لا تعديل في workflows أو إعدادات GitHub، ولا تشغيل CI/scanners.
 
 **الحالة:** STAGE 34 COMPLETE — MATURE CI GUARDRAILS CONFIRMED LIVE; OPTIONAL SECURITY/CONFIG SCANNING ADOPTION REMAINS A SEPARATE DECISION.
+
+
+---
+
+## المرحلة 35 — مصالحة متطلبات التتبع الأرشيفية مع خريطة المتطلبات الحية (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE35_REQUIREMENT_TRACEABILITY_SALVAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE35_REQUIREMENT_TRACEABILITY_SALVAGE_2026-11-27.md)
+
+- تمت مصالحة متطلبات GAME/COLLAPSE/TRANSFER/SPIRIT/ENDGAME/NETWORK/PERFORMANCE/CI/PLATFORM القديمة مع IDs الحية.
+- أغلب قواعد Domain مغطاة حالياً؛ الأدلة الشبكية والأداء على جهاز فعلي غير موجودة.
+- ضوابط SHA pinning والحد الأدنى للصلاحيات والمهلة وpersist-credentials موجودة؛ فحوص workflow-hygiene وGitleaks تحتاج قراراً منفصلاً.
+- لا استيراد IDs أو SRC-ADR الأرشيفية؛ لا تعديل traceability الحية دون مراجعة/اعتماد.
+- لا تشغيل tests/scanners/CI.
+
+**الحالة:** STAGE 35 COMPLETE — LEGACY REQUIREMENT MAP RECONCILED; PERFORMANCE/SECURITY/NETWORK EVIDENCE GAPS REMAIN OPEN.
