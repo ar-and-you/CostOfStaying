@@ -1,8 +1,8 @@
 # تحديث حالة الرأس — 2026-11-27
 
-- `main` HEAD عند آخر قراءة: `0ebb36090f0c1ab254d4402c2a738dd6a7d5b1a5` (`docs: refresh current main CI and CodeQL evidence`).
-- أحدث مجموعة check-runs مكتملة مفصلة في هذا السجل تخص الالتزام السابق `94b341a681930e875fdbeee6ff3ccecb77476a14`، لا HEAD الحالي. لا توجد في هذا السجل نتيجة تثبت تشغيل Domain/Core/Documentation Governance/CodeQL على `0ebb360...`.
-- لذلك حالة التحقق من HEAD الحالي: **NOT VERIFIED IN THIS LOG** إلى أن تُقرأ check-runs المرتبطة بالـSHA نفسه.
+- `main` HEAD عند آخر قراءة: `60d15bc8f7aafb99f31ea2d61a6fd750719e53d8`.
+- تم التحقق من check-runs المرتبطة بهذا SHA: Domain/Python CI وCore CI وDocumentation Governance وCodeQL dynamic اكتملت جميعها `completed/success`؛ التفاصيل في القسم 0.7 أدناه.
+- نتائج التشغيلات مقيدة بالـSHA المذكور، ولا تثبت وجود Unity أو Android أو transport/server runtime أو خلو تنبيهات CodeQL.
 - آخر قراءة branch-protection بتاريخ 2026-11-27 أعادت 403؛ الحالة UNKNOWN/NOT VERIFIED. قراءة repository rulesets أعادت `[]` ضمن النطاق المتاح ولا تحسم قواعد المؤسسة أو الحماية الموروثة.
 - لم تُغيّر إعدادات GitHub في هذه المراجعة.
 
@@ -20,6 +20,19 @@
 هذه النتائج مرتبطة حصراً بـSHA `94b341a681930e875fdbeee6ff3ccecb77476a14`. سجلات الوظائف تؤكد 62/62 Domain، و248/248 Core، و11 اختبار simulator، و6 اختبارات workflow hygiene. نجاح CodeQL لا يكشف قائمة alerts ولا يثبت خلوها. لم تتغير إعدادات GitHub؛ قراءة branch protection والتنبيهات ما زالت محدودة الصلاحيات.
 
 ---
+
+
+
+## 0.7 تحقق CI وCodeQL على HEAD الحالي — SHA `60d15bc8f7aafb99f31ea2d61a6fd750719e53d8` (2026-11-27)
+
+| الفحص | Run ID | Check run IDs | النتيجة |
+|---|---:|---|---|
+| Domain and Python CI | [45979032679](https://github.com/ar-and-you/CostOfStaying/actions/runs/45979032679) | 140440309145 | completed / success |
+| Core CI (.NET 10) | [45979032628](https://github.com/ar-and-you/CostOfStaying/actions/runs/45979032628) | 140437943795 | completed / success |
+| Documentation Governance | [45979032548](https://github.com/ar-and-you/CostOfStaying/actions/runs/45979032548) | 140440278573 | completed / success |
+| CodeQL dynamic — C# / Python / Actions | [45979033244](https://github.com/ar-and-you/CostOfStaying/actions/runs/45979033244) | 140437951581 / 140437950908 / 140437951445 | completed / success |
+
+أكدت قراءة check-runs أن الوظائف الست كلها مرتبطة بالـSHA نفسه. اسم تشغيل CodeQL في Actions هو `Push on main`؛ أما أسماء الفحوص الفعلية فهي Analyze (csharp)، Analyze (python)، وAnalyze (actions)، وجميعها اكتملت بنجاح. نجاح التحليل لا يكشف قائمة alerts ولا يثبت خلوها. كما لا تثبت هذه التشغيلات تكامل Unity/Android أو transport/Dedicated Server أو human playtest.
 
 # أدوات GitHub — الحالة الفعلية وخطة الاستكمال
 
