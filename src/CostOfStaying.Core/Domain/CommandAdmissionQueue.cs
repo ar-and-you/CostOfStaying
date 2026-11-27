@@ -13,18 +13,23 @@ namespace CostOfStaying.Core.Domain
         private readonly CommandSequenceTracker _sequenceTracker;
 
         internal CommandAdmissionQueue(
+            MatchId matchId,
             ulong maximumSequenceJump,
             int maximumTrackedSessions,
             int capacity)
         {
+            if (!matchId.IsValid)
+                throw new System.ArgumentException("Match identity must be non-zero.", nameof(matchId));
             if (capacity <= 0)
                 throw new System.ArgumentOutOfRangeException(nameof(capacity), "Queue capacity must be positive.");
 
+            MatchId = matchId;
             _sequenceTracker = new CommandSequenceTracker(maximumSequenceJump, maximumTrackedSessions);
             _pending = new Queue<CommandEnvelope<TCommand>>(capacity);
             Capacity = capacity;
         }
 
+        public MatchId MatchId { get; }
         public int Capacity { get; }
         public int PendingCount => _pending.Count;
 
