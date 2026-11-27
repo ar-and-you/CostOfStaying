@@ -653,3 +653,18 @@
 - لا حذف أو استبدال أو نقل أو استيراد أو تشغيل للأدوات الأرشيفية.
 
 **الحالة:** STAGE 27 COMPLETE — TOOLS CROSSWALKED; LEGACY TOOLING BLOCKED BY MISSING/STALE DEPENDENCIES.
+
+
+---
+
+## المرحلة 28 — مطابقة إعدادات GitHub وWorkflows الأرشيفية (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE28_GITHUB_CONFIG_CROSSWALK_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE28_GITHUB_CONFIG_CROSSWALK_2026-11-27.md)
+
+- 27 مساراً .github/ و15 مساراً github/ في الأرشيف؛ main يضم 3 workflows فقط.
+- ci.yml له نسختان أرشيفيتان مختلفتان ولا تطابق الحي؛ core-ci.yml نسخة أرشيفية واحدة ولا تطابق الحي؛ docs-governance.yml حي فقط.
+- 25 إعداداً أرشيفياً فقط تشمل Dependabot وCODEOWNERS وrulesets وقوالب وsecurity/mobile workflows؛ لا تفعيل تلقائي.
+- 13/15 من مسارات github/ لها counterparts مطابقة تحت .github/ في الأرشيف؛ هذا لا يجعل github/ مسار إعداد نشطاً.
+- لا تغيير في workflows أو إعدادات GitHub، ولا تشغيل CI.
+
+**الحالة:** STAGE 28 COMPLETE — GITHUB CONFIG PATH/CURRENT WORKFLOW CROSSWALK; LEGACY WORKFLOW ADOPTION BLOCKED PENDING REVIEW.
