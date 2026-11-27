@@ -98,7 +98,7 @@ namespace CostOfStaying.Core.Tests
                 composition.CreateMatchCommandAdmissionService(sessions, targetMatch, queue);
             var actorId = new ActorId(70);
             var session = RegisterAuthenticated(sessions, new SessionId(10), actorId);
-            Assert.That(otherMatch.Register(new VitalityAccount(new MatchId(5), actorId)).IsSuccess, Is.True);
+            Assert.That(otherMatch.Register(new VitalityAccount(new MatchId(2), actorId)).IsSuccess, Is.True);
 
             Assert.That(service.MatchId, Is.EqualTo(new MatchId(1)));
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1, "move")).ErrorCode,
