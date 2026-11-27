@@ -14,7 +14,7 @@ namespace CostOfStaying.Domain
         /// <summary>Extra vitality decay per second while this debuff is active.</summary>
         public double DecayBonusPerSecond { get; }
 
-        /// <summary>Seconds remaining. Decremented by the server tick.</summary>
+        /// <summary>Seconds remaining. Decremented by Match.Tick using its supplied delta.</summary>
         public double RemainingSeconds { get; internal set; }
 
         /// <summary>Whether this debuff can be moved by Suffering Transfer.</summary>
