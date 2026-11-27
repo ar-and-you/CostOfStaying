@@ -3,12 +3,13 @@ namespace CostOfStaying.Core.Contracts
     using CostOfStaying.Core.Domain;
 
     /// <summary>
-    /// Records server-authored betrayal events in strictly increasing sequence order.
-    /// Returns false only for an exact replay of an already-recorded event.
+    /// Read-only view of the server-owned betrayal ledger.
+    /// Event recording is intentionally not exposed through the public contract:
+    /// only trusted Core gameplay code may append events after membership and
+    /// gameplay-authority checks have completed.
     /// </summary>
     public interface IBetrayalLedger
     {
         ulong ScoreFor(ActorId actorId);
-        bool TryRecord(BetrayalEvent betrayalEvent);
     }
 }
