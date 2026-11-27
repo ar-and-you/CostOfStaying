@@ -843,3 +843,18 @@
 - لا استيراد أو حذف أو دفع فروع/bundles، ولا تشغيل CI.
 
 **الحالة:** STAGE 40 COMPLETE — IMPORT PROVENANCE RECONCILED; 107/107 PATHS PRESENT, 99 HASH MATCHES, 8 EXPLAINED STATUS-LINE VARIANTS.
+
+
+---
+
+## المرحلة 41 — سجل موحد لمرشحات الاستفادة من الأرشيف (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE41_SALVAGE_CANDIDATE_REGISTER_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE41_SALVAGE_CANDIDATE_REGISTER_2026-11-27.md)
+
+- جُمعت المرشحات التي ظهرت في مراجعات salvage: P0–P3 للحوادث، منهج أداء 15 دقيقة × 3 مرات، tick-rate sweep 10/15/20Hz، مصفوفة RTT/loss، workflow lint، وGitleaks.
+- ضوابط CI الناضجة موجودة بالفعل؛ لا استيراد مكرر.
+- لا تُعتمد المرشحات كسياسات أو SLOs دون مراجعة المالك والقياس/الأداة.
+- العناصر القديمة المتعارضة أو غير المثبتة مرفوضة من النقل، بما فيها Unified Core وعتبات اللعب وأرقام الأداء القديمة.
+- لا حذف أو نقل أو استيراد.
+
+**الحالة:** STAGE 41 COMPLETE — SALVAGE CANDIDATES CONSOLIDATED; OWNER REVIEW REQUIRED FOR NEW POLICIES/TEST DEFAULTS.
