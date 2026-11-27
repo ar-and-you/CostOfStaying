@@ -1010,3 +1010,18 @@
 - لا تغيير قواعد أو كود أو ملفات تصميم أخرى.
 
 **الحالة:** STAGE 51 COMPLETE — PRODUCT DESIGN ARCHIVE RECONCILED; LIMITED GLOSSARY SALVAGE APPLIED.
+
+
+---
+
+## المرحلة 52 — إضافة فحوص ثابتة لسلامة GitHub Actions (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE52_WORKFLOW_HYGIENE_TESTS_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE52_WORKFLOW_HYGIENE_TESTS_2026-11-27.md)
+
+- أضيفت اختبارات Python standard library لثلاثة Workflows: permissions read-only، SHA pinning، job timeout، persist-credentials false، ومنع privileged triggers دون مراجعة.
+- أضيفت خطوة الاختبار إلى Domain/Python CI، ووثّق النطاق في `tools/github_workflow_tests/README.md` وTOOLING_MAP.
+- Domain/Python run 45916838661، Core run 45916838645، Docs Governance run 45916838631: كلها success على SHA `19ea7ecbc16720ebccc761cfb9c79ab394eb224c`.
+- على SHA `8658df6157c48d5a9173403cc33f6d46952f9cda` فشل Docs Governance لأن تقرير Stage51 workflow-hygiene كان orphan بعد ترقيم Stage51 إلى game design؛ تم تصحيح الترقيم في هذه المرحلة، ويلزم انتظار Docs Governance على الرأس الجديد.
+- لا PyYAML/npm dependencies، ولا تطبيق إعدادات GitHub الأرشيفية أو rulesets.
+
+**الحالة:** `STAGE 52 IMPLEMENTED — WORKFLOW HYGIENE TESTS PASS ON IMPLEMENTATION SHA; FINAL DOCUMENTATION GOVERNANCE RERUN REQUIRED.`
