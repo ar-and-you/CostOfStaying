@@ -1,4 +1,12 @@
-## 0.6 تحقق CI حي على الرأس الحالي — SHA `94b341a681930e875fdbeee6ff3ccecb77476a14` (2026-11-27)
+# تحديث حالة الرأس — 2026-11-27
+
+- `main` HEAD عند آخر قراءة: `0ebb36090f0c1ab254d4402c2a738dd6a7d5b1a5` (`docs: refresh current main CI and CodeQL evidence`).
+- أحدث مجموعة check-runs مكتملة مفصلة في هذا السجل تخص الالتزام السابق `94b341a681930e875fdbeee6ff3ccecb77476a14`، لا HEAD الحالي. لا توجد في هذا السجل نتيجة تثبت تشغيل Domain/Core/Documentation Governance/CodeQL على `0ebb360...`.
+- لذلك حالة التحقق من HEAD الحالي: **NOT VERIFIED IN THIS LOG** إلى أن تُقرأ check-runs المرتبطة بالـSHA نفسه.
+- آخر قراءة branch-protection بتاريخ 2026-11-27 أعادت 403؛ الحالة UNKNOWN/NOT VERIFIED. قراءة repository rulesets أعادت `[]` ضمن النطاق المتاح ولا تحسم قواعد المؤسسة أو الحماية الموروثة.
+- لم تُغيّر إعدادات GitHub في هذه المراجعة.
+
+## 0.6 تحقق CI حي على SHA السابق — `94b341a681930e875fdbeee6ff3ccecb77476a14` (2026-11-27)
 
 | الفحص | Run ID | Job ID | النتيجة |
 |---|---:|---:|---|
