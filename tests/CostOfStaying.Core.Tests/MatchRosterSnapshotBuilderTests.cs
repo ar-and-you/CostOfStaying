@@ -14,9 +14,9 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void Constructor_RejectsNullDependenciesAndMismatchedMatchIds()
         {
-            CoreComposition composition = CoreComposition.Create();
-            var match = composition.CreateMatchLifecycle(new MatchId(1));
-            var roster = composition.CreateMatchPlayerRegistry(new MatchId(1), 4);
+            CoreComposition composition = CoreComposition.Create(new MatchId(1));
+            var match = composition.CreateMatchLifecycle();
+            var roster = composition.CreateMatchPlayerRegistry(4);
 
             Assert.Throws<ArgumentNullException>(() =>
                 composition.CreateMatchRosterSnapshotBuilder(null!, roster));
@@ -25,15 +25,15 @@ namespace CostOfStaying.Core.Tests
             Assert.Throws<ArgumentException>(() =>
                 composition.CreateMatchRosterSnapshotBuilder(
                     match,
-                    composition.CreateMatchPlayerRegistry(new MatchId(2), 4)));
+                    CoreComposition.Create(new MatchId(2)).CreateMatchPlayerRegistry(4)));
         }
 
         [Test]
         public void Build_ProducesValidEmptySnapshotAndPreservesMetadata()
         {
-            CoreComposition composition = CoreComposition.Create();
-            var match = composition.CreateMatchLifecycle(new MatchId(1));
-            var roster = composition.CreateMatchPlayerRegistry(new MatchId(1), 4);
+            CoreComposition composition = CoreComposition.Create(new MatchId(1));
+            var match = composition.CreateMatchLifecycle();
+            var roster = composition.CreateMatchPlayerRegistry(4);
             IMatchRosterSnapshotBuilder builder = composition.CreateMatchRosterSnapshotBuilder(match, roster);
 
             Result<MatchRosterSnapshot> result = builder.Build(new ServerTick(0), new StateRevision(0));
@@ -49,9 +49,9 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void Build_PreservesRosterOrderAndCapturesAdr007PlayerStates()
         {
-            CoreComposition composition = CoreComposition.Create();
-            var match = composition.CreateMatchLifecycle(new MatchId(5));
-            var roster = composition.CreateMatchPlayerRegistry(new MatchId(5), 4);
+            CoreComposition composition = CoreComposition.Create(new MatchId(5));
+            var match = composition.CreateMatchLifecycle();
+            var roster = composition.CreateMatchPlayerRegistry(4);
             var spirit = composition.CreateVitalityAccount(new ActorId(20), 100);
             spirit.Lose(100);
             var alive = composition.CreateVitalityAccount(new ActorId(10), 75);
@@ -82,9 +82,9 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void Build_ReturnsImmutableSnapshotUnaffectedByLaterDomainMutation()
         {
-            CoreComposition composition = CoreComposition.Create();
-            var match = composition.CreateMatchLifecycle(new MatchId(7));
-            var roster = composition.CreateMatchPlayerRegistry(new MatchId(7), 2);
+            CoreComposition composition = CoreComposition.Create(new MatchId(7));
+            var match = composition.CreateMatchLifecycle();
+            var roster = composition.CreateMatchPlayerRegistry(2);
             var account = composition.CreateVitalityAccount(new ActorId(1), 100);
             roster.Register(account);
             IMatchRosterSnapshotBuilder builder = composition.CreateMatchRosterSnapshotBuilder(match, roster);
@@ -100,9 +100,9 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void Build_RejectsLifecycleAndVitalityInconsistency()
         {
-            CoreComposition composition = CoreComposition.Create();
-            var match = composition.CreateMatchLifecycle(new MatchId(8));
-            var roster = composition.CreateMatchPlayerRegistry(new MatchId(8), 2);
+            CoreComposition composition = CoreComposition.Create(new MatchId(8));
+            var match = composition.CreateMatchLifecycle();
+            var roster = composition.CreateMatchPlayerRegistry(2);
             roster.Register(new InvalidVitalityAccount(new ActorId(9)));
             IMatchRosterSnapshotBuilder builder = composition.CreateMatchRosterSnapshotBuilder(match, roster);
 
@@ -114,7 +114,7 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void Build_RejectsInvalidMatchPhase()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(9));
             var match = new InvalidMatchLifecycle(new MatchId(9));
             var roster = new MatchPlayerRegistry(new MatchId(9), 2);
             IMatchRosterSnapshotBuilder builder = composition.CreateMatchRosterSnapshotBuilder(match, roster);
