@@ -155,6 +155,16 @@ namespace CostOfStaying.Core.Tests
         }
 
         [Test]
+        public void Constructor_RequiresValidMatchIdAndRetainsScope()
+        {
+            Assert.Throws<System.ArgumentException>(() =>
+                new VitalityAccount(default, new ActorId(1)));
+
+            var account = new VitalityAccount(new MatchId(7), new ActorId(1));
+            Assert.That(account.MatchId, Is.EqualTo(new MatchId(7)));
+        }
+
+        [Test]
         public void Constructor_RejectsZeroMaximum()
         {
             Assert.Throws<System.ArgumentOutOfRangeException>(() =>
