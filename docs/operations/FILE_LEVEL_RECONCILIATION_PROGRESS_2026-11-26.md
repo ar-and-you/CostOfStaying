@@ -1085,3 +1085,19 @@
 - D-05/D-06 يظلان OPEN_OWNER_DECISION؛ لا اعتماد سياسة No أو catch-up.
 
 **الحالة:** STAGE 56 COMPLETE — VOTE/COLLAPSE IMPLEMENTATION BOUNDARIES DOCUMENTED.
+
+
+---
+
+## المرحلة 57 — تصحيح تعليقات حدود الثقة والساعة والأحداث في Domain (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE57_DOMAIN_TRUST_BOUNDARY_DOCS_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE57_DOMAIN_TRUST_BOUNDARY_DOCS_2026-11-27.md)
+
+- صُححت تعليقات IMatchClock وMonotonicClock لتوضح أنها ساعة يحقنها host ولا تثبت client/server trust.
+- صُحح Debuff.RemainingSeconds ليرتبط بـMatch.Tick والـdelta الممرر.
+- صُحح DomainEvent ليصف حدث aggregate يمكن أن ينسخه adapter مستقبلي، لا transport قائم.
+- صُححت ClientIntent/TransferIntent لتوضح أن PlayerId وRequestId والمسافة مدخلات غير موثوقة، وأن host يجب أن يصادق الهوية ويقيس المسافة.
+- صُحح Match/Tick وPlayer ليصفا Domain aggregate ومجموعات عامة قابلة للتعديل، لا server runtime.
+- تغييرات تعليقات فقط؛ لا تغيير runtime أو gameplay أو tests.
+
+**الحالة:** STAGE 57 COMPLETE — DOMAIN TRUST/BOUNDARY COMMENTS ACCURATE; NO RUNTIME ADAPTER ADDED.
