@@ -2,7 +2,7 @@
 
 - `main` HEAD عند آخر قراءة: `e7e5b5e54f46490c44aaf30888280d55239bb670`؛ لم تُرجع القراءة الحالية تشغيلات CI مرتبطة بهذا SHA، لذا لا يُسجل نجاح حديث على `main`.
 - فرع المراجعة `security/core-trust-boundaries-phase0` عند SHA `dc33a8040d8ee29c96cba440678e9c6733f30565` أكمل Domain/Python CI (run `46079246424`)، وCore CI (.NET 10) (run `46079246422`)، وDocumentation Governance (run `46079246436`) بنجاح. تضمنت Domain/Python CI نجاح actionlint v1.7.12 وzizmor v1.33.1 واختبارات workflow hygiene السبعة واختبارات Domain/Python/Playtest.
-- CodeQL Python وActions analysis نجحا؛ تحليل C# كان قيد التشغيل عند آخر قراءة، والـPR CodeQL check العام `neutral` بسبب عدم العثور على إعداد Default setup للغة C# الموجود على `main` ضمن PR، وبالتالي alert comparison غير مكتمل.
+- اكتملت CodeQL analyses للغات C# وPython وActions، وأصبح PR CodeQL check العام `success` على SHA `dc33a8040d8ee29c96cba440678e9c6733f30565`. نجاح التحليل لا يثبت أن قائمة التنبيهات فارغة؛ لم تُقرأ قائمة alerts هنا.
 - CodeFactor أعاد failure مع Minor issue واحدة؛ Codacy أعاد `action_required` دون ملخص. لم يتم تجاهل أي منهما أو اعتباره نجاحاً.
 - نتائج التشغيلات مقيدة بالـSHA المذكور، ولا تثبت وجود Unity أو Android أو transport/server runtime أو خلو تنبيهات CodeQL.
 - آخر قراءة branch-protection بتاريخ 2026-11-28 أعادت 403؛ الحالة UNKNOWN/NOT VERIFIED. قراءة repository rulesets أعادت `[]` ضمن النطاق المتاح ولا تحسم قواعد المؤسسة أو الحماية الموروثة.
