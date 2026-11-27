@@ -62,7 +62,7 @@ namespace CostOfStaying.Core.Tests
             Assert.That(service.TryAdmit(envelope).ErrorCode, Is.EqualTo(CoreErrorCode.Unauthorized));
             Assert.That(queue.PendingCount, Is.Zero);
 
-            Assert.That(players.Register(new VitalityAccount(new ActorId(7))).IsSuccess, Is.True);
+            Assert.That(players.Register(new VitalityAccount(new MatchId(5), new ActorId(7))).IsSuccess, Is.True);
             Assert.That(service.TryAdmit(envelope).IsSuccess, Is.True);
             Assert.That(queue.PendingCount, Is.EqualTo(1));
         }
@@ -80,7 +80,7 @@ namespace CostOfStaying.Core.Tests
             Assert.That(service.TryAdmit(envelope).ErrorCode, Is.EqualTo(CoreErrorCode.Unauthorized));
             Assert.That(queue.PendingCount, Is.Zero);
 
-            Assert.That(players.Register(new VitalityAccount(new ActorId(7))).IsSuccess, Is.True);
+            Assert.That(players.Register(new VitalityAccount(new MatchId(5), new ActorId(7))).IsSuccess, Is.True);
             Assert.That(service.TryAdmit(envelope).IsSuccess, Is.True);
             Assert.That(queue.PendingCount, Is.EqualTo(1));
         }
@@ -98,7 +98,7 @@ namespace CostOfStaying.Core.Tests
                 composition.CreateMatchCommandAdmissionService(sessions, targetMatch, queue);
             var actorId = new ActorId(70);
             var session = RegisterAuthenticated(sessions, new SessionId(10), actorId);
-            Assert.That(otherMatch.Register(new VitalityAccount(actorId)).IsSuccess, Is.True);
+            Assert.That(otherMatch.Register(new VitalityAccount(new MatchId(5), actorId)).IsSuccess, Is.True);
 
             Assert.That(service.MatchId, Is.EqualTo(new MatchId(1)));
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1, "move")).ErrorCode,
@@ -115,7 +115,7 @@ namespace CostOfStaying.Core.Tests
                 out CommandAdmissionQueue<string> queue);
             var actorId = new ActorId(42);
             var session = RegisterAuthenticated(sessions, new SessionId(20), actorId);
-            Assert.That(players.Register(new VitalityAccount(actorId)).IsSuccess, Is.True);
+            Assert.That(players.Register(new VitalityAccount(new MatchId(5), actorId)).IsSuccess, Is.True);
 
             Result result = service.TryAdmit(CreateEnvelope(session.SessionId, 1, "move"));
 
@@ -132,7 +132,7 @@ namespace CostOfStaying.Core.Tests
                 out CommandAdmissionQueue<string> queue);
             var actorId = new ActorId(42);
             var session = RegisterAuthenticated(sessions, new SessionId(20), actorId);
-            players.Register(new VitalityAccount(actorId));
+            players.Register(new VitalityAccount(new MatchId(5), actorId));
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1, "move")).IsSuccess, Is.True);
 
             Result<AuthenticatedCommand<string>> result = service.TryTakeNext();
@@ -153,7 +153,7 @@ namespace CostOfStaying.Core.Tests
                 out CommandAdmissionQueue<string> queue);
             var actorId = new ActorId(42);
             var session = RegisterAuthenticated(sessions, new SessionId(20), actorId);
-            players.Register(new VitalityAccount(actorId));
+            players.Register(new VitalityAccount(new MatchId(5), actorId));
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1, "move")).IsSuccess, Is.True);
 
             Assert.That(players.Remove(actorId).IsSuccess, Is.True);
@@ -170,7 +170,7 @@ namespace CostOfStaying.Core.Tests
                 out CommandAdmissionQueue<string> queue);
             var actorId = new ActorId(42);
             var session = RegisterAuthenticated(sessions, new SessionId(30), actorId);
-            players.Register(new VitalityAccount(actorId));
+            players.Register(new VitalityAccount(new MatchId(5), actorId));
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1, "move")).IsSuccess, Is.True);
 
             Assert.That(session.TryDisconnect().IsSuccess, Is.True);
@@ -188,7 +188,7 @@ namespace CostOfStaying.Core.Tests
             var actorId = new ActorId(42);
             var first = RegisterAuthenticated(sessions, new SessionId(20), actorId);
             var second = RegisterAuthenticated(sessions, new SessionId(21), actorId);
-            players.Register(new VitalityAccount(actorId));
+            players.Register(new VitalityAccount(new MatchId(5), actorId));
 
             Assert.That(service.TryAdmit(CreateEnvelope(first.SessionId, 1, "first")).IsSuccess, Is.True);
             Assert.That(service.TryAdmit(CreateEnvelope(second.SessionId, 1, "second")).IsSuccess, Is.True);
