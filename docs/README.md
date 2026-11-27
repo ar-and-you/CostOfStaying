@@ -112,6 +112,7 @@
 - [المرحلة 24 — مصالحة سجلات محاكاة اللعب الأرشيفية — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE24_SIMULATED_PLAYTEST_TRIAGE_2026-11-27.md)
 - [المرحلة 25 — فرز خطط التنفيذ والمعمارية وحزم الرفع التاريخية — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE25_ROADMAP_ARCHITECTURE_TRIAGE_2026-11-27.md)
 - [المرحلة 26 — مصالحة ملفات الأرشيف التاريخية ولقطات المستودع القديمة — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE26_LEGACY_ARCHIVE_TRIAGE_2026-11-27.md)
+- [المرحلة 27 — مطابقة أدوات المشروع وفرز الأدوات الأرشيفية — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE27_TOOLS_CROSSWALK_2026-11-27.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
