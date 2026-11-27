@@ -32,7 +32,7 @@ namespace CostOfStaying.Core
 
         public IVitalityAccount CreateVitalityAccount(ActorId playerId, uint maximum = VitalityAccount.DefaultMaximum)
         {
-            return new VitalityAccount(playerId, maximum);
+            return new VitalityAccount(MatchId, playerId, maximum);
         }
 
         public IMatchLifecycle CreateMatchLifecycle()
