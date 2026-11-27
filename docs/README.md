@@ -139,6 +139,7 @@
 - [المرحلة 51 — مصالحة ميثاق وتصميم وقواعد اللعبة والمسرد — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE51_GAME_DESIGN_GLOSSARY_SALVAGE_2026-11-27.md)
 - [المرحلة 52 — إضافة فحوص ثابتة لسلامة GitHub Actions — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE52_WORKFLOW_HYGIENE_TESTS_2026-11-27.md)
 - [المرحلة 53 — تحديث سجل الأدلة التشغيلية والتحقق على SHA حديث — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE53_CURRENT_SHA_CI_EVIDENCE_2026-11-27.md)
+- [المرحلة 54 — قراءة إعدادات حماية GitHub وحدود صلاحيات التكامل — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE54_GITHUB_SETTINGS_READONLY_2026-11-27.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
