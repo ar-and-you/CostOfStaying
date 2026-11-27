@@ -786,3 +786,17 @@
 - لا حذف أو نقل أو استبدال أو تشغيل scanners/CI.
 
 **الحالة:** STAGE 36 COMPLETE — SECURITY DOCS SALVAGED AGAINST LIVE POLICY; P0–P3 SEVERITY TAXONOMY LEFT AS OWNER-REVIEW CANDIDATE.
+
+
+---
+
+## المرحلة 37 — مراجعة salvage لوثائق الجودة والأداء واللعب الأرشيفية (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE37_QUALITY_DOCS_SALVAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE37_QUALITY_DOCS_SALVAGE_2026-11-27.md)
+
+- تمت مراجعة 8 وثائق جودة مشتركة؛ النسخ الحية أحدث وتصحح قيود الأدلة والحالة.
+- مرشحات غير ملزمة: بروتوكول أداء 15 دقيقة × 3 مرات مع thermal soak؛ شبكة RTT 100/200/300ms وloss 1/3/5% كمصفوفة اختبار؛ أسئلة تفصيلية لمخاطر Betrayal/Spirit/Vote.
+- أرقام 30FPS/400MB/100MB/Redmi Note 8 مرفوضة صراحةً كأرقام موروثة.
+- لا اعتماد أرقام أو استيراد/استبدال أو تعديل قواعد؛ لا تشغيل قياس/اختبارات.
+
+**الحالة:** STAGE 37 COMPLETE — QUALITY DOCS RETAINED LIVE; PERFORMANCE/NETWORK TEST DEFAULTS AND BALANCE QUESTIONS LEFT AS NON-BINDING CANDIDATES.
