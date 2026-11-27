@@ -73,6 +73,7 @@ namespace CostOfStaying.Core
             ISessionRegistry sessions,
             CommandAdmissionQueue<TCommand> queue)
         {
+            EnsureMatchScope(queue, nameof(queue));
             return new CommandAdmissionService<TCommand>(sessions, queue);
         }
 
@@ -82,6 +83,7 @@ namespace CostOfStaying.Core
             CommandAdmissionQueue<TCommand> queue)
         {
             EnsureMatchScope(players, nameof(players));
+            EnsureMatchScope(queue, nameof(queue));
             ICommandAdmissionService<TCommand> inner = new CommandAdmissionService<TCommand>(sessions, queue);
             return new MatchCommandAdmissionService<TCommand>(sessions, players, inner);
         }
@@ -123,6 +125,7 @@ namespace CostOfStaying.Core
             CommandAdmissionQueue<TCommand> queue,
             IConnectionSessionRegistry connections)
         {
+            EnsureMatchScope(queue, nameof(queue));
             if (!(connections is ConnectionSessionRegistry connectionRegistry) ||
                 !connectionRegistry.IsBackedBy(sessions))
             {
@@ -140,7 +143,15 @@ namespace CostOfStaying.Core
             int maximumTrackedSessions,
             int capacity)
         {
-            return new CommandAdmissionQueue<TCommand>(maximumSequenceJump, maximumTrackedSessions, capacity);
+            return new CommandAdmissionQueue<TCommand>(MatchId, maximumSequenceJump, maximumTrackedSessions, capacity);
+        }
+
+        private void EnsureMatchScope<TCommand>(CommandAdmissionQueue<TCommand> queue, string parameterName)
+        {
+            if (queue is null)
+                throw new ArgumentNullException(parameterName);
+            if (queue.MatchId != MatchId)
+                throw new ArgumentException("Command admission queue belongs to a different MatchId.", parameterName);
         }
 
         private void EnsureMatchScope(IMatchLifecycle match, string parameterName)
