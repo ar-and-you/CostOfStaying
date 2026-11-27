@@ -116,7 +116,6 @@ namespace CostOfStaying.Domain.Tests
         public void Spirit_Has_No_Vitality_Drain()
         {
             var (match, clock, alive, spirit) = Setup();
-            double v = match.Players[spirit].Vitality;
             clock.Advance(100);
             match.Tick(100);
             Assert.That(match.Players[spirit].Vitality, Is.EqualTo(0).Within(1e-9));
