@@ -95,7 +95,7 @@ class WorkflowHygieneTests(unittest.TestCase):
                             "Job-level permissions must use an explicit block; inline forms are not accepted.",
                         )
                     blocks = re.findall(
-                        r"(?m)^    permissions:\\s*\\n((?:^      [^\\n]*\\n?)*)",
+                        r"(?m)^    permissions:\s*\n((?:^      [^\n]*\n?)*)",
                         section,
                     )
                     self.assertEqual(
@@ -105,7 +105,7 @@ class WorkflowHygieneTests(unittest.TestCase):
                     )
                     for block in blocks:
                         entries = re.findall(
-                            r"(?m)^      ([A-Za-z0-9_-]+):\\s*([A-Za-z]+)\\s*$",
+                            r"(?m)^      ([A-Za-z0-9_-]+):\s*([A-Za-z]+)\s*$",
                             block,
                         )
                         self.assertEqual(entries, [("contents", "read")])
