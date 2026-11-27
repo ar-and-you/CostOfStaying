@@ -79,13 +79,13 @@ Core VitalityAccount ليس Match gameplay aggregate: منشؤه الداخلي 
 | BetrayalLedger._events | غير محدود داخل عمر CoreComposition | لا clear/retention API؛ يُحرر عند إسقاط composition |
 | BetrayalLedger._scores | لا حد مستقل؛ يعتمد على ActorIds المقبولة في TryRecord | لا remove/reset API |
 
-كل registries المحدودة تتطلب capacities من host عند الإنشاء؛ لا توجد defaults تشغيلية أو workload-derived values. CoreComposition ينشأ لكل match scope، ولا يفرض حداً عالمياً لعدد compositions/المباريات النشطة. كما أن TCommand generic لا يضع حد حجم؛ raw frame/serializer/decompression quotas مسؤولية transport قبل بناء envelope.
+كل registries المحدودة تتطلب capacities من host عند الإنشاء؛ لا توجد defaults تشغيلية أو workload-derived values. على فرع hardening الحالي أصبح `CoreComposition.Create(MatchId)` إلزامياً، وتُربط به MatchLifecycle وMatchPlayerRegistry وmatch services، لكن لا يوجد global active-match cap؛ إدارة عدد compositions/المباريات النشطة مسؤولية host. كما أن TCommand generic لا يضع حد حجم؛ raw frame/serializer/decompression quotas مسؤولية transport قبل بناء envelope.
 
 BetrayalLedger يستقبل BetrayalEvent بعد التحقق من non-zero ActorId/VictimId وعدم self-betrayal وتسلسل EventSequenceId، لكنه لا يتحقق من عضوية Actor/Victim في MatchPlayerRegistry. Host يجب أن يتحقق من roster والسلطة قبل TryRecord. يخزن ledger كل sequence/event فريد للتمييز بين exact replay وsequence reuse المختلف؛ لذلك لا يمكن تقليم السجل دون قرار يغير idempotency semantics.
 
 **القرار:** لا cap رقمي أو eviction policy من دون workload ومدة match وقرار الاحتفاظ. D-04 يشمل الآن Core ledger إضافة إلى Domain event/request/echo collections.
 
 
-### Scope isolation caveat for CoreComposition
+### Scope isolation — enforced factory boundary (branch under review)
 
-CoreComposition documents one instance per match scope and owns one BetrayalLedger, but its public Create() factory takes no MatchId and the instance can create multiple MatchLifecycle/MatchPlayerRegistry objects with different MatchIds. The ledger itself stores no MatchId. Reusing one composition across matches would therefore share event sequence and betrayal scores across those matches. Current tests prove separate composition instances isolate ledgers; they do not enforce one composition per match. Until the API binds a composition to one MatchId, the host must enforce this lifecycle invariant. No code change is made here because binding scope is a public API/design decision.
+`CoreComposition.Create(MatchId)` now requires a valid MatchId. The composition exposes that identity and creates MatchLifecycle/MatchPlayerRegistry only for the bound match; match-scoped service factories reject dependencies from another scope. The public API no longer permits one composition instance to manufacture match resources for multiple MatchIds. The host still owns global match concurrency and must create/dispose one composition per active match. This change supersedes the historical stage-65 KEEP_CURRENT_API note on the review branch only; it is not yet merged or test-verified.
