@@ -966,3 +966,18 @@
 - لا تعديل production code أو قواعد لعب أو إعدادات GitHub. CI النهائي على الرأس بعد التوثيق مطلوب.
 
 **الحالة:** `STAGE 48 IMPLEMENTED — TEST ASSERTIONS STRENGTHENED; CI VERIFICATION PENDING.`
+
+
+---
+
+## المرحلة 49 — إغلاق تقاطع مسارات الوثائق الأرشيفية وتصنيف جميع المسارات غير الحية (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE49_DOCS_ARCHIVE_ONLY_COVERAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE49_DOCS_ARCHIVE_ONLY_COVERAGE_2026-11-27.md)
+
+- أعيد حساب مسارات docs من ZIPs السبعة مقابل recursive main tree: 137 أرشيفية، 118 حية، 37 مشتركة، 100 archive-only، و81 live-only.
+- قُسمت الـ100 archive-only دون تداخل: 44 governance/ADR (Stage22)، 21 audit (Stage23)، 12 simulated playtest logs (Stage24)، 13 roadmap/architecture/package docs (Stage25)، و10 legacy archive records (Stage26).
+- 100/100 من المسارات الأرشيفية فقط لها تصنيف سابق؛ لا مسارات docs archive-only غير مصنفة.
+- الإغلاق path-level فقط؛ لا يعني إغلاق مطابقة محتوى الوثائق المشتركة أو مراجعة كل سطر من جميع الأرشيفات.
+- لا حذف أو نقل أو استيراد أو استبدال.
+
+**الحالة:** `STAGE 49 COMPLETE — ALL 100 ARCHIVE-ONLY DOC PATHS ACCOUNTED FOR; CONTENT-LEVEL RECONCILIATION REMAINS SCOPED TO PRIOR REPORTS.`
