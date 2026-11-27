@@ -10,7 +10,7 @@
 3. لا تُعد هوية Actor موثوقة إلا بعد أن يحلها مضيف موثوق من جلسة مصادق عليها. Core الحالي لا يصادق Credentials بنفسه.
 4. لا يُقبل أمر حساس إلا بسياسة Gameplay صريحة ومحددة لنوع الأمر. غياب السياسة أو فشل تهيئتها يجب أن يمنع تشغيل مسار الأمر؛ لا توجد سياسة سماح افتراضية.
 5. لا يثبت اجتياز بوابة Admission وحده أن الفعل نُفّذ أو أن أثره مشروع؛ يجب على معالج Gameplay الموثوق إعادة التحقق من شروط الفعل قبل تغيير الحالة.
-6. يجب أن تكون كل حالة وسجل Match-scoped معزولة عن المباريات الأخرى. أصبح `CoreComposition` يتطلب `MatchId` صالحاً ويربط به ledger وMatch factories؛ تبقى اختبارات العزل مطلوبة قبل إغلاق F-004.
+6. يجب أن تكون كل حالة وسجل Match-scoped معزولة عن المباريات الأخرى. أصبح `CoreComposition` يتطلب `MatchId` صالحاً ويربط به ledger وMatchLifecycle وMatchPlayerRegistry وVitalityAccount وCommandAdmissionQueue والـmatch services؛ تبقى اختبارات العزل مطلوبة قبل إغلاق F-004.
 7. لا يُعتمد مزود خارجي أو يُدخل إلى الحل قبل إغلاق F-001 وF-002 بأدلة واختبارات.
 
 ## 2. مناطق الثقة
@@ -33,14 +33,14 @@
 |---|---|---|---|
 | Host (مستقبلي) | credential lifecycle، account→Actor mapping، transport timestamps، frame limits، rate limits، connection lifecycle | يجب أن يتحقق من مصدر الهوية وصحة النقل قبل إنشاء envelope | لا يوجد تنفيذ في main؛ لا يجوز وصفه كضابط قائم. |
 | Session lifecycle/registry | جلسات Core وسعتها وحالتها وربط Actor بعد المصادقة | صلاحية SessionId والحالة وActorId في المسارات التي تستخدمها | لا يتحقق من كلمة مرور أو token أو هوية خارجية. |
-| MatchPlayerRegistry | roster لمباراة واحدة | وجود Actor ضمن roster وسعة التسجيل | لا يقرر وحده صلاحية كل فعل أو حالة اللاعب. |
-| Command envelope/queue | command payload reference، sequence/admission، queue capacity | envelope والـsequence والحدود المحددة للطابور | لا يثبت سلامة payload من ناحية Gameplay ولا ينسخ/يجمد DTO. |
+| MatchPlayerRegistry | roster لمباراة واحدة | وجود Actor ضمن roster وسعة التسجيل، ورفض VitalityAccount المنتمي إلى MatchId آخر | لا يقرر وحده صلاحية كل فعل أو حالة اللاعب. |
+| Command envelope/queue | command payload reference، sequence/admission، queue capacity، MatchId الخاص بالطابور | envelope والـsequence والحدود المحددة للطابور؛ queue يحمل MatchId وتتحقق factories من تطابق scope | لا يثبت سلامة payload من ناحية Gameplay ولا ينسخ/يجمد DTO. |
 | Payload validation service | تمرير payload validator قبل/بعد مسار التفويض وفق تركيب الخدمة | نتيجة validator المقدمة من التطبيق | لا يفرض raw frame/serializer quotas ولا يضمن immutability للـTCommand. |
 | MatchCommandAuthorizationService<T> | بوابة تفويض عامة لنوع T | session→Actor، roster، phase/player context، policy قبل admission وبعد dequeue | لا يوفر سياسات Gameplay فعلية تلقائياً ولا يضمن أن كل command type في المنتج مسجل. |
 | Gameplay policy<T> | قرار سماح/رفض لنوع أمر محدد؛ يملكها التطبيق/المضيف | يجب أن تكون pure وside-effect-free وأن ترفض الحالات غير المصرح بها | لا توجد حالياً سياسات Gameplay إنتاجية معتمدة أو أنواع أوامر Gameplay ملموسة في Core. |
 | Gameplay handler (مستقبلي) | تنفيذ الفعل وامتلاك mutation | يجب أن يعيد التحقق من preconditions والعضوية والسلطة والحالة الحالية | لا يوجد handler متكامل موصول بطابور Core في main. |
 | BetrayalLedger | سجل الأحداث والدرجات داخل عمر instance | event validity، actor/victim non-zero، عدم self-betrayal، sequence monotonicity، exact replay | لا يتحقق من roster membership أو authorization؛ لا retention/persistence؛ single-writer فقط. |
-| CoreComposition | إنشاء Core services ويمتلك ledger واحداً لمباراة واحدة | يفرض `Create(MatchId)` صالحاً؛ MatchLifecycle وMatchPlayerRegistry وmatch services تُنشأ/تُقبل فقط ضمن MatchId نفسه | لا يفرض global active-match cap؛ host مسؤول عن إنشاء composition مستقل لكل مباراة وإدارة دورة حياته. |
+| CoreComposition | إنشاء Core services ويمتلك ledger واحداً لمباراة واحدة | يفرض `Create(MatchId)` صالحاً؛ MatchLifecycle وMatchPlayerRegistry وVitalityAccount وCommandAdmissionQueue وmatch services تُنشأ/تُقبل فقط ضمن MatchId نفسه | لا يفرض global active-match cap؛ host مسؤول عن إنشاء composition مستقل لكل مباراة وإدارة دورة حياته. |
 | Domain Match | gameplay aggregate الحالي: Vitality/Collapse/Transfer/Vote/Spirit/events | قواعد المجال داخل aggregate وفق API الحالي | ليس Core host ولا transport؛ بعض المدخلات مثل distance يقدمها caller؛ لا ضمان شبكي. |
 
 ## 4. سلسلة الأمر وحدودها الحالية
@@ -70,7 +70,7 @@
 
 ## 6. Match isolation ودورة الحياة
 
-**الوضع الحالي بعد تعديل F-004 على فرع العمل:** `CoreComposition.Create(MatchId)` يتطلب معرفاً صالحاً، ويحتفظ به كهوية scope. `CreateMatchLifecycle()` و`CreateMatchPlayerRegistry(capacity)` يستخدمان هذا المعرف حصراً، كما ترفض factories تمرير match/roster من scope آخر. لا يمكن استخدام instance واحد لإنشاء موارد لمعرفات متعددة عبر API العامة. لم يُشغّل الاختبار بعد، ولم يُدمج التغيير في main.
+**الوضع الحالي بعد تعديل F-004 على فرع العمل:** `CoreComposition.Create(MatchId)` يتطلب معرفاً صالحاً. `VitalityAccount` و`CommandAdmissionQueue` يحملان MatchId غير قابل للتغيير، ويرفض `MatchPlayerRegistry.Register` حساباً من مباراة أخرى. `CreateMatchLifecycle()` و`CreateMatchPlayerRegistry(capacity)` وmatch service factories تستخدم/تتحقق من MatchId الخاص بالتركيب. لا يمكن استخدام composition واحد أو queue/account واحد لتبادل حالة بين MatchIds عبر API العامة. لم تُشغّل الاختبارات بعد، ولم يُدمج التغيير في main.
 
 **المطلوب قبل اعتماد العزل:** ربط composition أو ledger بهوية مباراة واحدة، ورفض إنشاء/تمرير موارد Match-scoped بمعرف مختلف، واختبار عزل تركيبتين. يجب جرد الموارد أولاً للتمييز بين Match-scoped وHost-scoped وSession-scoped.
 
