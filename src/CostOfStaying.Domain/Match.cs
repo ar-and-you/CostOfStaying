@@ -395,14 +395,14 @@ namespace CostOfStaying.Domain
 
         private void CloseVote(double now)
         {
-            // Unanimous Yes among the voters alive at open time counts;
-            // Abstain/disconnect/timeout = No (RULE-03).
+            // The electorate is the snapshot captured by OpenVote.
+            // Abstain and timeout prevent unanimity; Domain has no disconnect event integration.
             bool unanimous = Votes.Count > 0 && Votes.Values.All(v => v == VoteChoice.Yes);
 
             Emit(DomainEventKind.VoteClosed, null, null, unanimous ? "unanimous Yes" : "not unanimous");
 
-            // Players who disconnected are already counted as No; we treat missing
-            // or Abstain as No, so only unanimous Yes succeeds.
+            // Only unanimous Yes across the original voter snapshot succeeds.
+            // No transport disconnect/reconnect policy is implemented here.
             if (unanimous)
             {
                 // Collective Surrender ends match immediately

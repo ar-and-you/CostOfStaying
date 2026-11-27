@@ -1070,3 +1070,18 @@
 - D-03 وD-04 يظلان OPEN_OWNER_DECISION؛ لا تعديل source/API أو سياسة احتفاظ.
 
 **الحالة:** STAGE 55 COMPLETE — MUTABILITY/RETENTION REVIEW RECORDED; OWNER DECISIONS OPEN.
+
+
+---
+
+## المرحلة 56 — توضيح دلالات التصويت وCollapse catch-up (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE56_VOTE_COLLAPSE_SEMANTICS_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE56_VOTE_COLLAPSE_SEMANTICS_2026-11-27.md)
+
+- OpenVote يأخذ snapshot للاعبين Alive مع Abstain افتراضي؛ انتقال اللاعب إلى Spirit لا يحذفه من Votes، وCastVote يرفض التغيير الجديد.
+- لا يوجد disconnect/reconnect integration؛ صُحح تعليق CloseVote الذي كان يوحي بأن disconnect=No منفذ.
+- Tick يعالج Collapse واحداً لكل لاعب في الاستدعاء؛ التأخر يتجاوز الفترات الفائتة ويعيد الموعد إلى now+interval.
+- أضيفت حدود التنفيذ إلى ENDGAME_SYSTEM وCOLLAPSE_SYSTEM؛ لا تغيير gameplay أو خوارزمية.
+- D-05/D-06 يظلان OPEN_OWNER_DECISION؛ لا اعتماد سياسة No أو catch-up.
+
+**الحالة:** STAGE 56 COMPLETE — VOTE/COLLAPSE IMPLEMENTATION BOUNDARIES DOCUMENTED.

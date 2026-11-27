@@ -17,6 +17,10 @@
 
 يحتوي Domain على إعادة جدولة تحفظ نسبة الوقت المتبقي عند تغير عدد Alive. هذه آلية تنفيذ حالية؛ قبولها كتجربة تصميمية نهائية يبقى تابعاً لنتائج الاختبار.
 
+### Catch-up عند تأخر Tick
+
+التنفيذ الحالي يعالج Collapse واحداً كحد أقصى لكل لاعب Alive في استدعاء `Tick`. إذا كان `now >= NextCollapseAtSeconds`، ينفذ `ApplyCollapse` ويضبط الموعد التالي إلى `now + interval`؛ لذلك الفترات التي فاتت أثناء توقف/تأخر Tick تُتجاوز ولا يعاد تشغيل عدة Collapses تعويضية دفعة واحدة. هذا وصف للسلوك البرمجي الحالي، وليس اعتماداً لتصميم catch-up؛ يجب تحديد سياسة lag/skip/bounded catch-up قبل الخادم الفعلي.
+
 ## دورة الحياة
 
 المسار الحالي في Domain عند Vitality=0 هو `Alive → Spirit`. `PlayerState` الخاص بـDomain يحتوي أيضاً `Dead` و`Disconnected` و`Spectating` و`Connecting`؛ وجود قيمة enum لا يثبت انتقالاً مستخدماً. لا توجد قيمة `Eliminated` في هذا enum. يعرّف Core نموذج `PlayerLifecycleState` منفصلاً يتضمن `Eliminated`، ولا يثبت ذلك اعتماد حالة موحدة للمنتج؛ راجع [حدود Domain وCore](../architecture/DOMAIN_CORE.md).
