@@ -828,3 +828,18 @@
 - لا تغيير في كود أو قواعد أو حذف/نقل/استبدال، ولا تشغيل اختبارات.
 
 **الحالة:** STAGE 39 COMPLETE — ALL SIX GAME-SYSTEM DOCS RETAIN LIVE; ARCHIVE-ONLY RULE VARIANTS REJECTED AS NON-AUTHORITATIVE.
+
+
+---
+
+## المرحلة 40 — تدقيق أصل الاستيراد وملف IMPORT_MANIFEST التاريخي (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE40_IMPORT_PROVENANCE_REVIEW_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE40_IMPORT_PROVENANCE_REVIEW_2026-11-27.md)
+
+- manifest التاريخي يحوي 107 إدخالات؛ 106 ملفات Core-line وإدخال core-ci.yml.
+- جميع المسارات موجودة في CostOfStaying-final 1؛ 99/107 SHA-256 مطابقة، و8 فروق موثقة.
+- الفروق الثمانية في ADR-006 وADR-008..014 هي تعديلات سطر Status فقط؛ hashes الأصلية محفوظة من الاستيراد، وليست تلفاً.
+- provenance والفروع ونتائج integrity تخص مستودعاً/رأساً تاريخياً ولا تنقل حالة VERIFIED أو APPROVED إلى main.
+- لا استيراد أو حذف أو دفع فروع/bundles، ولا تشغيل CI.
+
+**الحالة:** STAGE 40 COMPLETE — IMPORT PROVENANCE RECONCILED; 107/107 PATHS PRESENT, 99 HASH MATCHES, 8 EXPLAINED STATUS-LINE VARIANTS.
