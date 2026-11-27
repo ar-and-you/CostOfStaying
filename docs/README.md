@@ -154,6 +154,7 @@
 - [المرحلة 65 — التحقق من عزل match scope في CoreComposition — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE65_CORECOMPOSITION_SCOPE_ISOLATION_2026-11-27.md)
 - [المرحلة 66 — مراجعة دورة حياة Session وسياسة إعادة الاتصال — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE66_SESSION_RECONNECT_BOUNDARY_2026-11-27.md)
 - [المرحلة 67 — مراجعة حدود المصادقة والجلسات Pending — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE67_AUTH_PENDING_SESSION_BOUNDARY_2026-11-27.md)
+- [المرحلة 68 — مراجعة ترتيب command ingress وحدود الثقة — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE68_COMMAND_INGRESS_TRUST_CHAIN_2026-11-27.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)

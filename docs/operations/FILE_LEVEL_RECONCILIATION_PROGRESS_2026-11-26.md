@@ -1249,3 +1249,18 @@
 - لا تغيير code/tests.
 
 **الحالة:** STAGE 67 COMPLETE — AUTH/PENDING SESSION BOUNDARY DOCUMENTED.
+
+
+---
+
+## المرحلة 68 — مراجعة ترتيب command ingress وحدود الثقة (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE68_COMMAND_INGRESS_TRUST_CHAIN_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE68_COMMAND_INGRESS_TRUST_CHAIN_2026-11-27.md)
+
+- تم توثيق ترتيب transport→binding→credentials→session→payload→authorization/membership→sequence/queue→dequeue revalidation→handler.
+- payload validator يعمل قبل auth؛ يجب أن يكون bounded/synchronous/no-I/O.
+- host مسؤول عن raw frame quotas وموثوقية ReceivedAt/ServerTick وimmutable DTO/ownership.
+- Core لا ينفذ transport/parser/handler أو durable idempotency.
+- لا تغيير source/tests؛ D5b مفتوح.
+
+**الحالة:** STAGE 68 COMPLETE — COMMAND INGRESS TRUST CHAIN DOCUMENTED.

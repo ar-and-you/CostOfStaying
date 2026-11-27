@@ -17,6 +17,8 @@
 | D4 — قرارات المنتج D-R1..D-R7 | OPEN_OWNER_DECISION | جميع القرارات أدناه مفتوحة |
 | D5a — Unity editor/version | OPEN_TECHNICAL_SPIKE | لا Unity project أو prototype؛ لا اعتماد إصدار نهائي |
 | D5b — transport/network/authentication boundary | OPEN_TECHNICAL_SPIKE | لا adapter أو credential provider؛ host يجب أن يصادق credentials ويربط account→ActorId، ويضع Pending TTL/rate limits ويغلق الجلسات stale |
+
+تنبيه المرحلة 68: payload validator ينفذ قبل auth admission، لذا يجب أن يبقى bounded/synchronous/no-I/O؛ raw frame/serializer quotas وموثوقية ReceivedAt/ServerTick مسؤولية host قبل استدعاء Core.
 | D6 — hosting/operations | OPEN_OWNER_DECISION | لا اختيار مزود أو نموذج نشر أو server runtime |
 | D7 — consent/privacy/retention protocol | OPEN_OWNER_DECISION | لا بروتوكول موافقة/احتفاظ/حذف معتمد لجلسات بشرية |
 | D8 — 10 جلسات بشرية وقرار القواعد/التوازن | BLOCKED_ON_HUMAN_PLAYTEST | سجلات المحاكاة العشرة لا تحتسب جلسات بشرية؛ راجع PLAYTEST_PLAN والمرحلة 24 |

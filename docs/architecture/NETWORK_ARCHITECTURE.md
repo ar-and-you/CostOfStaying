@@ -36,3 +36,20 @@ SessionRegistry يسمح بأكثر من SessionId لنفس ActorId ولا يف�
 ConnectionSessionRegistry binds a server-issued TransportConnectionId to a registered Pending Session before authentication so trusted ingress can resolve the session while validating credentials. The binding itself does not authenticate. SessionLifecycle.TryAuthenticate accepts only a validated ActorId and stores no credential/token; CommandAdmissionService rejects commands until the state is Authenticated. The application/host must validate credentials and bind the resulting account to a server-issued ActorId before calling TryAuthenticate.
 
 A Pending session consumes bounded SessionRegistry and connection capacity until it is closed and cleaned up. Core has no pending-session TTL, authentication-failure counter, rate limiter, credential validator, identity provider, or account-to-ActorId mapping. Host must expire/close stale pending sessions, limit authentication attempts, and detach connection mappings on disconnect. TryAuthenticate is a trusted application boundary, not a credential check.
+
+
+## ترتيب command ingress في Core
+
+| المرحلة | المسؤول | الضابط |
+|---|---|---|
+| Raw frame / deserialize | Transport host (غير موجود حالياً) | يفرض frame-size, decompression, serializer quotas قبل إنشاء TCommand |
+| Connection binding | ConnectionSessionRegistry | server-issued ConnectionId إلى Pending SessionId؛ لا authentication |
+| Credential validation | Host identity provider (غير موجود) | يثبت الحساب ثم يختار ActorId server-issued |
+| Session authentication | SessionLifecycle.TryAuthenticate | يربط ActorId مرة واحدة؛ لا يتحقق من credentials |
+| Typed payload validation | MatchCommandPayloadValidationService | يعمل قبل session/authorization admission؛ يجب أن يكون bounded/synchronous/deterministic/no-I/O |
+| Session + roster + authorization | MatchCommandAuthorizationService / MatchCommandAdmissionService | يثبت session Authenticated وActorId roster member ويطبق policy صريحة fail-closed |
+| Sequence + bounded queue | CommandAdmissionService / CommandAdmissionQueue | يتحقق من per-session sequence وqueue capacity؛ full queue لا يستهلك sequence |
+| Dequeue revalidation | Membership → policy → payload | يعيد التحقق من العضوية والحالة والسياسة والpayload؛ الفشل بعد dequeue يستهلك sequence ولا يسلّم الأمر |
+| Gameplay handler | Host-owned | Core يعيد AuthenticatedCommand؛ host وحده يستدعي handler بعد التحقق |
+
+**Trust constraints:** payload validation تسبق authentication كي لا تستهلك الأوامر غير الصالحة sequence/queue، لذلك validator يرى payload غير موثوق ويجب أن يكون سريعاً ومحدوداً بلا parsing ثقيل أو I/O. ReceivedAt/ServerTick يجب أن ينشئه host عند ingress؛ لا يُقبل timestamp من العميل. CommandSequenceId يمكن أن يأتي ضمن envelope لكنه يتحقق per-session. لا يثق host في SessionId/ActorId أو distance أو match state من payload. Core لا يملك raw frame limits أو transport parser أو handler.
