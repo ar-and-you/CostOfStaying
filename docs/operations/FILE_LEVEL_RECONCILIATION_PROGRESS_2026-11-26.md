@@ -919,3 +919,19 @@
 - لا استيراد أو حذف أو تعديل source/tests، ولا تشغيل جديد.
 
 **الحالة:** STAGE 45 COMPLETE — LEGACY CORE TEST BODY/ASSERTION CROSSWALK CLOSED; NO RESTORATION REQUIRED.
+
+
+---
+
+## المرحلة 46 — مراجعة أدوات الأرشيف غير الموجودة في main (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE46_LEGACY_TOOLING_SALVAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE46_LEGACY_TOOLING_SALVAGE_2026-11-27.md)
+
+- تمت مراجعة ستة مسارات أدوات أرشيفية، مع مقارنة اختلاف نسخ audit.py وحزمة GitHub config tests.
+- dispatch.py يعتمد على لوحة/حوكمة قديمة؛ audit.py يحوي أفكاراً قابلة لإعادة التصميم لكنه يفترض مسارات governance قديمة.
+- حزمة GitHub tests تعتمد على workflows وDependabot وCODEOWNERS وrulesets غير الموجودة؛ لا تستورد كما هي.
+- set_owner.py مشروط بقالب CODEOWNERS وقرار مالك حقيقي؛ لا إنشاء ملكية افتراضية.
+- استُبعد bytecode __pycache__ باعتباره مخرجاً مولداً.
+- لا استيراد/نقل/حذف/تعديل أدوات حية أو تشغيل أدوات الأرشيف.
+
+**الحالة:** `STAGE 46 COMPLETE — LEGACY TOOLING REVIEWED; REUSABLE CHECK IDEAS IDENTIFIED; NO DIRECT IMPORT.`
