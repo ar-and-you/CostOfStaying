@@ -772,3 +772,17 @@
 - لا تشغيل tests/scanners/CI.
 
 **الحالة:** STAGE 35 COMPLETE — LEGACY REQUIREMENT MAP RECONCILED; PERFORMANCE/SECURITY/NETWORK EVIDENCE GAPS REMAIN OPEN.
+
+
+---
+
+## المرحلة 36 — مراجعة salvage لوثائق الأمن والخصوصية الأرشيفية (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE36_SECURITY_DOCS_SALVAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE36_SECURITY_DOCS_SALVAGE_2026-11-27.md)
+
+- تمت مقارنة ست وثائق أمن/خصوصية أرشيفية مع النسخ الحية؛ النسخ الحية أكثر تفصيلاً وتصف القيود الفعلية بدقة.
+- المرشح التاريخي الوحيد الذي قد يضيف قيمة هو تصنيف شدة الحوادث P0–P3؛ بقي للمراجعة ولم يُعتمد.
+- لا استيراد مزاعم Gitleaks/workflows القديمة، ولا تغيير إعدادات الأمن.
+- لا حذف أو نقل أو استبدال أو تشغيل scanners/CI.
+
+**الحالة:** STAGE 36 COMPLETE — SECURITY DOCS SALVAGED AGAINST LIVE POLICY; P0–P3 SEVERITY TAXONOMY LEFT AS OWNER-REVIEW CANDIDATE.
