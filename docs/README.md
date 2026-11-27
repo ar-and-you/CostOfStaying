@@ -131,6 +131,7 @@
 - [المرحلة 43 — تصحيح اختبار RequestId وتدقيق حدود الثقة للمسافة — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE43_TRANSFER_FIXTURE_AND_TRUST_BOUNDARY_2026-11-27.md)
 - [المرحلة 44 — مطابقة أجسام الاختبارات وAssertions لملفات Domain الخمسة — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE44_DOMAIN_TEST_BODY_ASSERTION_CROSSWALK_2026-11-27.md)
 - [المرحلة 45 — مراجعة أجسام اختبارات Core القديمة مقابل Domain الحي — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE45_LEGACY_CORE_TEST_BODY_CROSSWALK_2026-11-27.md)
+- [المرحلة 46 — مراجعة أدوات الأرشيف غير الموجودة في main — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE46_LEGACY_TOOLING_SALVAGE_2026-11-27.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
