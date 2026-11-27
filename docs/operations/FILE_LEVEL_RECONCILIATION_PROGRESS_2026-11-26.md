@@ -889,3 +889,18 @@
 - لا يثبت هذا Network Adapter أو server measurement أو persistence أو concurrent processing.
 
 **الحالة:** `STAGE 43 COMPLETE — FIXTURE CORRECTED; CURRENT SHA CI VERIFIED.`
+
+
+---
+
+## المرحلة 44 — مطابقة أجسام الاختبارات وAssertions لملفات Domain الخمسة (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE44_DOMAIN_TEST_BODY_ASSERTION_CROSSWALK_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE44_DOMAIN_TEST_BODY_ASSERTION_CROSSWALK_2026-11-27.md)
+
+- تمت مراجعة Arrange/Act/Assert والـfixtures للملفات الخمسة المختلفة المحتوى: 27 اختباراً/56 Assertion في الأرشيف مقابل 37 اختباراً/89 Assertion في main.
+- كل السيناريوهات القديمة الـ27 باقية؛ main أضاف 10 حالات.
+- اكتُشف تعارض أرشيفي في Collapse: نسخة baseline-update تتوقع 17.6 ±0.05، بينما النسخة النهائية والحي تتوقعان 17.525 ±1e-9؛ لا تستورد النسخة الخاطئة.
+- اختبار الإجماع في main يتحقق من الإغلاق الفوري، وتوجد تغطية إضافية لTick طويل/مدخلات غير صالحة/TimeLimit.
+- لا تعديل source/tests أو تشغيل جديد. مراجعة أجسام اختبارات Core.Tests الستة القديمة ما زالت مفتوحة.
+
+**الحالة:** `STAGE 44 COMPLETE — DOMAIN TEST BODY/ASSERTION CROSSWALK; LEGACY CORE TEST BODY REVIEW OPEN.`
