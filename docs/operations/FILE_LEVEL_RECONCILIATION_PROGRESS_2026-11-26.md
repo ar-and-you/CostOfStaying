@@ -995,3 +995,18 @@
 - لا استيراد أو نقل أو حذف أو استبدال؛ main هو المصدر الوحيد الحي.
 
 **الحالة:** `STAGE 50 COMPLETE — GLOBAL ARCHIVE-ONLY PATH MATRIX RECONCILED; SEMANTIC AND OWNER-DECISION WORK REMAINS OPEN.`
+
+
+---
+
+## المرحلة 51 — مصالحة ميثاق وتصميم وقواعد اللعبة والمسرد (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE51_GAME_DESIGN_GLOSSARY_SALVAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE51_GAME_DESIGN_GLOSSARY_SALVAGE_2026-11-27.md)
+
+- تمت مراجعة خمسة ملفات و35 ظهوراً أرشيفياً و11 نسخة محتوى فريدة.
+- لم تضف نسخ Charter/GDD/Rules/Player Experience قواعد أو ميكانيكاً ناضجاً؛ ادعاءات ADR المعتمدة وUnified Core وDead/Disconnect=No مرفوضة.
+- أضيفت تعريفات Intent وMatchId وMove وRequestId وResurrect وEliminate وPSS إلى المسرد مع حدود التنفيذ الحالية.
+- لم يُستورد CI Gate الأرشيفي لأنه يزعم secret scan غير مثبت في workflow الحي.
+- لا تغيير قواعد أو كود أو ملفات تصميم أخرى.
+
+**الحالة:** STAGE 51 COMPLETE — PRODUCT DESIGN ARCHIVE RECONCILED; LIMITED GLOSSARY SALVAGE APPLIED.
