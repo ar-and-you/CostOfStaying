@@ -79,6 +79,7 @@ Core VitalityAccount ليس Match gameplay aggregate: منشؤه الداخلي 
 | BetrayalLedger._events | غير محدود داخل عمر CoreComposition | لا clear/retention API؛ يُحرر عند إسقاط composition |
 | BetrayalLedger._scores | لا حد مستقل؛ يعتمد على ActorIds المقبولة في TryRecord | لا remove/reset API |
 | VitalityAccount | لاعب واحد ضمن MatchId immutable | يرفض MatchPlayerRegistry تسجيل حساب ذي MatchId مختلف |
+| CommandAdmissionQueue | FIFO + sequence tracker لمباراة واحدة | يحمل MatchId immutable؛ composition يرفض تمريره لخدمة من MatchId آخر |
 
 كل registries المحدودة تتطلب capacities من host عند الإنشاء؛ لا توجد defaults تشغيلية أو workload-derived values. على فرع hardening الحالي أصبح `CoreComposition.Create(MatchId)` إلزامياً؛ MatchLifecycle وMatchPlayerRegistry وVitalityAccount وCommandAdmissionQueue وmatch services مرتبطة بالمعرف نفسه. لا يوجد global active-match cap؛ إدارة عدد compositions/المباريات النشطة مسؤولية host. كما أن TCommand generic لا يضع حد حجم؛ raw frame/serializer/decompression quotas مسؤولية transport قبل بناء envelope.
 
