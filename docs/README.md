@@ -118,6 +118,7 @@
 - [المرحلة 30 — مراجعة دلالية لاختبارات Core القديمة الأرشيفية — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE30_LEGACY_TEST_COVERAGE_2026-11-27.md)
 - [المرحلة 31 — إغلاق مطابقة محتوى ملفات المصدر مع الأرشيف — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE31_SOURCE_FULL_BLOB_CROSSWALK_2026-11-27.md)
 - [المرحلة 32 — مراجعة فروق محتوى اختبارات Domain الأرشيفية — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE32_DOMAIN_TEST_SEMANTIC_CROSSWALK_2026-11-27.md)
+- [المرحلة 33 — مصفوفة المصالحة الشاملة للمسارات الأرشيفية مع main — 2026-11-27](operations/ARCHIVE_RECONCILIATION_STAGE33_GLOBAL_PATH_CROSSWALK_2026-11-27.md)
 - [ملحق المرحلة 8 — مقارنة MASTER UNIFIED مع main وتحصين ignore — 2026-11-26](operations/ARCHIVE_RECONCILIATION_STAGE8_MAIN_CROSSCHECK_2026-11-26.md)
 - [أدوات GitHub وحالة CI والأمن](operations/GITHUB_TOOLING.md)
 - [خريطة الأدوات والفجوات](operations/TOOLING_MAP.md)
