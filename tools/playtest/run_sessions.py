@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Run N simulated sessions and emit diagnostic logs. These are not human
-playtests, do not satisfy ADR-004 review gates, and are not a CI check.
+playtests and do not satisfy human-playtest review gates. CI runs only bounded
+CLI and smoke regressions for this harness; it does not validate game balance.
 """
 import argparse
 import csv
