@@ -1101,3 +1101,18 @@
 - تغييرات تعليقات فقط؛ لا تغيير runtime أو gameplay أو tests.
 
 **الحالة:** STAGE 57 COMPLETE — DOMAIN TRUST/BOUNDARY COMMENTS ACCURATE; NO RUNTIME ADAPTER ADDED.
+
+
+---
+
+## المرحلة 58 — مصفوفة توافق Domain/Core قبل أي ترحيل (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE58_DOMAIN_CORE_COMPATIBILITY_MATRIX_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE58_DOMAIN_CORE_COMPATIBILITY_MATRIX_2026-11-27.md)
+
+- تمت مقارنة Guid/ulong identities، وdouble/uint Vitality، وحالات lifecycle، والساعة، وRequestId/CommandSequenceId، وDomainEvent/EventSequenceId.
+- Core VitalityAccount ليس gameplay Match؛ لا Collapse/Debuff/Vote/Spirit economy.
+- لا تحويل أو merge تلقائي؛ يلزم mapping/precision/lifecycle/time/replay/event contracts.
+- أضيفت مصفوفة توافق إلى DOMAIN_CORE.md؛ D-07 يبقى OPEN_OWNER_DECISION.
+- لا تغيير source أو dependencies أو rules.
+
+**الحالة:** STAGE 58 COMPLETE — DOMAIN/CORE COMPATIBILITY MAPPED; PROJECTS REMAIN SEPARATE.

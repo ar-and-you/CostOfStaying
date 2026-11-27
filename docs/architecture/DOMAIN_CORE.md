@@ -22,6 +22,33 @@
 - لا توجد قيمة `Eliminated` ضمن enum الحالي على `main`، رغم ظهورها في بعض سجلات الأرشيف ومقترحات القواعد.
 - `Core` يملك بنية أوامر وجلسات مستقلة، ولا يساوي خادم شبكي أو تطبيقاً كاملاً.
 - يختلف تمثيل Vitality بين النموذجين: يستخدم Domain النوع `double` في `Player.Vitality`، بينما يستخدم Core النوع `uint` في `IVitalityAccount` و`VitalityAccount`. لا يوجد عقد تحويل أو تكافؤ موثق بينهما؛ هذا وصف للاختلاف الحالي وليس قراراً بتوحيد النوع أو ترحيل النموذج.
+
+### مصفوفة توافق API قبل أي ترحيل
+
+| البعد | Domain | Core | فجوة الدمج |
+|---|---|---|---|
+| هوية المباراة | Match.Id: Guid | MatchId: ulong typed؛ الصفر invalid sentinel | يلزم mapping/registry ثابت؛ لا cast أو تحويل ضمني |
+| هوية اللاعب | Player.Id: Guid | ActorId: ulong typed؛ الصفر invalid sentinel | يلزم mapping يحافظ على الهوية عبر الجلسات والاستعادة |
+| Vitality | double مع decay per-second وDebuff contributions | uint Current/Maximum مع Lose/Restore | يلزم تحديد precision/rounding/units/max؛ لا تكافؤ تلقائي |
+| Lifecycle | Connecting/Alive/Dead/Spirit/Disconnected/Spectating | Alive/Spirit/Eliminated | لا تطابق كامل؛ Dead enum في Domain غير مستخدم كمسار active، وEliminated Core terminal |
+| Resurrection/Elimination | لا يوجد Domain operation موحد | TryResurrect وTryEliminate في VitalityAccount | قرار منتج مطلوب قبل إدخال هذه الانتقالات في Domain |
+| Time | IMatchClock.NowSeconds: double وTick(deltaSeconds) | ServerTick: ulong وStateRevision: ulong | يلزم تعريف tick frequency والتحويل والـmonotonic source |
+| Replay/sequence | RequestId: string لنقل Debuff؛ مجموعة per-Match في الذاكرة | CommandSequenceId per-session وsequence tracker | مختلفان في scope والهوية والاحتفاظ؛ لا يستبدل أحدهما الآخر |
+| Events | DomainEvent داخل Match event list | EventSequenceId typed في Core contracts | يلزم عقد ترتيب وربط/تخزين، لا يوجد adapter حالياً |
+| مسؤولية المشروع | gameplay aggregate وقواعد المباراة | admission/authorization/session/registry primitives | لا توجد ProjectReference أو composition تربطهما |
+
+Core VitalityAccount ليس Match gameplay aggregate: منشؤه الداخلي يتطلب ActorId، ولا يحتوي Collapse أو Debuff أو Vote أو Spirit economy. كما أن Core لا يملك Domain MatchId/Guid mapping أو clock adapter.
+
+### متطلبات قرار الترحيل
+
+1. اختيار canonical identity strategy وmapping persistence لـGuid/ulong.
+2. تحديد Vitality unit/precision/rounding/max والحدود المقبولة.
+3. تحديد mapping lifecycle بما يشمل Dead/Eliminated/Spirit وقرار resurrection.
+4. تعريف clock adapter من monotonic seconds إلى ServerTick، وتحديد من يملك الوقت.
+5. تعريف العلاقة بين RequestId وCommandSequenceId، ونطاق idempotency بعد restart.
+6. تحديد event ordering/persistence/replay، ثم بناء adapter واختبارات contract بين المشروعين.
+
+لا يمكن اختيار هذه التحويلات من الأرشيف أو من اختلاف الأنواع وحده؛ يلزم قرار معماري مقبول قبل الدمج.
 - لا تحتوي المكتبتان مراجع Unity أو FishNet في المشروعين الحاليين.
 
 ## 3. ما لا يوجد
