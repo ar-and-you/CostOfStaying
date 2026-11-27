@@ -67,13 +67,49 @@ namespace CostOfStaying.Domain.Tests
         }
 
         [Test]
-        public void Spirit_CannotTransferOrVote()
+        public void Spirit_Cannot_Transfer()
         {
             var (match, clock, alive, spirit) = Setup();
-            // Spirit cannot be source of transfer
             match.Players[spirit].Debuffs.Add(new Debuff("d", 0.01, 10, true));
-            var r = match.TryTransfer(spirit, alive, 1.0, "req-spirit");
-            Assert.That(r, Is.EqualTo(Match.TransferResult.RejectedNotAlive));
+            var result = match.TryTransfer(spirit, alive, 1.0, "req-spirit");
+            Assert.That(result, Is.EqualTo(Match.TransferResult.RejectedNotAlive));
+        }
+
+        [Test]
+        public void Spirit_Cannot_Cast_Vote()
+        {
+            var config = new MatchConfig
+            {
+                StartingVitality = 100,
+                BaseDecayPerSecond = 0.1,
+                CollapseIntervalSeconds = 1000,
+                CollapseIntervalThreeAliveSeconds = 1000,
+                PlayerCount = 4
+            };
+            var clock = new ManualClock(0);
+            var match = new Match(Guid.NewGuid(), config, clock);
+            var spirit = Guid.NewGuid();
+            var alivePlayers = new Guid[3];
+            match.AddPlayer(spirit);
+            for (int i = 0; i < alivePlayers.Length; i++)
+            {
+                alivePlayers[i] = Guid.NewGuid();
+                match.AddPlayer(alivePlayers[i]);
+            }
+
+            match.Start();
+            match.Players[spirit].Vitality = 0;
+            clock.Advance(1);
+            match.Tick(1);
+
+            Assert.That(match.Players[spirit].State, Is.EqualTo(PlayerState.Spirit));
+            Assert.That(match.State, Is.EqualTo(MatchState.VoteOpen));
+            Assert.That(match.Votes.ContainsKey(spirit), Is.False);
+
+            int eventsBefore = match.Events.Count;
+            Assert.That(match.CastVote(spirit, VoteChoice.Yes), Is.False);
+            Assert.That(match.Events.Count, Is.EqualTo(eventsBefore));
+            Assert.That(match.Votes.ContainsKey(spirit), Is.False);
         }
 
         [Test]
