@@ -1,5 +1,13 @@
 # أدوات GitHub — الحالة الفعلية وخطة الاستكمال
 
+## 0.5 قراءة إعدادات GitHub محدودة الصلاحيات — SHA `35ddccfb149ba70b0fdc9c20ecbc6ebf8ccda5ed` (2026-11-27)
+
+- Branch protection endpoint على `main`: HTTP 403 `Resource not accessible by integration`؛ الحالة `UNKNOWN / NOT VERIFIED`.
+- Repository rulesets مع `includes_parents=true`: `[]` في نطاق القراءة المتاح.
+- Dependabot alerts وCode Scanning alerts وSecret Scanning alerts: endpoints غير مدعومة في GitHub integration الحالي؛ الحالة UNKNOWN، ولا يجوز استنتاج عدم وجود تنبيهات.
+- لم تتغير أي إعدادات. راجع [تقرير المرحلة 54](ARCHIVE_RECONCILIATION_STAGE54_GITHUB_SETTINGS_READONLY_2026-11-27.md).
+
+
 ## 0.4 أحدث تحقق مباشر — SHA `bfbed74ae24e8e5e49baff84e7a18b0e99b55807` (2026-11-27)
 
 | الفحص | Run ID | النتيجة |
