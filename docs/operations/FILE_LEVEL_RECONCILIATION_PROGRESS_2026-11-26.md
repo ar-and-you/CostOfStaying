@@ -935,3 +935,18 @@
 - لا استيراد/نقل/حذف/تعديل أدوات حية أو تشغيل أدوات الأرشيف.
 
 **الحالة:** `STAGE 46 COMPLETE — LEGACY TOOLING REVIEWED; REUSABLE CHECK IDEAS IDENTIFIED; NO DIRECT IMPORT.`
+
+
+---
+
+## المرحلة 47 — مراجعة إعدادات GitHub والقوالب الأرشيفية غير المنقولة (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE47_GITHUB_CONFIG_TEMPLATES_SALVAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE47_GITHUB_CONFIG_TEMPLATES_SALVAGE_2026-11-27.md)
+
+- تمت مراجعة 13 مساراً أرشيفياً من قوالب Issues/PR وCODEOWNERS وDependabot وrequirements وrulesets وzizmor.
+- قوالب Issues/PR مرتبطة بحوكمة قديمة؛ config.yml يحيل إلى المستودع القديم live-egypt، فلا ينقل.
+- CODEOWNERS يحتاج مالكاً حقيقياً؛ Dependabot يتضمن ecosystems/paths غير موجودة؛ ruleset disabled ويطلب status contexts غير منتجة.
+- zizmor ignores تخص workflows أرشيفية غير موجودة.
+- لا نقل أو تطبيق أو تعديل إعدادات GitHub، ولا تشغيل scanners أو تثبيت تبعيات.
+
+**الحالة:** `STAGE 47 COMPLETE — ARCHIVED GITHUB TEMPLATES/CONFIG REVIEWED; NO DIRECT IMPORT OR RULESET APPLICATION.`
