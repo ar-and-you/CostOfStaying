@@ -742,3 +742,18 @@
 - لا حذف أو استبدال أو نقل أو استيراد، ولا تشغيل .NET/CI.
 
 **الحالة:** STAGE 33 COMPLETE — GLOBAL PATH CROSSWALK RECORDED; SEMANTIC SALVAGE AND OWNER DECISIONS OPEN.
+
+
+---
+
+## المرحلة 34 — استخراج ضوابط CI الناضجة من متطلبات الأرشيف ومقارنتها بالـWorkflows الحية (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE34_CI_GUARDRAILS_SALVAGE_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE34_CI_GUARDRAILS_SALVAGE_2026-11-27.md)
+
+- ضوابط SHA pinning، permissions: contents: read، job timeout، persist-credentials:false، وفصل SDK موجودة في workflows الحية.
+- لا pull_request_target أو interpolation مباشر ملحوظ لقيم head_ref داخل run.
+- security/gitleaks workflow وrepo-quality tests وUnity mobile workflow غير موجودة؛ لا تستورد كما هي.
+- حالة Secret Scanning/Push Protection في إعداد GitHub تحتاج إعادة قراءة مباشرة، ولا تستنتج من غياب workflow.
+- لا تعديل في workflows أو إعدادات GitHub، ولا تشغيل CI/scanners.
+
+**الحالة:** STAGE 34 COMPLETE — MATURE CI GUARDRAILS CONFIRMED LIVE; OPTIONAL SECURITY/CONFIG SCANNING ADOPTION REMAINS A SEPARATE DECISION.
