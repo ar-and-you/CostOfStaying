@@ -131,10 +131,10 @@ namespace CostOfStaying.Domain.Tests
         }
 
         [Test]
-        public void Transfer_Rejects_Null_Empty_And_Whitespace_RequestIds_Without_SideEffects()
+        public void Transfer_Rejects_Null_Empty_And_Tab_RequestIds_Without_SideEffects()
         {
             var (match, clock, a, b) = SetupTwoPlayers();
-            string?[] invalidRequestIds = { null, string.Empty, " \\t " };
+            string?[] invalidRequestIds = { null, string.Empty, "\t" };
 
             foreach (string? requestId in invalidRequestIds)
             {
