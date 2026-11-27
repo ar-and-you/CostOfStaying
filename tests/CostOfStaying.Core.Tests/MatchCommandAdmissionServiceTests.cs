@@ -88,10 +88,11 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void TryAdmit_RejectsActorWhoIsOnlyMemberOfAnotherMatch()
         {
-            var composition = CoreComposition.Create();
+            var composition = CoreComposition.Create(new MatchId(1));
+            var otherComposition = CoreComposition.Create(new MatchId(2));
             var sessions = composition.CreateSessionRegistry(4);
-            IMatchPlayerRegistry targetMatch = composition.CreateMatchPlayerRegistry(new MatchId(1), 4);
-            IMatchPlayerRegistry otherMatch = composition.CreateMatchPlayerRegistry(new MatchId(2), 4);
+            IMatchPlayerRegistry targetMatch = composition.CreateMatchPlayerRegistry(4);
+            IMatchPlayerRegistry otherMatch = otherComposition.CreateMatchPlayerRegistry(4);
             var queue = composition.CreateCommandAdmissionQueue<string>(8, 4, 4);
             IMatchCommandAdmissionService<string> service =
                 composition.CreateMatchCommandAdmissionService(sessions, targetMatch, queue);
@@ -199,9 +200,9 @@ namespace CostOfStaying.Core.Tests
             out IMatchPlayerRegistry players,
             out CommandAdmissionQueue<string> queue)
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(5));
             sessions = composition.CreateSessionRegistry(8);
-            players = composition.CreateMatchPlayerRegistry(new MatchId(5), 8);
+            players = composition.CreateMatchPlayerRegistry(8);
             queue = composition.CreateCommandAdmissionQueue<string>(8, 8, 8);
             return composition.CreateMatchCommandAdmissionService(sessions, players, queue);
         }
