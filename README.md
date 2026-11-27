@@ -49,7 +49,7 @@ python3 tools/playtest/run_sessions.py --sessions 10 --preset default
 - لا تستخدم `force push` ولا تستبدل تاريخ Git أو مجلد `.git`.
 - يحتوي المستودع ثلاثة Workflows: `.github/workflows/ci.yml` لـDomain/Python، و`.github/workflows/core-ci.yml` لـCore/.NET 10، و`.github/workflows/docs-governance.yml` لتدقيق الوثائق. يعمل خطا Domain/Python وCore عند الدفع وطلبات الدمج، وبجدولة أسبوعية كل يوم اثنين (03:17 و03:47 UTC على الترتيب)، مع إمكانية التشغيل اليدوي. يتضمن خط Domain/Python فحص صياغة Python عبر `compileall` قبل الاختبارات. لا يشغّل أي من خطي الاختبارات `tools/playtest/run_sessions.py` أو `tools/audit.py`؛ ولا يُعد فحص الصياغة بديلاً عن الاختبارات السلوكية.
 - إعداد workflow لا يثبت نجاح CI. يجب التحقق من نتيجة GitHub Actions الفعلية وربطها بـcommit SHA قبل وصف الفحوص بأنها `VERIFIED`.
-- آخر قراءة موثقة لإعدادات Secret scanning وPush protection كانت بتاريخ 2026-11-24 وأظهرت تفعيلهما؛ لم تتوفر إعادة تأكيد أحدث في قراءة 2026-11-27. لا يوجد تقرير مسح كامل لتاريخ Git بأداة متخصصة. نجاح CodeQL لا يثبت خلو قائمة التنبيهات.
+- آخر قراءة موثقة لإعدادات Secret scanning وPush protection كانت بتاريخ 2026-11-24 وأظهرت تفعيلهما؛ لم تتوفر إعادة تأكيد أحدث في قراءة 2026-11-28. لا يوجد تقرير مسح كامل لتاريخ Git بأداة متخصصة. نجاح CodeQL لا يثبت خلو قائمة التنبيهات.
 - Dependabot security updates كانت معطّلة في قراءة 2026-11-24؛ هذه حالة مؤرخة وليست إعادة تحقق حية. تعذرت قراءة Dependabot alerts وCode Scanning alerts بسبب قيود صلاحيات التكامل، لذلك لا يُستنتج عدد التنبيهات أو خلوها.
 - راجع `docs/operations/RECONCILIATION_2026-11-21.md` لمعرفة التعارضات التي حُسمت والعناصر المؤجلة.
 
