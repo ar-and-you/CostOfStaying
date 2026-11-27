@@ -78,8 +78,9 @@ Core VitalityAccount ليس Match gameplay aggregate: منشؤه الداخلي 
 | CommandSequenceTracker | maximumTrackedSessions وmaximumSequenceJump صريحان | ResetSession بعد cleanup |
 | BetrayalLedger._events | غير محدود داخل عمر CoreComposition | لا clear/retention API؛ يُحرر عند إسقاط composition |
 | BetrayalLedger._scores | لا حد مستقل؛ يعتمد على ActorIds المقبولة في TryRecord | لا remove/reset API |
+| VitalityAccount | لاعب واحد ضمن MatchId immutable | يرفض MatchPlayerRegistry تسجيل حساب ذي MatchId مختلف |
 
-كل registries المحدودة تتطلب capacities من host عند الإنشاء؛ لا توجد defaults تشغيلية أو workload-derived values. على فرع hardening الحالي أصبح `CoreComposition.Create(MatchId)` إلزامياً، وتُربط به MatchLifecycle وMatchPlayerRegistry وmatch services، لكن لا يوجد global active-match cap؛ إدارة عدد compositions/المباريات النشطة مسؤولية host. كما أن TCommand generic لا يضع حد حجم؛ raw frame/serializer/decompression quotas مسؤولية transport قبل بناء envelope.
+كل registries المحدودة تتطلب capacities من host عند الإنشاء؛ لا توجد defaults تشغيلية أو workload-derived values. على فرع hardening الحالي أصبح `CoreComposition.Create(MatchId)` إلزامياً؛ MatchLifecycle وMatchPlayerRegistry وVitalityAccount وCommandAdmissionQueue وmatch services مرتبطة بالمعرف نفسه. لا يوجد global active-match cap؛ إدارة عدد compositions/المباريات النشطة مسؤولية host. كما أن TCommand generic لا يضع حد حجم؛ raw frame/serializer/decompression quotas مسؤولية transport قبل بناء envelope.
 
 BetrayalLedger يستقبل BetrayalEvent بعد التحقق من non-zero ActorId/VictimId وعدم self-betrayal وتسلسل EventSequenceId، لكنه لا يتحقق من عضوية Actor/Victim في MatchPlayerRegistry. Host يجب أن يتحقق من roster والسلطة قبل TryRecord. يخزن ledger كل sequence/event فريد للتمييز بين exact replay وsequence reuse المختلف؛ لذلك لا يمكن تقليم السجل دون قرار يغير idempotency semantics.
 
@@ -88,4 +89,4 @@ BetrayalLedger يستقبل BetrayalEvent بعد التحقق من non-zero Acto
 
 ### Scope isolation — enforced factory boundary (branch under review)
 
-`CoreComposition.Create(MatchId)` now requires a valid MatchId. The composition exposes that identity and creates MatchLifecycle/MatchPlayerRegistry only for the bound match; match-scoped service factories reject dependencies from another scope. The public API no longer permits one composition instance to manufacture match resources for multiple MatchIds. The host still owns global match concurrency and must create/dispose one composition per active match. This change supersedes the historical stage-65 KEEP_CURRENT_API note on the review branch only; it is not yet merged or test-verified.
+`CoreComposition.Create(MatchId)` now requires a valid MatchId. MatchLifecycle, MatchPlayerRegistry, VitalityAccount and CommandAdmissionQueue carry the same immutable scope; registration rejects cross-match vitality accounts, and composition factories reject foreign match dependencies/queues. The public API no longer permits one composition instance, account or queue to manufacture/share match state across MatchIds. The host still owns global match concurrency and must create/dispose one composition per active match. This supersedes the historical stage-65 KEEP_CURRENT_API note on the review branch only; it is not yet merged or test-verified.
