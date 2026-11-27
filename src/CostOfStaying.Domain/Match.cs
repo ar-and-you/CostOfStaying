@@ -258,12 +258,13 @@ namespace CostOfStaying.Domain
             RejectedTargetFull,
             RejectedDuplicateRequest,
             RejectedMatchNotActive,
-            RejectedInvalidDistance
+            RejectedInvalidDistance,
+            RejectedInvalidRequestId
         }
 
         /// <summary>
         /// Attempt a suffering transfer. All conditions are checked atomically;
-        /// on failure no state changes (RULE-02 atomic transaction).
+        /// on failure no gameplay state changes; rejection events may be recorded (RULE-02).
         /// distanceMeters is the server-measured distance; the client never
         /// decides range.
         /// </summary>
@@ -275,8 +276,10 @@ namespace CostOfStaying.Domain
                 return TransferResult.RejectedMatchNotActive;
             if (double.IsNaN(distanceMeters) || double.IsInfinity(distanceMeters) || distanceMeters < 0)
                 return TransferResult.RejectedInvalidDistance;
+            if (string.IsNullOrWhiteSpace(requestId))
+                return TransferResult.RejectedInvalidRequestId;
 
-            // Idempotency: duplicate request id is a no-op rejection without side effects
+            // A duplicate request never repeats gameplay mutation; the rejection is recorded.
             if (!string.IsNullOrEmpty(requestId) && ProcessedRequestIds.Contains(requestId))
             {
                 Emit(DomainEventKind.TransferRejected, sourceId, targetId, $"duplicate requestId={requestId}");

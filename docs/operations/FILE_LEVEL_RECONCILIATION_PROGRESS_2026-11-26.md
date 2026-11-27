@@ -858,3 +858,18 @@
 - لا حذف أو نقل أو استيراد.
 
 **الحالة:** STAGE 41 COMPLETE — SALVAGE CANDIDATES CONSOLIDATED; OWNER REVIEW REQUIRED FOR NEW POLICIES/TEST DEFAULTS.
+
+
+---
+
+## المرحلة 42 — إصلاح RequestId الفارغ في Suffering Transfer (2026-11-27)
+
+**التقرير:** [ARCHIVE_RECONCILIATION_STAGE42_TRANSFER_REQUEST_ID_FIX_2026-11-27.md](ARCHIVE_RECONCILIATION_STAGE42_TRANSFER_REQUEST_ID_FIX_2026-11-27.md)
+
+- رُفضت قيم `requestId` من نوع null/empty/whitespace بنتيجة `RejectedInvalidRequestId` قبل تغيير حالة اللعب أو سجل الأحداث.
+- أضيف اختبار انحدار يتحقق من ثبات Debuffs وBetrayal وProcessedRequestIds وEvents للحالات الثلاث.
+- أضيف enum member في نهاية القائمة للمحافظة على القيم العددية السابقة.
+- توثقت حدود idempotency: الذاكرة/عمر Match فقط، وتكرار ID صالح يسجل TransferRejected دون mutation في حالة اللعب.
+- لم تُشغّل NUnit محلياً؛ يلزم انتظار Domain CI على SHA الجديد قبل إعلان VERIFIED.
+
+**الحالة:** STAGE 42 IMPLEMENTED IN MAIN — CI VERIFICATION PENDING.

@@ -131,6 +131,31 @@ namespace CostOfStaying.Domain.Tests
         }
 
         [Test]
+        public void Transfer_Rejects_Null_Empty_And_Whitespace_RequestIds_Without_SideEffects()
+        {
+            var (match, clock, a, b) = SetupTwoPlayers();
+            string?[] invalidRequestIds = { null, string.Empty, " \\t " };
+
+            foreach (string? requestId in invalidRequestIds)
+            {
+                int sourceDebuffsBefore = match.Players[a].Debuffs.Count;
+                int targetDebuffsBefore = match.Players[b].Debuffs.Count;
+                int betrayalBefore = match.Players[a].BetrayalPoints;
+                int processedIdsBefore = match.ProcessedRequestIds.Count;
+                int eventsBefore = match.Events.Count;
+
+                var result = match.TryTransfer(a, b, 1.0, requestId!);
+
+                Assert.That(result, Is.EqualTo(Match.TransferResult.RejectedInvalidRequestId));
+                Assert.That(match.Players[a].Debuffs.Count, Is.EqualTo(sourceDebuffsBefore));
+                Assert.That(match.Players[b].Debuffs.Count, Is.EqualTo(targetDebuffsBefore));
+                Assert.That(match.Players[a].BetrayalPoints, Is.EqualTo(betrayalBefore));
+                Assert.That(match.ProcessedRequestIds.Count, Is.EqualTo(processedIdsBefore));
+                Assert.That(match.Events.Count, Is.EqualTo(eventsBefore));
+            }
+        }
+
+        [Test]
         public void Transfer_LastTransferable_Is_Chosen()
         {
             var (match, clock, a, b) = SetupTwoPlayers();

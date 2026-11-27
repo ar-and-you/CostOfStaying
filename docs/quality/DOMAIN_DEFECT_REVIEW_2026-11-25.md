@@ -35,6 +35,14 @@
 
 **الاختبارات:** `DebuffTests` واختبار إعداد المباراة في `SecurityTests`.
 
+### D-08 — قبول RequestId فارغ في Suffering Transfer
+
+**الأثر:** كان `Match.TryTransfer` يتجاوز فحص وتسجيل idempotency عندما يكون `requestId` null أو فارغاً أو whitespace؛ وبذلك يمكن أن ينجح النقل دون مفتاح يمنع إعادة التطبيق.
+
+**الإصلاح في المرحلة 42:** إضافة `RejectedInvalidRequestId` ورفض `string.IsNullOrWhiteSpace(requestId)` قبل أي mutation. أضيف اختبار انحدار يمرر null وempty وwhitespace ويتحقق من ثبات Debuffs وBetrayal وProcessedRequestIds وEvents. أضيفت القيمة الجديدة في نهاية enum للحفاظ على الأرقام الحالية للقيم السابقة.
+
+**الحدود:** تبقى `ProcessedRequestIds` مجموعة داخل الذاكرة وعمر Match واحد؛ لا توفر deduplication دائماً بعد restart. كما أن تكرار معرّف صالح يسجل `TransferRejected` في سجل الأحداث مع عدم تغيير حالة اللعب. لم تُحل سياسة الاحتفاظ D-04 أو ضمانات التزامن المتوازي.
+
 ## 3. نتائج ومخاطر لم تُغيّر
 
 ### D-03 — مجموعات Domain قابلة للتعديل من خارج المجمع
