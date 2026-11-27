@@ -960,6 +960,7 @@
 
 - اكتُشف أن اختبار `Spirit_CannotTransferOrVote` القديم كان يختبر النقل فقط؛ فُصل إلى `Spirit_Cannot_Transfer` وأضيف `Spirit_Cannot_Cast_Vote` في حالة VoteOpen فعلية.
 - قُويت assertions في Transfer لحفظ المدة ورفض TargetFull وAtomic failure؛ تتحقق من هوية Debuffs وBetrayal وProcessedRequestIds وTransferRejected events.
+- قُوي اختبار انتهاء Debuff للتحقق من الهوية لا العدد فقط، وصُحح وصف معالجة Collapse عند نهاية Tick؛ أعيدت تسمية اختبار Tick ليحدد نطاق delta ولا يدعي إثبات حد الثقة، وأزيل متغير Spirit غير مستخدم.
 - القياس الحالي للمجموعة: 49 method و150 assertion في Domain مقابل 37 method و83 assertion في Core archive؛ كل السيناريوهات القديمة ممثلة دلالياً.
 - حُذف تقرير المرحلة 45 المكرر غير المفهرس بعد أن رصده Docs Governance كـorphan؛ بقي التقرير المعتمد مفهرساً.
 - لا تعديل production code أو قواعد لعب أو إعدادات GitHub. CI النهائي على الرأس بعد التوثيق مطلوب.
