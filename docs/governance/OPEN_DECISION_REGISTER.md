@@ -135,6 +135,8 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 | DOC-02 | إنشاء بيان متابعة جديد ببصمات فعلية، دون تعديل MANIFEST.json أو SHA256SUMS.txt التاريخيين | مالك الحوكمة | 2026-11-28 | RESOLVED | `docs/operations/FOLLOWUP_MANIFEST_2026-11-28.md`؛ بصمات SHA-256 مسجلة، والملف التاريخي لم يُمسّ |
 | GOV-01 | حسم التعارض الظاهري بين سياسة Direct-to-main ووجود PR #2؛ السياسة الحالية لا تتغير بهذه الإضافة | مالك المشروع | TBD | OPEN | `docs/governance/GIT_POLICY_RESOLUTION.md` |
 
+**حجز المعرفات:** D-09 محجوز لبوابة معايير الخروج من مرحلة ما قبل الإنتاج (Pre-production exit criteria) كما هو مسجل في قسم بوابات التنفيذ D0–D9 أعلاه؛ لا يُعاد استخدامه. D-10 مخصص لتحذيرات XML documentation في Domain.
+
 ### D-10 — تحذيرات XML documentation في Domain
 
 | الرمز | الحالة | المالك | الاستحقاق | الوصف والدليل |
