@@ -49,7 +49,7 @@
 | D-01 | FIXED_IN_LIVE | احتساب Debuff حسب مدة نشاطه داخل Tick طويل |
 | D-02 | FIXED_IN_LIVE | رفض Debuff/config للقيم غير الصالحة |
 | D-03 | OPEN_OWNER_DECISION | مجموعات Match/Player العامة قابلة للتعديل؛ يلزم API encapsulation وخطة توافق |
-| D-04 | OPEN_OWNER_DECISION | Domain Events/RequestIds/EchoIds وCore BetrayalLedger._events/_scores ومدخلات النص/payload بلا سياسة retention/size أو global match cap |
+| D-04 | OPEN_OWNER_DECISION | Domain Events/ProcessedRequestIds/CollectedEchoIds وCore BetrayalLedger._events/_scores وبعض النصوص بلا retention/size policy؛ راجع `docs/security/STATE_RETENTION_INVENTORY.md`. Core registries والـqueues bounded لكل instance بسعات يحددها host، لكن لا global match cap |
 | D-05 | OPEN_OWNER_DECISION | أثر موت/انقطاع اللاعب بعد فتح التصويت |
 | D-06 | OPEN_OWNER_DECISION | سياسة Collapse عند تأخر Tick: skip أم bounded catch-up أم replay |
 | D-07 | OPEN_OWNER_DECISION | حد Domain/Core وخرائط الأنواع والهويات والوقت |
