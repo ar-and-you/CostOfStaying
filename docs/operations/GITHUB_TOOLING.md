@@ -1,10 +1,11 @@
 # تحديث حالة الرأس — 2026-11-28
 
-- `main` HEAD عند آخر قراءة: `e7e5b5e54f46490c44aaf30888280d55239bb670`؛ لم تُرجع القراءة الحالية تشغيلات CI مرتبطة بهذا SHA، لذا لا يُسجل نجاح حديث على `main`.
-- فرع المراجعة `security/core-trust-boundaries-phase0` عند SHA `dc33a8040d8ee29c96cba440678e9c6733f30565` أكمل Domain/Python CI (run `46079246424`)، وCore CI (.NET 10) (run `46079246422`)، وDocumentation Governance (run `46079246436`) بنجاح. تضمنت Domain/Python CI نجاح actionlint v1.7.12 وzizmor v1.33.1 واختبارات workflow hygiene السبعة واختبارات Domain/Python/Playtest.
-- اكتملت CodeQL analyses للغات C# وPython وActions، وأصبح PR CodeQL check العام `success` على SHA `dc33a8040d8ee29c96cba440678e9c6733f30565`. نجاح التحليل لا يثبت أن قائمة التنبيهات فارغة؛ لم تُقرأ قائمة alerts هنا.
-- CodeFactor أعاد failure مع Minor issue واحدة؛ Codacy أعاد `action_required` دون ملخص. لم يتم تجاهل أي منهما أو اعتباره نجاحاً.
-- نتائج التشغيلات مقيدة بالـSHA المذكور، ولا تثبت وجود Unity أو Android أو transport/server runtime أو خلو تنبيهات CodeQL.
+- `main` HEAD عند آخر قراءة: `e7e5b5e54f46490c44aaf30888280d55239bb670`؛ لم تُرجع القراءة تشغيلات CI مرتبطة بهذا SHA، فلا نسجل نجاحاً حديثاً على `main`.
+- فرع المراجعة `security/core-trust-boundaries-phase0` عند SHA `07d058f29e38dd816ec41eff13c61a9f5d24b951` أكمل Domain/Python CI (run `46079566421`)، وCore CI (.NET 10) (run `46079566529`)، وDocumentation Governance (run `46079566453`) بنجاح. الوظائف الثلاث مرتبطة بالـSHA نفسه.
+- Domain/Python CI: actionlint v1.7.12 success؛ zizmor v1.33.1 success؛ workflow hygiene 7/7؛ Domain NUnit 62/62؛ Python simulator 11 tests (لا تختبر C# parity)؛ Playtest CLI 2/2؛ smoke test 1/1.
+- Core CI: NUnit 257/257 success. CodeQL C# وPython وActions completed/success، وPR CodeQL check يصرح: `No new alerts in code changed by this pull request`. هذا لا يثبت خلو كل alerts المفتوحة في الفرع أو المستودع.
+- CodeFactor أعاد `failure` مع Minor issue واحدة وautofix متاح. Codacy أعاد `action_required` مع 6 new issues (0 max.) من Minor فأعلى. تفاصيل annotations لم تكن متاحة عبر تكامل GitHub؛ لم تُنسب إلى ملفات بالتخمين ولم يُنفذ autofix أعمى.
+- نتائج التشغيلات مقيدة بالـSHA المذكور، ولا تثبت وجود Unity أو Android أو transport/server runtime أو خلو كل التنبيهات.
 - آخر قراءة branch-protection بتاريخ 2026-11-28 أعادت 403؛ الحالة UNKNOWN/NOT VERIFIED. قراءة repository rulesets أعادت `[]` ضمن النطاق المتاح ولا تحسم قواعد المؤسسة أو الحماية الموروثة.
 - لم تُغيّر إعدادات GitHub في هذه المراجعة.
 
