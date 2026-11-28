@@ -64,7 +64,7 @@ namespace CostOfStaying.Core.Tests
             MoveToRunning(match);
             ActorId actor = new ActorId(42);
             SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(20), actor);
-            Assert.That(players.Register(new VitalityAccount(actor)).IsSuccess, Is.True);
+            Assert.That(players.Register(new VitalityAccount(new MatchId(5), actor)).IsSuccess, Is.True);
             CommandEnvelope<string> envelope = CreateEnvelope(session.SessionId, 1);
 
             Assert.That(service.TryAdmit(envelope).ErrorCode, Is.EqualTo(CoreErrorCode.Unauthorized));
@@ -94,7 +94,7 @@ namespace CostOfStaying.Core.Tests
                 _ => default);
             ActorId actor = new ActorId(42);
             SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(20), actor);
-            players.Register(new VitalityAccount(actor));
+            players.Register(new VitalityAccount(new MatchId(5), actor));
 
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1)).ErrorCode,
                 Is.EqualTo(CoreErrorCode.InvalidState));
@@ -119,7 +119,7 @@ namespace CostOfStaying.Core.Tests
                 });
             ActorId actor = new ActorId(42);
             SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(20), actor);
-            players.Register(new VitalityAccount(actor));
+            players.Register(new VitalityAccount(new MatchId(5), actor));
             CommandEnvelope<string> envelope = CreateEnvelope(session.SessionId, 1);
 
             Assert.That(service.TryAdmit(envelope).ErrorCode, Is.EqualTo(CoreErrorCode.Unavailable));
@@ -146,7 +146,7 @@ namespace CostOfStaying.Core.Tests
             MoveToRunning(match);
             ActorId actor = new ActorId(42);
             SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(20), actor);
-            players.Register(new VitalityAccount(actor));
+            players.Register(new VitalityAccount(new MatchId(5), actor));
 
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1)).IsSuccess, Is.True);
             Assert.That(queue.PendingCount, Is.EqualTo(1));
@@ -167,7 +167,7 @@ namespace CostOfStaying.Core.Tests
             MoveToRunning(match);
             ActorId actor = new ActorId(42);
             SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(20), actor);
-            players.Register(new VitalityAccount(actor));
+            players.Register(new VitalityAccount(new MatchId(5), actor));
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1)).IsSuccess, Is.True);
 
             Assert.That(match.TryTransition(MatchPhase.Ending).IsSuccess, Is.True);
@@ -189,7 +189,7 @@ namespace CostOfStaying.Core.Tests
                     : Result.Failure(CoreErrorCode.Unauthorized));
             ActorId actor = new ActorId(42);
             SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(20), actor);
-            var player = new VitalityAccount(actor);
+            var player = new VitalityAccount(new MatchId(5), actor);
             players.Register(player);
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1)).IsSuccess, Is.True);
 
@@ -211,7 +211,7 @@ namespace CostOfStaying.Core.Tests
                 _ => Result.Success());
             ActorId actor = new ActorId(42);
             SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(20), actor);
-            players.Register(new VitalityAccount(actor));
+            players.Register(new VitalityAccount(new MatchId(5), actor));
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1)).IsSuccess, Is.True);
             int callsBeforeTake = policy.Calls;
 
@@ -241,7 +241,7 @@ namespace CostOfStaying.Core.Tests
             MoveToRunning(match);
             ActorId actor = new ActorId(42);
             SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(20), actor);
-            players.Register(new VitalityAccount(actor));
+            players.Register(new VitalityAccount(new MatchId(5), actor));
             CommandEnvelope<string> envelope = CreateEnvelope(session.SessionId, 1);
 
             Assert.That(service.TryAdmit(envelope).IsSuccess, Is.True);
@@ -265,10 +265,10 @@ namespace CostOfStaying.Core.Tests
             out DelegatePolicy policy,
             Func<MatchCommandAuthorizationContext<string>, Result> evaluate)
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(5));
             sessions = composition.CreateSessionRegistry(8);
-            match = composition.CreateMatchLifecycle(new MatchId(5));
-            players = composition.CreateMatchPlayerRegistry(match.MatchId, 8);
+            match = composition.CreateMatchLifecycle();
+            players = composition.CreateMatchPlayerRegistry(8);
             queue = composition.CreateCommandAdmissionQueue<string>(8, 8, 8);
             policy = new DelegatePolicy(evaluate);
             return composition.CreateMatchCommandAuthorizationService(sessions, match, players, queue, policy);

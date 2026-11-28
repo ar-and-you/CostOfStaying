@@ -10,13 +10,12 @@ SHA_PIN = re.compile(r"^[^@\s]+@([0-9a-f]{40})$")
 
 
 def workflow_files():
-    return sorted(
-        path for path in WORKFLOW_DIR.glob("*.yml")
-        if path.name != ".gitkeep"
-    )
+    candidates = set(WORKFLOW_DIR.glob("*.yml")) | set(WORKFLOW_DIR.glob("*.yaml"))
+    return sorted(path for path in candidates if path.name != ".gitkeep")
 
 
 def job_sections(text):
+    """Return indentation-scoped job blocks without requiring a YAML dependency."""
     lines = text.splitlines()
     try:
         jobs_index = next(i for i, line in enumerate(lines) if line == "jobs:")
@@ -27,7 +26,7 @@ def job_sections(text):
     current_name = None
     current_lines = []
     for line in lines[jobs_index + 1:]:
-        if re.match(r"^\S", line):
+        if line and not line[0].isspace():
             break
         match = re.match(r"^  ([A-Za-z0-9_-]+):\s*$", line)
         if match:
@@ -40,6 +39,19 @@ def job_sections(text):
     if current_name is not None:
         sections.append((current_name, "\n".join(current_lines)))
     return sections
+
+
+def step_sections(job_text):
+    """Find every step, including unnamed steps."""
+    lines = job_text.splitlines()
+    starts = [
+        index for index, line in enumerate(lines)
+        if re.match(r"^      -\s+", line)
+    ]
+    return [
+        "\n".join(lines[start:starts[position + 1] if position + 1 < len(starts) else len(lines)])
+        for position, start in enumerate(starts)
+    ]
 
 
 class WorkflowHygieneTests(unittest.TestCase):
@@ -69,17 +81,40 @@ class WorkflowHygieneTests(unittest.TestCase):
                 )
                 self.assertEqual(entries, [("contents", "read")])
 
+    def test_job_level_permissions_are_explicitly_restricted(self):
+        for path, text in self.contents.items():
+            for job_name, section in job_sections(text):
+                with self.subTest(workflow=path.name, job=job_name):
+                    declarations = re.findall(r"(?m)^    permissions:(.*)$", section)
+                    for declaration in declarations:
+                        self.assertEqual(
+                            declaration.strip(),
+                            "",
+                            "Job-level permissions must use an explicit block; inline forms are not accepted.",
+                        )
+                    blocks = re.findall(
+                        r"(?m)^    permissions:\s*\n((?:^      [^\n]*\n?)*)",
+                        section,
+                    )
+                    self.assertEqual(
+                        len(blocks),
+                        len(declarations),
+                        "Every job-level permissions declaration must be parsed and checked.",
+                    )
+                    for block in blocks:
+                        entries = re.findall(
+                            r"(?m)^      ([A-Za-z0-9_-]+):\s*([A-Za-z]+)\s*$",
+                            block,
+                        )
+                        self.assertEqual(entries, [("contents", "read")])
+
     def test_external_actions_are_pinned_to_full_commit_shas(self):
         for path, text in self.contents.items():
             references = re.findall(r"(?m)^\s*uses:\s*([^\s#]+)", text)
             with self.subTest(workflow=path.name):
                 self.assertTrue(references, "Expected at least one action reference.")
                 for reference in references:
-                    self.assertRegex(
-                        reference,
-                        SHA_PIN,
-                        f"Action must be pinned to a full 40-character SHA: {reference}",
-                    )
+                    self.assertRegex(reference, SHA_PIN)
 
     def test_every_job_has_a_timeout(self):
         for path, text in self.contents.items():
@@ -95,20 +130,17 @@ class WorkflowHygieneTests(unittest.TestCase):
 
     def test_checkout_steps_disable_persisted_credentials(self):
         for path, text in self.contents.items():
-            lines = text.splitlines()
-            starts = [i for i, line in enumerate(lines) if re.match(r"^      - name:", line)]
             with self.subTest(workflow=path.name):
                 checkout_count = 0
-                for position, start in enumerate(starts):
-                    end = starts[position + 1] if position + 1 < len(starts) else len(lines)
-                    block = "\n".join(lines[start:end])
-                    if re.search(r"(?m)^\s+uses:\s*actions/checkout@", block):
-                        checkout_count += 1
-                        self.assertRegex(
-                            block,
-                            r"(?m)^\s+persist-credentials:\s*false\s*$",
-                            "Every checkout step must disable persisted credentials.",
-                        )
+                for job_name, job in job_sections(text):
+                    for block in step_sections(job):
+                        if re.search(r"(?m)^\s+uses:\s*actions/checkout@", block):
+                            checkout_count += 1
+                            self.assertRegex(
+                                block,
+                                r"(?m)^\s+persist-credentials:\s*false\s*$",
+                                f"Checkout in job {job_name} must disable persisted credentials.",
+                            )
                 self.assertGreater(checkout_count, 0, "Expected an explicit checkout step.")
 
     def test_untrusted_privileged_triggers_are_not_introduced_silently(self):

@@ -46,6 +46,7 @@
 
 - [المعمارية التقنية المقترحة](architecture/TECHNICAL_ARCHITECTURE.md)
 - [حدود Domain وCore والحالة الفعلية](architecture/DOMAIN_CORE.md)
+- [ملكية الحالة وحدود الاستعادة في Domain/Core](architecture/STATE_OWNERSHIP_AND_RECOVERY.md)
 - [معمارية البيانات](architecture/DATA_ARCHITECTURE.md)
 - [معمارية الشبكة المقترحة](architecture/NETWORK_ARCHITECTURE.md)
 - [الخلفية والاستضافة](architecture/BACKEND_AND_HOSTING.md)
@@ -60,6 +61,7 @@
 - [المرحلة 75 — دمج smoke test لمحاكاة اللعب وأدوات Audit في CI](operations/ARCHIVE_RECONCILIATION_STAGE75_PLAYTEST_AUDIT_CI_INTEGRATION_2026-11-27.md)
 - [المرحلة 76 — إعادة فحص بوابات الأمن وصلاحيات المستودع](operations/ARCHIVE_RECONCILIATION_STAGE76_SECURITY_POSTURE_RECHECK_2026-11-27.md)
 - [المرحلة 77 — تجهيز التقاط أدلة اختبار اللعب البشري](operations/ARCHIVE_RECONCILIATION_STAGE77_HUMAN_PLAYTEST_EVIDENCE_2026-11-27.md)
+- [المرحلة 78 — تثبيت حدود الثقة وبدء الإغلاق الأمني لـCore](operations/ARCHIVE_RECONCILIATION_STAGE78_CORE_TRUST_BOUNDARIES_2026-11-27.md)
 
 لا يحتوي `main` حالياً سجلات ADR مقبولة. القالب والفهرس لا يشكلان بحد ذاتهما قراراً معمارياً.
 
@@ -172,6 +174,9 @@
 - [المراقبة والتسجيل — تصور مستقبلي](operations/MONITORING_AND_LOGGING.md)
 - [تكامل Unity وCI المحمول — غير منفذ](operations/UNITY_MOBILE_CI.md)
 - [تقرير الدمج الوثائقي المؤرخ](operations/MAIN_DOCUMENTATION_MERGE_2026-11-23.md)
+
+- [جرد الأوامر الحساسة وسياسات التفويض](security/SENSITIVE_COMMAND_POLICY_CATALOG.md) — عمليات mutation الحالية وحقول TBD وحدود F-001/F-002.
+- [جرد حدود الذاكرة والاحتفاظ](security/STATE_RETENTION_INVENTORY.md) — مخازن Domain/Core، حدود السعة، ودلالات replay التي تمنع التقليم العشوائي.
 
 ## الأرشيف التاريخي
 

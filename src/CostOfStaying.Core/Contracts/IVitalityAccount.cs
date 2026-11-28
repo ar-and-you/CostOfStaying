@@ -8,6 +8,7 @@ namespace CostOfStaying.Core.Contracts
     /// </summary>
     public interface IVitalityAccount
     {
+        MatchId MatchId { get; }
         ActorId PlayerId { get; }
         PlayerLifecycleState State { get; }
         uint Current { get; }

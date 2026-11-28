@@ -19,9 +19,17 @@ namespace CostOfStaying.Core.Tests
             int capacity)
         {
             return new CommandAdmissionQueue<TestCommand>(
+                new MatchId(1),
                 maximumSequenceJump,
                 maximumTrackedSessions,
                 capacity);
+        }
+
+        [Test]
+        public void Constructor_RequiresValidMatchId()
+        {
+            Assert.Throws<System.ArgumentException>(() =>
+                new CommandAdmissionQueue<TestCommand>(default, 4, 2, 1));
         }
 
         [Test]

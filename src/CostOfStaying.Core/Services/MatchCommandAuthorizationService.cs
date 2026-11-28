@@ -128,7 +128,7 @@ namespace CostOfStaying.Core.Services
             }
 
             IVitalityAccount player = playerLookup.Value;
-            if (player is null || player.PlayerId != session.ActorId.Value)
+            if (player is null || player.MatchId != MatchId || player.PlayerId != session.ActorId.Value)
                 return Result<MatchCommandAuthorizationContext<TCommand>>.Failure(CoreErrorCode.InvalidState);
 
             try

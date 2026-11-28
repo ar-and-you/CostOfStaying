@@ -226,7 +226,7 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void Detach_MakesPreviouslyQueuedCommandFailDequeueAuthenticationRevalidation()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(1));
             var sessions = composition.CreateSessionRegistry(4);
             IConnectionSessionRegistry connections = composition.CreateConnectionSessionRegistry(sessions, 4);
             var queue = composition.CreateCommandAdmissionQueue<string>(8, 4, 4);

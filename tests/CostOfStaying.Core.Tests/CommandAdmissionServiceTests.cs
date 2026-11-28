@@ -31,7 +31,7 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void Constructor_RejectsNullDependencies()
         {
-            var queue = new CommandAdmissionQueue<string>(MaximumSequenceJump, 4, 4);
+            var queue = new CommandAdmissionQueue<string>(new MatchId(1), MaximumSequenceJump, 4, 4);
             var sessions = new SessionRegistry(4);
             Assert.Throws<System.ArgumentNullException>(() => new CommandAdmissionService<string>(null!, queue));
             Assert.Throws<System.ArgumentNullException>(() => new CommandAdmissionService<string>(sessions, null!));
@@ -78,7 +78,7 @@ namespace CostOfStaying.Core.Tests
         public void TryAdmit_RejectsAuthenticatedSessionWithoutValidActorBinding()
         {
             var sessions = new SessionRegistry(4);
-            var queue = new CommandAdmissionQueue<string>(MaximumSequenceJump, 4, 4);
+            var queue = new CommandAdmissionQueue<string>(new MatchId(1), MaximumSequenceJump, 4, 4);
             var malformed = new MalformedAuthenticatedSession(new SessionId(10));
             sessions.Register(malformed);
             malformed.State = SessionState.Authenticated;
@@ -120,7 +120,7 @@ namespace CostOfStaying.Core.Tests
         public void TryAdmit_FullQueueRejectsWithoutConsumingSequence()
         {
             var sessions = new SessionRegistry(4);
-            var queue = new CommandAdmissionQueue<string>(MaximumSequenceJump, 4, 1);
+            var queue = new CommandAdmissionQueue<string>(new MatchId(1), MaximumSequenceJump, 4, 1);
             var service = new CommandAdmissionService<string>(sessions, queue);
             var session = new SessionLifecycle(new SessionId(10));
             sessions.Register(session);
@@ -205,7 +205,7 @@ namespace CostOfStaying.Core.Tests
         private static CommandAdmissionService<string> CreateService(out SessionRegistry sessions, out CommandAdmissionQueue<string> queue)
         {
             sessions = new SessionRegistry(4);
-            queue = new CommandAdmissionQueue<string>(MaximumSequenceJump, 4, 4);
+            queue = new CommandAdmissionQueue<string>(new MatchId(1), MaximumSequenceJump, 4, 4);
             return new CommandAdmissionService<string>(sessions, queue);
         }
     }

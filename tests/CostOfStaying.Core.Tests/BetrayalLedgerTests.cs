@@ -98,9 +98,13 @@ namespace CostOfStaying.Core.Tests
         }
 
         [Test]
-        public void Constructor_RejectsSelfBetrayal()
+        public void Constructor_AllowsEqualNumericValuesAcrossDistinctIdentityDomains()
         {
-            Assert.Throws<ArgumentException>(() => CreateEvent(1, 10, 10, 1));
+            BetrayalEvent entry = CreateEvent(1, 10, 10, 1);
+
+            Assert.That(entry.IsValid, Is.True);
+            Assert.That(entry.ActorId, Is.EqualTo(new ActorId(10)));
+            Assert.That(entry.VictimId, Is.EqualTo(new VictimId(10)));
         }
 
         [Test]

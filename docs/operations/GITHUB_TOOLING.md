@@ -1,9 +1,12 @@
-# تحديث حالة الرأس — 2026-11-27
+# تحديث حالة الرأس — 2026-11-28
 
-- `main` HEAD عند آخر قراءة: `60d15bc8f7aafb99f31ea2d61a6fd750719e53d8`.
-- تم التحقق من check-runs المرتبطة بهذا SHA: Domain/Python CI وCore CI وDocumentation Governance وCodeQL dynamic اكتملت جميعها `completed/success`؛ التفاصيل في القسم 0.7 أدناه.
-- نتائج التشغيلات مقيدة بالـSHA المذكور، ولا تثبت وجود Unity أو Android أو transport/server runtime أو خلو تنبيهات CodeQL.
-- آخر قراءة branch-protection بتاريخ 2026-11-27 أعادت 403؛ الحالة UNKNOWN/NOT VERIFIED. قراءة repository rulesets أعادت `[]` ضمن النطاق المتاح ولا تحسم قواعد المؤسسة أو الحماية الموروثة.
+- `main` HEAD عند آخر قراءة: `e7e5b5e54f46490c44aaf30888280d55239bb670`؛ لم تُرجع القراءة تشغيلات CI مرتبطة بهذا SHA، فلا نسجل نجاحاً حديثاً على `main`.
+- آخر رأس مصدر/اختبارات متحقق على فرع المراجعة `security/core-trust-boundaries-phase0` هو SHA `d8c66e85d2d4b8353595b24dd2df38382ead2adb`: Domain/Python CI (run `46131891429`)، وCore CI (.NET 10) (run `46131891394`)، وDocumentation Governance (run `46131891367`) نجحت كلها على SHA نفسه. تلت هذا الرأس تحديثات توثيقية فقط، ولم تكتمل بعد تشغيلات CI على أحدث رأس.
+- Domain/Python CI: actionlint v1.7.12 success؛ zizmor v1.33.1 success؛ workflow hygiene 7/7؛ Domain NUnit 62/62؛ Python simulator 11 tests (لا تختبر C# parity)؛ Playtest CLI 2/2؛ smoke test 1/1.
+- Core CI: NUnit 257/257 success. CodeQL C# وPython وActions completed/success، وPR CodeQL check completed/success. هذا لا يثبت خلو كل alerts المفتوحة في الفرع أو المستودع.
+- CodeFactor أعاد `failure` مع Minor issue واحدة؛ لم تتوفر annotation تحدد الملف/السطر، لذلك لم تُنسب إلى ملف بالتخمين ولم يُنفذ autofix أعمى. Codacy أعاد `success` وذكر 0 issues على SHA الحالي.
+- نتائج التشغيلات مقيدة بالـSHA المذكور، ولا تثبت وجود Unity أو Android أو transport/server runtime أو خلو كل التنبيهات.
+- آخر قراءة branch-protection بتاريخ 2026-11-28 أعادت 403؛ الحالة UNKNOWN/NOT VERIFIED. قراءة repository rulesets أعادت `[]` ضمن النطاق المتاح ولا تحسم قواعد المؤسسة أو الحماية الموروثة.
 - لم تُغيّر إعدادات GitHub في هذه المراجعة.
 
 ## 0.6 تحقق CI حي على SHA السابق — `94b341a681930e875fdbeee6ff3ccecb77476a14` (2026-11-27)
@@ -185,7 +188,7 @@
 - **Dependabot security updates:** معطّلة في قراءة 2026-11-24. لم يُضف `.github/dependabot.yml`، ولن تُفعّل التحديثات الأمنية الآلية دون توجيه جديد من مالك المشروع؛ تجنباً لفتح PRs آلية. لا تخلط بين تنبيهات Dependabot (التي لم تُقرأ) والتحديثات الآلية.
 - **CodeQL:** أظهرت المراجعة المؤرخة 2026-11-22 إعداد GitHub default setup للغات C# وPython وGitHub Actions، باستخدام query suite `default` وthreat model `remote_and_local`. لا ينتج ذلك ملف workflow في المستودع. اكتمل التشغيل الأول [45004680726](https://github.com/ar-and-you/CostOfStaying/actions/runs/45004680726) بحالة `completed/success` على SHA الأساس `1b209b79261cba617bb68615746f115970422a8f`. لم تُعد قراءة إعداد CodeQL في فحص 2026-11-24.
 - **قراءة Code Scanning:** أعادت `GET /code-scanning/alerts?per_page=1` في 2026-11-24 الخطأ `403 Resource not accessible by integration`. نجاح تشغيل CodeQL لا يكشف وحده قائمة التنبيهات؛ لا يمكن الجزم بعدم وجود نتائج.
-- لا يوجد في المستودع حالياً `security.yml` أو gitleaks أو actionlint أو zizmor workflow، ولا اختبارات إعداد GitHub في `tools/github_config_tests/`.
+- لا يوجد `security.yml` أو gitleaks أو اختبارات إعداد GitHub في `tools/github_config_tests/`. أضيف تشغيل `actionlint` و`zizmor` داخل `ci.yml` على فرع المراجعة الأمني فقط؛ يلزم انتظار CI على الرأس الناتج قبل تسجيلهما كـVERIFIED، ولا يعدّان جزءاً من `main` قبل الدمج.
 
 ## 4. حماية الفرع والحوكمة
 

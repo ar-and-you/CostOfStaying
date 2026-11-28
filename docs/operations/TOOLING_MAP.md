@@ -2,7 +2,7 @@
 
 > تنبيه حوكمي: أرقام ADR المشار إليها في نسخ سابقة هي مواد أرشيفية ما لم توجد في `docs/adr/` بحالة مقبولة على `main`.
 
-**مرجع الشجرة الحالي لهذه المراجعة:** `60d15bc8f7aafb99f31ea2d61a6fd750719e53d8` (2026-11-27). تم التحقق من check-runs على SHA نفسه: Domain/Python CI وCore CI وDocumentation Governance وCodeQL dynamic اكتملت جميعها بنجاح؛ التفاصيل أدناه. نتائج CI مقيدة بهذا SHA ولا تثبت تكاملات غير موجودة. قراءات إعدادات GitHub محدودة الصلاحيات ومؤرخة كما هو موضح أدناه.
+**لقطة `main` الحالية:** `e7e5b5e54f46490c44aaf30888280d55239bb670` (2026-11-27)؛ لم تُرجع القراءة تشغيلات CI مرتبطة بهذا SHA، فلا نسجل نجاحاً حديثاً على `main`. **آخر رأس مصدر/اختبارات متحقق على فرع المراجعة الأمني:** `d8c66e85d2d4b8353595b24dd2df38382ead2adb` (2026-11-28). تلت هذا الرأس تحديثات توثيقية فقط؛ تشغيلات CI على أحدث رأس بعد هذه التحديثات قيد الانتظار. اكتملت Domain/Python CI (run `46131891429`)، وCore CI (.NET 10) (run `46131891394`)، وDocumentation Governance (run `46131891367`) بنجاح على SHA نفسه. اجتاز `actionlint v1.7.12` و`zizmor v1.33.1`، وworkflow hygiene (7/7)، وDomain NUnit (62/62)، وCore NUnit (257/257)، واختبارات simulator (11)، وCLI (2/2)، وsmoke test (1). CodeQL C#/Python/Actions اكتمل بنجاح، وCodacy أعلن 0 issues على SHA الحالي. CodeFactor ما زال `failure` مع Minor واحدة؛ لا تتوفر annotation قابلة للفحص لتحديد الملف/السطر، لذلك لم تُجرَ إصلاحات تخمينية. جميع الأدلة مقيدة بالـSHA ولا تثبت تكاملات غير موجودة.
 
 | المجال | الموجود | ما لا يثبته |
 |---|---|---|
@@ -17,7 +17,7 @@
 
 ## فجوات مفتوحة
 
-gitleaks وactionlint وzizmor وCODEOWNERS وفحوص network integration وUnity Test Framework وبناء/أداء Android وDedicated Server وBackend وhuman playtest ما زالت غير متاحة/غير منفذة في الشجرة المفحوصة. Secret scanning وPush protection مفعّلان في فحص 2026-11-24. كانت تنبيهات Dependabot ورسم الاعتماديات مسجلتين على أنهما مفعّلان في فحص 2026-11-22، لكن لم يُعد فحص إعداد التنبيهات؛ كما تعذرت قراءة قائمة التنبيهات في 2026-11-24 بسبب `403 Resource not accessible by integration`، ولا يُعرف محتواها أو عددها. Dependabot security updates معطّلة ولا يوجد `dependabot.yml`. تعذرت أيضاً قراءة تنبيهات Code Scanning بسبب 403. لا توجد repository rulesets وحماية `main` غائبة في فحص 2026-11-24.
+أضيف `actionlint` و`zizmor` إلى `.github/workflows/ci.yml` على فرع المراجعة الأمني، وقد نجحا على SHA `d8c66e85d2d4b8353595b24dd2df38382ead2adb`؛ لم يدمجا في `main`. أما gitleaks وCODEOWNERS وفحوص network integration وUnity Test Framework وبناء/أداء Android وDedicated Server وBackend وhuman playtest فما زالت غير متاحة/غير منفذة في الشجرة المفحوصة. Secret scanning وPush protection آخر حالة موثقة لهما في 2026-11-24 ولم تُؤكدا مجدداً. تعذرت قراءة تنبيهات Dependabot وCode Scanning وSecret Scanning بسبب حدود صلاحيات التكامل، فلا يُعرف محتواها أو عددها. Dependabot security updates معطّلة وفق آخر قراءة موثقة ولا يوجد `dependabot.yml`. Branch protection endpoint أعاد 403 في 2026-11-28؛ الحالة UNKNOWN/NOT VERIFIED. Repository rulesets أعادت `[]` ضمن نطاق القراءة فقط، ولا يثبت ذلك غياب الحماية الموروثة أو على مستوى المؤسسة.
 
 قبل إضافة أي أداة: وثّق سبب الحاجة، الترخيص، الإصدار المثبت، صلاحيات التشغيل، مسارات CI، وكيفية التعامل مع false positives. لا تضف خدمة مدفوعة بلا موافقة مالك.
 
@@ -31,7 +31,7 @@ gitleaks وactionlint وzizmor وCODEOWNERS وفحوص network integration وUni
 - تعطيل `persist-credentials` في خطوات checkout.
 - عدم إدخال `pull_request_target` أو `workflow_run` دون مراجعة أمنية مستقلة.
 
-هذا فحص ثابت ضيق لنمط الملفات الحالية؛ لا يحل محل actionlint أو zizmor أو قراءة إعدادات GitHub أو Secret Scanning، ولا يثبت سلامة runtime.
+هذا فحص ثابت ضيق ومكمّل لنمط الملفات الحالية؛ actionlint يتحقق من صياغة Workflows، وzizmor يجري تحليلاً ثابتاً لمخاطر GitHub Actions. لا تحل هذه الأدوات محل قراءة إعدادات GitHub أو Secret Scanning أو اختبارات runtime.
 
 
 ## تحقق حي حديث — 2026-11-27

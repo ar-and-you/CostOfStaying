@@ -14,8 +14,6 @@ namespace CostOfStaying.Core.Domain
                 throw new ArgumentException("Actor identity must be non-zero.", nameof(actorId));
             if (!victimId.IsValid)
                 throw new ArgumentException("Victim identity must be non-zero.", nameof(victimId));
-            if (actorId.Value == victimId.Value)
-                throw new ArgumentException("Actor and victim must differ.", nameof(victimId));
 
             SequenceId = sequenceId;
             ActorId = actorId;
@@ -29,12 +27,12 @@ namespace CostOfStaying.Core.Domain
         public ulong ServerTick { get; }
 
         // Default(struct) bypasses the constructor; callers must validate this value.
-        // ServerTick is metadata, not the ledger ordering key.
+        // ServerTick is metadata, not the ledger ordering key. ActorId and VictimId are
+        // distinct identity domains; numeric equality cannot establish self-targeting.
         public bool IsValid =>
             SequenceId.IsValid &&
             ActorId.IsValid &&
-            VictimId.IsValid &&
-            ActorId.Value != VictimId.Value;
+            VictimId.IsValid;
 
         public bool Equals(BetrayalEvent other) =>
             SequenceId == other.SequenceId &&
@@ -49,6 +47,8 @@ namespace CostOfStaying.Core.Domain
     /// <summary>
     /// In-memory, single-writer primitive. The server application layer owns sequencing
     /// and must serialize calls; this class intentionally provides no threading or persistence.
+    /// Mutation is assembly-internal until a trusted gameplay handler enforces membership
+    /// and action authority. This is a fail-closed boundary, not a replacement for that handler.
     /// </summary>
     public sealed class BetrayalLedger : IBetrayalLedger
     {
@@ -72,7 +72,9 @@ namespace CostOfStaying.Core.Domain
             return _scores.TryGetValue(actorId, out ulong score) ? score : 0UL;
         }
 
-        public bool TryRecord(BetrayalEvent betrayalEvent)
+        // Intentionally internal: public consumers can observe scores but cannot append
+        // events by casting the public IBetrayalLedger property to BetrayalLedger.
+        internal bool TryRecord(BetrayalEvent betrayalEvent)
         {
             // A default struct can bypass BetrayalEvent's validating constructor.
             if (!betrayalEvent.IsValid)

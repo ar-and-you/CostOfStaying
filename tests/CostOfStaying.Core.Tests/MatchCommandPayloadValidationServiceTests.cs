@@ -61,7 +61,7 @@ namespace CostOfStaying.Core.Tests
                 out DelegateValidator validator,
                 payload => payload.IsValid ? Result.Success() : Result.Failure(CoreErrorCode.InvalidArgument));
             SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(10), new ActorId(7));
-            players.Register(new VitalityAccount(new ActorId(7)));
+            players.Register(new VitalityAccount(new MatchId(5), new ActorId(7)));
             var payload = new MutablePayload { IsValid = false };
             var envelope = CreateEnvelope(session.SessionId, 1, payload);
 
@@ -86,7 +86,7 @@ namespace CostOfStaying.Core.Tests
                 out _,
                 _ => default);
             SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(10), new ActorId(7));
-            players.Register(new VitalityAccount(new ActorId(7)));
+            players.Register(new VitalityAccount(new MatchId(5), new ActorId(7)));
 
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1, new MutablePayload { IsValid = true })).ErrorCode,
                 Is.EqualTo(CoreErrorCode.InvalidState));
@@ -110,7 +110,7 @@ namespace CostOfStaying.Core.Tests
                     return Result.Success();
                 });
             SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(10), new ActorId(7));
-            players.Register(new VitalityAccount(new ActorId(7)));
+            players.Register(new VitalityAccount(new MatchId(5), new ActorId(7)));
             var envelope = CreateEnvelope(session.SessionId, 1, new MutablePayload { IsValid = true });
 
             Assert.That(service.TryAdmit(envelope).ErrorCode, Is.EqualTo(CoreErrorCode.Unavailable));
@@ -132,7 +132,7 @@ namespace CostOfStaying.Core.Tests
                 out DelegateValidator validator,
                 payload => payload.IsValid ? Result.Success() : Result.Failure(CoreErrorCode.InvalidArgument));
             SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(10), new ActorId(7));
-            players.Register(new VitalityAccount(new ActorId(7)));
+            players.Register(new VitalityAccount(new MatchId(5), new ActorId(7)));
             var payload = new MutablePayload { IsValid = true };
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1, payload)).IsSuccess, Is.True);
             Assert.That(queue.PendingCount, Is.EqualTo(1));
@@ -155,7 +155,7 @@ namespace CostOfStaying.Core.Tests
                 out _,
                 payload => payload.IsValid ? Result.Success() : Result.Failure(CoreErrorCode.InvalidArgument));
             SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(10), new ActorId(7));
-            players.Register(new VitalityAccount(new ActorId(7)));
+            players.Register(new VitalityAccount(new MatchId(5), new ActorId(7)));
             var payload = new MutablePayload { IsValid = true };
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1, payload)).IsSuccess, Is.True);
 
@@ -185,7 +185,7 @@ namespace CostOfStaying.Core.Tests
                     return Result.Success();
                 });
             SessionLifecycle session = RegisterAuthenticated(sessions, new SessionId(10), new ActorId(7));
-            players.Register(new VitalityAccount(new ActorId(7)));
+            players.Register(new VitalityAccount(new MatchId(5), new ActorId(7)));
             var envelope = CreateEnvelope(session.SessionId, 1, new MutablePayload { IsValid = true });
 
             Assert.That(service.TryAdmit(envelope).IsSuccess, Is.True);
@@ -209,10 +209,10 @@ namespace CostOfStaying.Core.Tests
             out DelegateValidator validator,
             Func<MutablePayload, Result> validate)
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(5));
             sessions = composition.CreateSessionRegistry(8);
-            match = composition.CreateMatchLifecycle(new MatchId(5));
-            players = composition.CreateMatchPlayerRegistry(match.MatchId, 8);
+            match = composition.CreateMatchLifecycle();
+            players = composition.CreateMatchPlayerRegistry(8);
             queue = composition.CreateCommandAdmissionQueue<MutablePayload>(8, 8, 8);
             IMatchCommandAuthorizationService<MutablePayload> authorization =
                 composition.CreateMatchCommandAuthorizationService(sessions, match, players, queue, new AllowAllPolicy());

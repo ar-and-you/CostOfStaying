@@ -24,7 +24,7 @@ namespace CostOfStaying.Core.Tests
         public void TryRemoveClosedSession_RejectsInvalidId()
         {
             var sessions = new SessionRegistry(4);
-            var queue = new CommandAdmissionQueue<string>(4, 4, 4);
+            var queue = new CommandAdmissionQueue<string>(new MatchId(1), 4, 4, 4);
             var connections = new ConnectionSessionRegistry(sessions, 4);
             var cleanup = new ConnectionAwareSessionCleanupService<string>(
                 new SessionCleanupService<string>(sessions, queue), connections);
@@ -35,7 +35,7 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void Cleanup_IsBlockedUntilClosedSessionIsDetachedFromTransportConnection()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(1));
             var sessions = composition.CreateSessionRegistry(4);
             IConnectionSessionRegistry connections = composition.CreateConnectionSessionRegistry(sessions, 4);
             var queue = composition.CreateCommandAdmissionQueue<string>(8, 4, 4);
@@ -59,7 +59,7 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void Cleanup_CanRemoveDisconnectedSessionAfterItIsClosedAndDetached()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(1));
             var sessions = composition.CreateSessionRegistry(4);
             IConnectionSessionRegistry connections = composition.CreateConnectionSessionRegistry(sessions, 4);
             var queue = composition.CreateCommandAdmissionQueue<string>(8, 4, 4);
@@ -80,7 +80,7 @@ namespace CostOfStaying.Core.Tests
         private static ISessionCleanupService<string> CreateInner()
         {
             var sessions = new SessionRegistry(4);
-            var queue = new CommandAdmissionQueue<string>(4, 4, 4);
+            var queue = new CommandAdmissionQueue<string>(new MatchId(1), 4, 4, 4);
             return new SessionCleanupService<string>(sessions, queue);
         }
     }

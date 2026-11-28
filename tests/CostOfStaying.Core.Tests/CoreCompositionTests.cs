@@ -49,29 +49,42 @@ namespace CostOfStaying.Core.Tests
         }
 
         [Test]
+        public void Create_RejectsInvalidMatchId()
+        {
+            Assert.Throws<System.ArgumentException>(() => CoreComposition.Create(default));
+            Assert.That(
+                typeof(CoreComposition).GetMethod("Create", System.Type.EmptyTypes),
+                Is.Null,
+                "A composition must not be constructible without an explicit MatchId.");
+        }
+
+        [Test]
         public void Create_ProvidesStableMatchScopedBetrayalLedger()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
 
             Assert.That(composition.BetrayalLedger, Is.Not.Null);
             Assert.That(composition.BetrayalLedger, Is.SameAs(composition.BetrayalLedger));
         }
 
         [Test]
-        public void SeparateCompositions_IsolateBetrayalLedgers()
+        public void SeparateCompositions_IsolateBetrayalLedgersEvenForDifferentMatchIds()
         {
-            CoreComposition first = CoreComposition.Create();
-            CoreComposition second = CoreComposition.Create();
+            CoreComposition first = CoreComposition.Create(new MatchId(42));
+            CoreComposition second = CoreComposition.Create(new MatchId(43));
 
+            Assert.That(first.MatchId, Is.EqualTo(new MatchId(42)));
+            Assert.That(second.MatchId, Is.EqualTo(new MatchId(43)));
             Assert.That(first.BetrayalLedger, Is.Not.SameAs(second.BetrayalLedger));
         }
 
         [Test]
         public void CreateVitalityAccount_UsesRequestedIdentityAndMaximum()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var account = composition.CreateVitalityAccount(new ActorId(7), 150);
 
+            Assert.That(account.MatchId, Is.EqualTo(composition.MatchId));
             Assert.That(account.PlayerId, Is.EqualTo(new ActorId(7)));
             Assert.That(account.Current, Is.EqualTo(150u));
             Assert.That(account.Maximum, Is.EqualTo(150u));
@@ -81,7 +94,7 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void CreateSessionRegistry_UsesExplicitCapacity()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var registry = composition.CreateSessionRegistry(16);
 
             Assert.That(registry.Capacity, Is.EqualTo(16));
@@ -91,7 +104,7 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void CreateConnectionSessionRegistry_UsesExplicitCapacityAndProvidedSessions()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var sessions = composition.CreateSessionRegistry(4);
             IConnectionSessionRegistry connections = composition.CreateConnectionSessionRegistry(sessions, 12);
 
@@ -102,7 +115,7 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void CreateSessionLifecycle_UsesRequestedSessionId()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var session = composition.CreateSessionLifecycle(new SessionId(77));
 
             Assert.That(session.SessionId, Is.EqualTo(new SessionId(77)));
@@ -110,10 +123,10 @@ namespace CostOfStaying.Core.Tests
         }
 
         [Test]
-        public void CreateMatchPlayerRegistry_UsesRequestedMatchAndCapacity()
+        public void CreateMatchPlayerRegistry_UsesCompositionMatchIdAndCapacity()
         {
-            CoreComposition composition = CoreComposition.Create();
-            var registry = composition.CreateMatchPlayerRegistry(new MatchId(8), 12);
+            CoreComposition composition = CoreComposition.Create(new MatchId(8));
+            var registry = composition.CreateMatchPlayerRegistry(12);
 
             Assert.That(registry.MatchId, Is.EqualTo(new MatchId(8)));
             Assert.That(registry.Capacity, Is.EqualTo(12));
@@ -123,7 +136,7 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void CreateCommandAdmissionService_UsesProvidedSessionRegistryAndQueue()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var sessions = composition.CreateSessionRegistry(4);
             var queue = composition.CreateCommandAdmissionQueue<string>(8, 4, 8);
             ICommandAdmissionService<string> service = composition.CreateCommandAdmissionService(sessions, queue);
@@ -138,11 +151,25 @@ namespace CostOfStaying.Core.Tests
         }
 
         [Test]
+        public void CreateMatchCommandAdmissionService_RejectsQueueFromAnotherMatch()
+        {
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
+            CoreComposition otherComposition = CoreComposition.Create(new MatchId(43));
+            var sessions = composition.CreateSessionRegistry(4);
+            IMatchPlayerRegistry players = composition.CreateMatchPlayerRegistry(4);
+            CommandAdmissionQueue<string> foreignQueue =
+                otherComposition.CreateCommandAdmissionQueue<string>(8, 4, 8);
+
+            Assert.Throws<System.ArgumentException>(() =>
+                composition.CreateMatchCommandAdmissionService(sessions, players, foreignQueue));
+        }
+
+        [Test]
         public void CreateMatchCommandAdmissionService_UsesProvidedSessionRegistryAndMatchRoster()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var sessions = composition.CreateSessionRegistry(4);
-            var players = composition.CreateMatchPlayerRegistry(new MatchId(42), 4);
+            var players = composition.CreateMatchPlayerRegistry(4);
             var queue = composition.CreateCommandAdmissionQueue<string>(8, 4, 8);
 
             IMatchCommandAdmissionService<string> service =
@@ -153,12 +180,26 @@ namespace CostOfStaying.Core.Tests
         }
 
         [Test]
+        public void CoreComposition_DoesNotExposeAdmissionOnlyFactoriesAsPublicIngress()
+        {
+            Assert.That(
+                typeof(CoreComposition).GetMethod("CreateCommandAdmissionService"),
+                Is.Null,
+                "Session-only admission must not be exposed as a public gameplay ingress.");
+
+            Assert.That(
+                typeof(CoreComposition).GetMethod("CreateMatchCommandAdmissionService"),
+                Is.Null,
+                "Membership-only admission must not bypass the explicit gameplay authorization policy.");
+        }
+
+        [Test]
         public void CreateMatchCommandAuthorizationService_UsesProvidedMatchAndPolicy()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var sessions = composition.CreateSessionRegistry(4);
-            IMatchLifecycle match = composition.CreateMatchLifecycle(new MatchId(42));
-            IMatchPlayerRegistry players = composition.CreateMatchPlayerRegistry(new MatchId(42), 4);
+            IMatchLifecycle match = composition.CreateMatchLifecycle();
+            IMatchPlayerRegistry players = composition.CreateMatchPlayerRegistry(4);
             var queue = composition.CreateCommandAdmissionQueue<string>(8, 4, 8);
             var policy = new AllowAllTestPolicy();
 
@@ -171,10 +212,10 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void CreateMatchCommandAuthorizationService_RejectsMismatchedMatchScopes()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var sessions = composition.CreateSessionRegistry(4);
-            IMatchLifecycle match = composition.CreateMatchLifecycle(new MatchId(42));
-            IMatchPlayerRegistry players = composition.CreateMatchPlayerRegistry(new MatchId(43), 4);
+            IMatchLifecycle match = composition.CreateMatchLifecycle();
+            IMatchPlayerRegistry players = CoreComposition.Create(new MatchId(43)).CreateMatchPlayerRegistry(4);
             var queue = composition.CreateCommandAdmissionQueue<string>(8, 4, 8);
             var policy = new AllowAllTestPolicy();
 
@@ -185,10 +226,10 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void CreateMatchCommandAuthorizationService_RequiresExplicitPolicy()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var sessions = composition.CreateSessionRegistry(4);
-            IMatchLifecycle match = composition.CreateMatchLifecycle(new MatchId(42));
-            IMatchPlayerRegistry players = composition.CreateMatchPlayerRegistry(new MatchId(42), 4);
+            IMatchLifecycle match = composition.CreateMatchLifecycle();
+            IMatchPlayerRegistry players = composition.CreateMatchPlayerRegistry(4);
             var queue = composition.CreateCommandAdmissionQueue<string>(8, 4, 8);
 
             Assert.Throws<System.ArgumentNullException>(() =>
@@ -198,10 +239,10 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void CreateMatchCommandPayloadValidationService_UsesExplicitAuthorizationAndValidator()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var sessions = composition.CreateSessionRegistry(4);
-            IMatchLifecycle match = composition.CreateMatchLifecycle(new MatchId(42));
-            IMatchPlayerRegistry players = composition.CreateMatchPlayerRegistry(new MatchId(42), 4);
+            IMatchLifecycle match = composition.CreateMatchLifecycle();
+            IMatchPlayerRegistry players = composition.CreateMatchPlayerRegistry(4);
             var queue = composition.CreateCommandAdmissionQueue<string>(8, 4, 8);
             IMatchCommandAuthorizationService<string> authorization =
                 composition.CreateMatchCommandAuthorizationService(sessions, match, players, queue, new AllowAllTestPolicy());
@@ -215,10 +256,10 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void CreateMatchCommandPayloadValidationService_RequiresExplicitValidator()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var sessions = composition.CreateSessionRegistry(4);
-            IMatchLifecycle match = composition.CreateMatchLifecycle(new MatchId(42));
-            IMatchPlayerRegistry players = composition.CreateMatchPlayerRegistry(new MatchId(42), 4);
+            IMatchLifecycle match = composition.CreateMatchLifecycle();
+            IMatchPlayerRegistry players = composition.CreateMatchPlayerRegistry(4);
             var queue = composition.CreateCommandAdmissionQueue<string>(8, 4, 8);
             IMatchCommandAuthorizationService<string> authorization =
                 composition.CreateMatchCommandAuthorizationService(sessions, match, players, queue, new AllowAllTestPolicy());
@@ -230,7 +271,7 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void CreateSessionCleanupService_UsesProvidedDependencies()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var sessions = composition.CreateSessionRegistry(4);
             var queue = composition.CreateCommandAdmissionQueue<string>(8, 4, 8);
             IConnectionSessionRegistry connections = composition.CreateConnectionSessionRegistry(sessions, 4);
@@ -246,7 +287,7 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void CreateSessionCleanupService_RejectsConnectionRegistryFromDifferentSessionRegistry()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var cleanupSessions = composition.CreateSessionRegistry(4);
             var otherSessions = composition.CreateSessionRegistry(4);
             var queue = composition.CreateCommandAdmissionQueue<string>(8, 4, 8);
@@ -259,7 +300,7 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void CreateCommandAdmissionQueue_UsesExplicitBounds()
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(42));
             var queue = composition.CreateCommandAdmissionQueue<string>(12, 16, 32);
 
             Assert.That(queue.Capacity, Is.EqualTo(32));
@@ -267,10 +308,10 @@ namespace CostOfStaying.Core.Tests
         }
 
         [Test]
-        public void CreateMatchLifecycle_UsesRequestedMatchId()
+        public void CreateMatchLifecycle_UsesCompositionMatchId()
         {
-            CoreComposition composition = CoreComposition.Create();
-            var match = composition.CreateMatchLifecycle(new MatchId(9));
+            CoreComposition composition = CoreComposition.Create(new MatchId(9));
+            var match = composition.CreateMatchLifecycle();
 
             Assert.That(match.MatchId, Is.EqualTo(new MatchId(9)));
             Assert.That(match.Phase, Is.EqualTo(MatchPhase.Created));

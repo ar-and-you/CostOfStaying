@@ -15,7 +15,7 @@ namespace CostOfStaying.Core.Tests
         {
             var sessions = new SessionRegistry(4);
             var players = new MatchPlayerRegistry(new MatchId(1), 4);
-            var queue = new CommandAdmissionQueue<string>(8, 4, 4);
+            var queue = new CommandAdmissionQueue<string>(new MatchId(1), 8, 4, 4);
             var inner = new CommandAdmissionService<string>(sessions, queue);
 
             Assert.Throws<System.ArgumentNullException>(() =>
@@ -62,7 +62,7 @@ namespace CostOfStaying.Core.Tests
             Assert.That(service.TryAdmit(envelope).ErrorCode, Is.EqualTo(CoreErrorCode.Unauthorized));
             Assert.That(queue.PendingCount, Is.Zero);
 
-            Assert.That(players.Register(new VitalityAccount(new ActorId(7))).IsSuccess, Is.True);
+            Assert.That(players.Register(new VitalityAccount(new MatchId(5), new ActorId(7))).IsSuccess, Is.True);
             Assert.That(service.TryAdmit(envelope).IsSuccess, Is.True);
             Assert.That(queue.PendingCount, Is.EqualTo(1));
         }
@@ -80,7 +80,7 @@ namespace CostOfStaying.Core.Tests
             Assert.That(service.TryAdmit(envelope).ErrorCode, Is.EqualTo(CoreErrorCode.Unauthorized));
             Assert.That(queue.PendingCount, Is.Zero);
 
-            Assert.That(players.Register(new VitalityAccount(new ActorId(7))).IsSuccess, Is.True);
+            Assert.That(players.Register(new VitalityAccount(new MatchId(5), new ActorId(7))).IsSuccess, Is.True);
             Assert.That(service.TryAdmit(envelope).IsSuccess, Is.True);
             Assert.That(queue.PendingCount, Is.EqualTo(1));
         }
@@ -88,16 +88,17 @@ namespace CostOfStaying.Core.Tests
         [Test]
         public void TryAdmit_RejectsActorWhoIsOnlyMemberOfAnotherMatch()
         {
-            var composition = CoreComposition.Create();
+            var composition = CoreComposition.Create(new MatchId(1));
+            var otherComposition = CoreComposition.Create(new MatchId(2));
             var sessions = composition.CreateSessionRegistry(4);
-            IMatchPlayerRegistry targetMatch = composition.CreateMatchPlayerRegistry(new MatchId(1), 4);
-            IMatchPlayerRegistry otherMatch = composition.CreateMatchPlayerRegistry(new MatchId(2), 4);
+            IMatchPlayerRegistry targetMatch = composition.CreateMatchPlayerRegistry(4);
+            IMatchPlayerRegistry otherMatch = otherComposition.CreateMatchPlayerRegistry(4);
             var queue = composition.CreateCommandAdmissionQueue<string>(8, 4, 4);
             IMatchCommandAdmissionService<string> service =
                 composition.CreateMatchCommandAdmissionService(sessions, targetMatch, queue);
             var actorId = new ActorId(70);
             var session = RegisterAuthenticated(sessions, new SessionId(10), actorId);
-            Assert.That(otherMatch.Register(new VitalityAccount(actorId)).IsSuccess, Is.True);
+            Assert.That(otherMatch.Register(new VitalityAccount(new MatchId(2), actorId)).IsSuccess, Is.True);
 
             Assert.That(service.MatchId, Is.EqualTo(new MatchId(1)));
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1, "move")).ErrorCode,
@@ -114,7 +115,7 @@ namespace CostOfStaying.Core.Tests
                 out CommandAdmissionQueue<string> queue);
             var actorId = new ActorId(42);
             var session = RegisterAuthenticated(sessions, new SessionId(20), actorId);
-            Assert.That(players.Register(new VitalityAccount(actorId)).IsSuccess, Is.True);
+            Assert.That(players.Register(new VitalityAccount(new MatchId(5), actorId)).IsSuccess, Is.True);
 
             Result result = service.TryAdmit(CreateEnvelope(session.SessionId, 1, "move"));
 
@@ -131,7 +132,7 @@ namespace CostOfStaying.Core.Tests
                 out CommandAdmissionQueue<string> queue);
             var actorId = new ActorId(42);
             var session = RegisterAuthenticated(sessions, new SessionId(20), actorId);
-            players.Register(new VitalityAccount(actorId));
+            players.Register(new VitalityAccount(new MatchId(5), actorId));
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1, "move")).IsSuccess, Is.True);
 
             Result<AuthenticatedCommand<string>> result = service.TryTakeNext();
@@ -152,7 +153,7 @@ namespace CostOfStaying.Core.Tests
                 out CommandAdmissionQueue<string> queue);
             var actorId = new ActorId(42);
             var session = RegisterAuthenticated(sessions, new SessionId(20), actorId);
-            players.Register(new VitalityAccount(actorId));
+            players.Register(new VitalityAccount(new MatchId(5), actorId));
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1, "move")).IsSuccess, Is.True);
 
             Assert.That(players.Remove(actorId).IsSuccess, Is.True);
@@ -169,7 +170,7 @@ namespace CostOfStaying.Core.Tests
                 out CommandAdmissionQueue<string> queue);
             var actorId = new ActorId(42);
             var session = RegisterAuthenticated(sessions, new SessionId(30), actorId);
-            players.Register(new VitalityAccount(actorId));
+            players.Register(new VitalityAccount(new MatchId(5), actorId));
             Assert.That(service.TryAdmit(CreateEnvelope(session.SessionId, 1, "move")).IsSuccess, Is.True);
 
             Assert.That(session.TryDisconnect().IsSuccess, Is.True);
@@ -187,7 +188,7 @@ namespace CostOfStaying.Core.Tests
             var actorId = new ActorId(42);
             var first = RegisterAuthenticated(sessions, new SessionId(20), actorId);
             var second = RegisterAuthenticated(sessions, new SessionId(21), actorId);
-            players.Register(new VitalityAccount(actorId));
+            players.Register(new VitalityAccount(new MatchId(5), actorId));
 
             Assert.That(service.TryAdmit(CreateEnvelope(first.SessionId, 1, "first")).IsSuccess, Is.True);
             Assert.That(service.TryAdmit(CreateEnvelope(second.SessionId, 1, "second")).IsSuccess, Is.True);
@@ -199,9 +200,9 @@ namespace CostOfStaying.Core.Tests
             out IMatchPlayerRegistry players,
             out CommandAdmissionQueue<string> queue)
         {
-            CoreComposition composition = CoreComposition.Create();
+            CoreComposition composition = CoreComposition.Create(new MatchId(5));
             sessions = composition.CreateSessionRegistry(8);
-            players = composition.CreateMatchPlayerRegistry(new MatchId(5), 8);
+            players = composition.CreateMatchPlayerRegistry(8);
             queue = composition.CreateCommandAdmissionQueue<string>(8, 8, 8);
             return composition.CreateMatchCommandAdmissionService(sessions, players, queue);
         }
