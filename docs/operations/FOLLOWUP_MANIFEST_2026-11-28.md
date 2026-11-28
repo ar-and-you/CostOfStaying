@@ -51,6 +51,18 @@
 
 **نتيجة التحقق:** التشغيلات الثلاثة أعلاه ناجحة على SHA واحد (`41c7223`). وبذلك يوجد تحقق CI ثلاثي مكتمل على كل من SHA `c516431` وSHA `41c7223`. هذا الإثبات خاص بهذين الرأسين ولا ينتقل تلقائياً إلى commits لاحقة.
 
+## 3.2 Verification Trail — تسلسل التحقق
+
+| SHA | Documentation Governance | Core CI | Domain/Python CI | الحكم |
+|---|---|---|---|---|
+| `c516431712247b2e52661b247b3530b55c031abe` | Run `46147107180` — SUCCESS | Run `46147107214` — SUCCESS | Run `46147107219` — SUCCESS | تحقق ثلاثي مكتمل |
+| `41c722333597d6dd28d0ddf062be3e564a48bd47` | Run `46150214763` — SUCCESS | Run `46150214723` — SUCCESS | Run `46150214725` — SUCCESS | تحقق ثلاثي مكتمل |
+| `655660d03b772ccb88ce79ac6dc13aa5acf92fa3` | Run `46154452659` — SUCCESS | Run `46154452627` — SUCCESS | لم يُطلب تشغيل/توثيق CI الثلاثي على هذا الرأس ضمن إجراء المتابعة الحالي | Documentation Governance متحقق؛ لا يُدّعى تحقق CI الثلاثي على هذا SHA |
+
+**تفصيل تشغيل Documentation Governance على `655660d`:** workflow `.github/workflows/docs-governance.yml`، Run `46154452659`، event `push`، branch `main`، conclusion `success`، على SHA المطابق تماماً `655660d03b772ccb88ce79ac6dc13aa5acf92fa3`.
+
+هذا الجدول يميز بين تحقق CI الثلاثي على SHAين سابقين وبين تحقق Documentation Governance على `655660d`. أي commit لاحق ينشئ رأساً جديداً ويتطلب إعادة تحقق على ذلك الرأس قبل نسب النتيجة إليه.
+
 ## 4. الملفات المرجعية التي لم تُعدّل
 
 - `MANIFEST.json` — محفوظ دون تعديل.
