@@ -11,6 +11,7 @@
 - [ضبط الوثائق والفهرسة](governance/DOCUMENT_CONTROL.md)
 - [التحكم في التغيير والاعتماد](governance/CHANGE_CONTROL.md)
 - [سياسة Git والدمج](governance/GIT_AND_MERGE_POLICY.md)
+- [حسم GOV-01 لسياسة Git وPR #2](governance/GIT_POLICY_RESOLUTION.md) — Direct-to-main هي السياسة النافذة؛ الوثيقة توثيق لا تغيير للسياسة.
 - [حالات العمل ومعايير الأدلة](governance/STATUS_AND_EVIDENCE.md)
 - [سجل القرارات المفتوحة وبوابات الاعتماد](governance/OPEN_DECISION_REGISTER.md)
 - [سياسة الوكلاء والأتمتة](governance/AI_AND_AUTOMATION_POLICY.md)
@@ -60,12 +61,16 @@
 - [المرحلة 75 — دمج smoke test لمحاكاة اللعب وأدوات Audit في CI](operations/ARCHIVE_RECONCILIATION_STAGE75_PLAYTEST_AUDIT_CI_INTEGRATION_2026-11-27.md)
 - [المرحلة 76 — إعادة فحص بوابات الأمن وصلاحيات المستودع](operations/ARCHIVE_RECONCILIATION_STAGE76_SECURITY_POSTURE_RECHECK_2026-11-27.md)
 - [المرحلة 77 — تجهيز التقاط أدلة اختبار اللعب البشري](operations/ARCHIVE_RECONCILIATION_STAGE77_HUMAN_PLAYTEST_EVIDENCE_2026-11-27.md)
+- [المرحلة 78 — حدود الثقة الأساسية لـCore](operations/ARCHIVE_RECONCILIATION_STAGE78_CORE_TRUST_BOUNDARIES_2026-11-27.md) — تقرير baseline؛ قرارات المنتج ما زالت مفتوحة.
+- [بيان متابعة 2026-11-28](operations/FOLLOWUP_MANIFEST_2026-11-28.md) — بصمات ملفات هذه الحزمة وأدلة CI المؤرخة.
 
 لا يحتوي `main` حالياً سجلات ADR مقبولة. القالب والفهرس لا يشكلان بحد ذاتهما قراراً معمارياً.
 
 ## الجودة والتحقق
 
 - [استراتيجية الاختبارات](quality/TEST_STRATEGY.md)
+- [مصفوفة CI الفعلية](quality/CI_MATRIX.md) — مطابقة لملفات Workflows المتتبعة على SHA اللقطة.
+- [خطة تكافؤ Python وC#](quality/PARITY_PLAN.md) — Planned؛ لا يوجد تكافؤ مباشر مثبت حالياً.
 - [مراجعة عيوب Domain والإصلاحات — 2026-11-25](quality/DOMAIN_DEFECT_REVIEW_2026-11-25.md)
 - [مصالحة تقرير الفحص العميق الأرشيفي مع المصدر الحي — 2026-11-26](quality/DEEP_AUDIT_ARCHIVE_CROSSCHECK_2026-11-26.md)
 - [خطة اختبار اللعب البشري](quality/PLAYTEST_PLAN.md)
@@ -86,6 +91,8 @@
 - [معمارية الأمن — أهداف مقترحة](security/SECURITY_ARCHITECTURE.md)
 - [نموذج التهديد](security/THREAT_MODEL.md)
 - [حدود الثقة](security/TRUST_BOUNDARIES.md)
+- [حالة الأمان التاريخية](security/SECURITY_STATUS.md) — لقطة مؤرخة وليست حالة حية.
+- [خطة فحص تاريخ Git](security/GIT_HISTORY_SCAN_PLAN.md) — Planned؛ لم يُنفذ المسح الكامل.
 - [إدارة الأسرار](security/SECRETS_MANAGEMENT.md)
 - [خصوصية البيانات — توجيه مقترح](security/DATA_PRIVACY.md)
 - [الاستجابة للحوادث — خطة مقترحة](security/INCIDENT_RESPONSE.md)

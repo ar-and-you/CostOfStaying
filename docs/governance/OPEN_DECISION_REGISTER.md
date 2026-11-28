@@ -120,3 +120,21 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 6. لا جمع playtest بشري دون D7، ولا اعتماد التوازن دون D8.
 
 **مصادر التفاصيل:** ADVISORY_PLAN_2026-11-26.md، DOMAIN_DEFECT_REVIEW_2026-11-25.md، STATUS_AND_EVIDENCE.md، DOMAIN_CORE.md، PLAYTEST_PLAN.md، وتقارير المراحل 22 و24 و54–58.
+
+
+## 8. متابعة حزمة التوثيق والأمن — 2026-11-28
+
+هذه البنود إضافات تتبعية ولا تستبدل القرارات أو البوابات التاريخية أعلاه. يتقاطع F-003 مع D-04 القائم؛ يبقى D-04 مصدر القرار الأصلي للاحتفاظ، بينما يربط F-003 الجرد التشغيلي وخطة المتابعة.
+
+| ID | الموضوع | المالك | تاريخ الاستحقاق | الحالة | مرجع |
+|---|---|---|---|---|---|
+| F-001 | استكمال Gameplay Authorization: concrete Commands وPolicies وHandlers واختبارات الرفض لكل أمر معتمد | مالك المنتج/المعمارية | TBD | OPEN | تقرير المرحلة 78؛ `docs/security/TRUST_BOUNDARIES.md` |
+| F-002 | Trusted Gameplay Handler لتسجيل Betrayal، مع عقد معتمد لـActorId↔Player.Id وهوية Match | مالك المنتج/المعمارية | TBD | OPEN | تقرير المرحلة 78؛ `docs/security/TRUST_BOUNDARIES.md` |
+| F-003 | قرار retention لكل مخزن وربطه بدورة حياة المباراة وإعادة التشغيل وإعادة التشغيل الحرفي؛ مكمل لـD-04 وليس بديلاً عنه | مالك المنتج/التشغيل | TBD | OPEN | D-04؛ `docs/security/GIT_HISTORY_SCAN_PLAN.md` (للفحص التاريخي فقط) |
+| DOC-01 | تسجيل وثيقة المرحلة 78 في فهرس docs وإزالة orphan الذي تسبب في فشل Docs Governance | مالك الحوكمة | 2026-11-28 | IN_PROGRESS | Docs Governance run 46052511763 على SHA سابق |
+| DOC-02 | إنشاء بيان متابعة جديد ببصمات فعلية، دون تعديل MANIFEST.json أو SHA256SUMS.txt التاريخيين | مالك الحوكمة | 2026-11-28 | IN_PROGRESS | `docs/operations/FOLLOWUP_MANIFEST_2026-11-28.md` |
+| GOV-01 | حسم التعارض الظاهري بين سياسة Direct-to-main ووجود PR #2؛ السياسة الحالية لا تتغير بهذه الإضافة | مالك المشروع | TBD | OPEN | `docs/governance/GIT_POLICY_RESOLUTION.md` |
+
+### قاعدة التحديث
+
+لا تُغلق البنود عند إنشاء الوثائق. يتطلب الإغلاق أدلة مرتبطة بـSHA، ونتائج تشغيل فعلية عند انطباقها، وقرار مالك لأي مسألة منتج/سياسة.
