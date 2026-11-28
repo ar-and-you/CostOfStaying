@@ -46,6 +46,7 @@
 
 - [المعمارية التقنية المقترحة](architecture/TECHNICAL_ARCHITECTURE.md)
 - [حدود Domain وCore والحالة الفعلية](architecture/DOMAIN_CORE.md)
+- [ملكية الحالة وحدود الاستعادة في Domain/Core](architecture/STATE_OWNERSHIP_AND_RECOVERY.md)
 - [معمارية البيانات](architecture/DATA_ARCHITECTURE.md)
 - [معمارية الشبكة المقترحة](architecture/NETWORK_ARCHITECTURE.md)
 - [الخلفية والاستضافة](architecture/BACKEND_AND_HOSTING.md)
