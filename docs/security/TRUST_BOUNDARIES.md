@@ -71,7 +71,7 @@
 
 ## 6. Match isolation ودورة الحياة
 
-**الوضع الحالي بعد تعديل F-004 على فرع العمل:** `CoreComposition.Create(MatchId)` يتطلب معرفاً صالحاً. `VitalityAccount` و`CommandAdmissionQueue` يحملان MatchId غير قابل للتغيير، ويرفض `MatchPlayerRegistry.Register` حساباً من مباراة أخرى. `CreateMatchLifecycle()` و`CreateMatchPlayerRegistry(capacity)` وmatch service factories تستخدم/تتحقق من MatchId الخاص بالتركيب. لا يمكن استخدام composition واحد أو queue/account واحد لتبادل حالة بين MatchIds عبر API العامة. اجتاز Core CI عدد 256/256 اختباراً على الرأس `289affbd14970b7c374fce3e9a861bd06e7c78fa`؛ الدمج في main لم يحدث بعد.
+**الوضع الحالي بعد تعديل F-004 على فرع العمل:** `CoreComposition.Create(MatchId)` يتطلب معرفاً صالحاً. `VitalityAccount` و`CommandAdmissionQueue` يحملان MatchId غير قابل للتغيير، ويرفض `MatchPlayerRegistry.Register` حساباً من مباراة أخرى. `CreateMatchLifecycle()` و`CreateMatchPlayerRegistry(capacity)` وmatch service factories تستخدم/تتحقق من MatchId الخاص بالتركيب. لا يمكن استخدام composition واحد أو queue/account واحد لتبادل حالة بين MatchIds عبر API العامة. اجتاز Core CI عدد 257/257 اختباراً على الرأس `d8c66e85d2d4b8353595b24dd2df38382ead2adb` (run `46131891394`)؛ الدمج في main لم يحدث بعد.
 
 **حالة الإغلاق:** متطلبات ربط composition والـledger وموارد Match-scoped بـ`MatchId` ورفض تمرير موارد من مباراة أخرى نُفذت على هذا الفرع، مع اختبارات العزل المشار إليها أعلاه. لا تعِد هذه الفقرة فتح المتطلبات المنفذة؛ ما يزال على المضيف إدارة عدد المباريات النشطة وعمر كل composition. أما تصنيف موارد Host-scoped وSession-scoped ودورة حياتها التشغيلية فيظل جزءاً من تصميم المضيف، ولا يغير ضمان العزل البنيوي الذي يقدمه Core.
 
