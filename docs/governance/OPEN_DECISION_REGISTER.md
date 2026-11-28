@@ -2,7 +2,7 @@
 
 **تاريخ اللقطة:** 2026-11-28  
 **مرجع `main`:** `e7e5b5e54f46490c44aaf30888280d55239bb670`  
-**فرع المراجعة الأمني:** `security/core-trust-boundaries-phase0` عند `6cb088dadc736293793a9332a8e28ed5ee73c0b9` (غير مدمج؛ آخر دليل CI كامل على الرأس السابق `dc33a8040d8ee29c96cba440678e9c6733f30565`، والتحقق من الرأس الحالي قيد الانتظار)  
+**فرع المراجعة الأمني:** `security/core-trust-boundaries-phase0` عند `07d058f29e38dd816ec41eff13c61a9f5d24b951` (غير مدمج؛ Domain/Python وCore وDocumentation Governance وCodeQL كلها مكتملة بنجاح على هذا الرأس)  
 **الحالة:** سجل تجميعي للتتبع فقط؛ ليس ADR ولا موافقة على أي قرار.
 
 يمنع هذا السجل تحويل المقترحات أو التنفيذ التاريخي أو نتائج المحاكاة إلى سياسة نافذة. الإغلاق يتطلب قرار مالك مكتوباً، مع تحديث المصدر الحاكم والفهرس والأدلة.
@@ -85,7 +85,7 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 
 - SessionRegistry وMatchPlayerRegistry وConnectionSessionRegistry وCommandAdmissionQueue وCommandSequenceTracker محدودة بسعات صريحة من host.
 - BetrayalLedger._events غير محدود، و_scores لا يملك سقفاً مستقلاً؛ exact replay behavior يعتمد على سجل الأحداث.
-- لا global active-match cap في CoreComposition، ولا payload size limit داخل TCommand. على فرع hardening الحالي يتطلب `Create(MatchId)` معرفاً صالحاً؛ MatchLifecycle وMatchPlayerRegistry وVitalityAccount وCommandAdmissionQueue والـmatch service factories مربوطة بالـscope نفسه، مع رفض تسجيل حساب أو queue من MatchId آخر؛ اجتاز Core CI عدد 256/256 اختباراً على الرأس `289affbd14970b7c374fce3e9a861bd06e7c78fa`، ولم يُدمج التغيير في main.
+- لا global active-match cap في CoreComposition، ولا payload size limit داخل TCommand. على فرع hardening الحالي يتطلب `Create(MatchId)` معرفاً صالحاً؛ MatchLifecycle وMatchPlayerRegistry وVitalityAccount وCommandAdmissionQueue والـmatch service factories مربوطة بالـscope نفسه، مع رفض تسجيل حساب أو queue من MatchId آخر؛ اجتاز Core CI عدد 257/257 اختباراً على الرأس `07d058f29e38dd816ec41eff13c61a9f5d24b951`، ولم يُدمج التغيير في main.
 - يلزم host roster/authority validation قبل BetrayalLedger.TryRecord، مع سياسة event retention وmatch concurrency قبل الإنتاج.
 
 مراجعة المرحلة 61 أكدت سلوك التنفيذ والاختبارات التالية:
@@ -153,4 +153,4 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 - F-001: Core يفرض policy غير null لكل `MatchCommandAuthorizationService<TCommand>` instance ويعيد التقييم قبل admission وبعد dequeue، كما توجد اختبارات رفض uninitialized/exception. في فرع المراجعة أصبحت مصانع admission-only داخلية، واختبار CoreComposition يتحقق من عدم ظهورها في public API. لا توجد concrete Gameplay command DTOs أو policies إنتاجية أو registry شامل يثبت اكتمال التغطية، ولا يمكن التحقق من wrong/permissive policy دون مواصفة لكل أمر. لذلك الحالة HARDENED_FAIL_CLOSED_AT_PUBLIC_INGRESS / NOT_CLOSED.
 - F-002: `BetrayalLedger` يتحقق من بنية الحدث والتسلسل وexact replay، لكنه لا يتحقق من membership أو gameplay authority. `CoreComposition.BetrayalLedger` يعرض واجهة قراءة عامة فقط؛ `TryRecord` أصبح internal لمنع التسجيل من مستهلك خارجي أو عبر cast. لا يوجد بعد Trusted Gameplay Handler أو membership/authority checks. كما أن `VictimId` منفصل نوعياً عن `ActorId` ولا يوجد resolver/mapping contract يتيح فحص عضوية Victim في `MatchPlayerRegistry`؛ لا تفترض تساوي القيم الرقمية. راجع `docs/security/SENSITIVE_COMMAND_POLICY_CATALOG.md`. لذلك تبقى F-002 مفتوحة.
 - F-004: على فرع العمل أصبح `CoreComposition.Create(MatchId)` إلزامياً، كما أصبحت VitalityAccount وCommandAdmissionQueue مرتبطة بـMatchId وتُرفض مشاركة الحساب/الطابور عبر المباريات. اجتاز Core CI عدد 256/256 اختباراً؛ الحالة IMPLEMENTED_AND_TESTED_ON_REVIEW_BRANCH، والدمج في `main` ما زال معلقاً.
-- Core CI وDocumentation Governance اجتازا على رأس المراجعة؛ Domain/Python CI كان قيد التشغيل وقت آخر تحديث. التغييرات المصدرية والاختبارات موجودة على فرع المراجعة فقط ولم تُدمج في `main`.
+- Domain/Python CI وCore CI وDocumentation Governance وCodeQL اجتازت على الرأس `07d058f29e38dd816ec41eff13c61a9f5d24b951`. نتائج CodeFactor وCodacy ما زالت غير ناجحة (Minor واحدة، و6 issues جديدة على الترتيب). التغييرات المصدرية والاختبارات موجودة على فرع المراجعة فقط ولم تُدمج في `main`.
