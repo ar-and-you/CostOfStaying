@@ -133,6 +133,8 @@ D-08 موثق على SHA 94b341a681930e875fdbeee6ff3ccecb77476a14؛ تشغيل D
 | F-001-B | إعداد كتالوج أوامر Gameplay المقترح وموافقة مالك المنتج قبل أي Policy/Handler | مالك المنتج | TBD | BLOCKED_PENDING_OWNER_REVIEW | لم يُنشأ بعد؛ يعتمد على مراجعة F-001-A |
 | F-001-C | تعريف Policies وHandlers واختبارات الرفض وإثبات مسارات ingress بعد اعتماد الكتالوج | مالك المعمارية/التنفيذ؛ المالك النهائي TBD | TBD | BLOCKED_PENDING_F-001-B | لا يبدأ قبل موافقة مالك المنتج على F-001-B |
 | F-002 | Trusted Gameplay Handler لتسجيل Betrayal، مع عقد معتمد لـActorId↔Player.Id وهوية Match | مالك المنتج/المعمارية | TBD | OPEN | تقرير المرحلة 78؛ `docs/security/TRUST_BOUNDARIES.md` |
+
+**ملاحظة تقاطع F-001/F-002:** `IBetrayalLedger.TryRecord` و`CoreComposition.BetrayalLedger` مسجلان كـBC-05 في `docs/evidence/F-001_INVENTORY.md` ويجب أن يشملهما إثبات bypass في F-001. إصلاح صلاحية الكتابة (internal/read-only public contract) وتنفيذ Trusted Handler مسؤولية F-002 بعد اعتماد D2 وكتالوج F-001؛ لا يُعد BC-05 مغلقاً بمجرد نقله إلى F-002.
 | F-003 | قرار retention لكل مخزن وربطه بدورة حياة المباراة وإعادة التشغيل وإعادة التشغيل الحرفي؛ مكمل لـD-04 وليس بديلاً عنه | مالك المنتج/التشغيل | TBD | OPEN | D-04؛ `docs/security/GIT_HISTORY_SCAN_PLAN.md` (للفحص التاريخي فقط) |
 | DOC-01 | تسجيل وثيقة المرحلة 78 في فهرس docs وإزالة orphan الذي تسبب في فشل Docs Governance | مالك الحوكمة | 2026-11-28 | RESOLVED | Docs Governance run 46146903123: success على SHA cfa54fcdb415fdd2e4b2298d8ae56265d926bc26 |
 | DOC-02 | إنشاء بيان متابعة جديد ببصمات فعلية، دون تعديل MANIFEST.json أو SHA256SUMS.txt التاريخيين | مالك الحوكمة | 2026-11-28 | RESOLVED | `docs/operations/FOLLOWUP_MANIFEST_2026-11-28.md`؛ بصمات SHA-256 مسجلة، والملف التاريخي لم يُمسّ |

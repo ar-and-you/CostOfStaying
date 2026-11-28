@@ -120,18 +120,36 @@ Domain:
 
 وجود هذه الاختبارات يثبت سلوك الوحدات التي تغطيها، ولا يثبت وجود Gameplay Handlers أو عدم وجود bypass شامل.
 
-## 9. Bypass candidates
+## 9. Bypass candidates — الربط مع Threat Model
 
-| ID | المرشح | الدليل | المطلوب لإغلاقه |
-|---|---|---|---|
-| BC-01 | إنشاء admission عام دون Policy | `CreateCommandAdmissionService` | تحديد الاستخدام ومنعه/تقييده في gameplay ingress. |
-| BC-02 | إنشاء match admission دون Policy | `CreateMatchCommandAdmissionService` | إثبات عدم استخدامه للأوامر أو تقييده. |
-| BC-03 | استدعاء Domain public mutators مباشرة | APIs في `Match.cs` | إثبات أن Host adapter وحده يملك المراجع ويفرض التفويض. |
-| BC-04 | تعديل مجموعات Match/Player مباشرة | خصائص المجموعات العامة | قرار وخطة D-03؛ لا تغيير كاسر هنا. |
-| BC-05 | تسجيل Betrayal مباشرة | `IBetrayalLedger.TryRecord` وCoreComposition getter | Trusted Handler وعقد D2؛ يرتبط بـF-002. |
-| BC-06 | تزوير المسافة/الوقت | `TryTransfer`, `Tick`, `CommandEnvelope.ReceivedAt` | اشتقاق القيم من Host موثوق. |
-| BC-07 | تعديل payload بعد admission | payload wrapper لا ينسخ/يجمد TCommand | immutable payload أو exclusive ownership مع post-dequeue validation. |
-| BC-08 | تجاوز payload validation | factory authorization لا يفرض validator | تحديد متطلبات payload لكل أمر وtransport quotas. |
+كل BC أدناه مرتبط بمعرّف تهديد من `F-001_THREAT_MODEL.md`؛ الاختبارات المذكورة متطلبات إثبات مستقبلية وليست اختبارات موجودة أو منفذة حالياً.
+
+| ID | المرشح | الدليل/المسار | تهديد مرتبط | اختبار/دليل الإغلاق المطلوب |
+|---|---|---|---|---|
+| BC-01 | إنشاء command admission عام دون Gameplay Policy | `CoreComposition.CreateCommandAdmissionService<TCommand>` | T-03 | اختبار composition/architecture يثبت أن هذا المسار غير مستخدم لأي gameplay ingress، أو أنه غير متاح للطبقة المستهلكة؛ مع اختبار رفض ingress عند غياب Policy. |
+| BC-02 | إنشاء match admission دون Gameplay Policy | `CoreComposition.CreateMatchCommandAdmissionService<TCommand>` | T-03 | اختبار مماثل يثبت عدم وصول gameplay commands إليه، وأن كل match gameplay ingress يستخدم authorization service بسياسة مطلوبة. |
+| BC-03 | استدعاء Domain public mutators مباشرة | `Domain.Match.AddPlayer/Start/Tick/TryTransfer/CastVote/CollectEcho/TrySendHint` | T-08, T-10 | اختبار حدود/معمارية يثبت أن مراجع Match لا تُتاح لمصدر غير موثوق وأن كل استدعاء خارجي يمر عبر Host/Handler مفوض؛ اختبارات سلبية لمحاولات player caller تنفيذ عمليات Host-only. |
+| BC-04 | تعديل مجموعات Match/Player مباشرة | `Match.Players/Events/ProcessedRequestIds/Votes` و`Player.Debuffs/CollectedEchoIds` | T-10 | اختبارات API/ownership تثبت أن المستهلك الخارجي لا يستطيع تعديل الحالة عبر المجموعات؛ يتطلب قرار D-03 وخطة توافق قبل تغيير public API. |
+| BC-05 | تسجيل Betrayal مباشرة | `IBetrayalLedger.TryRecord` و`CoreComposition.BetrayalLedger` | T-09 | اختبار يثبت أن التسجيل لا يمكن الوصول إليه من gameplay caller غير موثوق، وأن التسجيل الفعلي يمر عبر Trusted Handler يتحقق من الحدث والعضوية والسلطة. **النطاق:** يُسجل ويُدرج في إثبات bypass ضمن F-001؛ أما تغيير الوصول إلى `internal`/تحويل الواجهة إلى read-only وتنفيذ Trusted Handler فيُنفذ ضمن F-002 بعد اعتماد D2. لا يُعد هذا المرشح مغلقاً بمجرد ترحيله إلى F-002. |
+| BC-06 | تمرير مسافة/وقت غير موثوقين إلى عمليات الحالة | `Domain.Match.TryTransfer(..., distanceMeters, ...)`; `Match.Tick(double)`; `CommandEnvelope.ReceivedAt` | T-06 | اختبار يمرر claimed distance/time من العميل ويثبت تجاهلهما؛ ثم يثبت أن المسافة المستخدمة في Transfer والوقت المستخدم في Tick/ReceivedAt مشتقة من Host موثوق. بالنسبة إلى `TryTransfer` تحديداً، لا يُقبل `distanceMeters` من payload العميل. هذا ضمن نطاق F-001 عند ربط الأمر بالـHost/Handler، مع اعتماد mapping الزمن/التسلسل ذي الصلة في D2؛ ولا يُنشأ F-001-D حالياً. |
+| BC-07 | تعديل payload بعد admission | `MatchCommandPayloadValidationService<TCommand>` لا ينسخ/يجمد `TCommand` | T-05 | اختبار يغيّر payload بين admission وdequeue ويتحقق من رفضه أو يثبت immutable DTO/exclusive ownership؛ ويعاد التحقق قبل handoff. |
+| BC-08 | تجاوز payload validation | `CreateMatchCommandAuthorizationService<TCommand>` لا يفرض validator تلقائياً | T-05 | اختبار composition لكل command معتمد يثبت تركيب validator المطلوب ورفض payload غير صالح/مفرط الحجم؛ وتُختبر quotas الخام عند حد transport/Host. |
+
+## 10. التقاطعات وحدود المسؤولية بين F-001 وF-002 وD2
+
+### 10.1 `IBetrayalLedger.TryRecord` — BC-05 / F-002
+
+- يُعامل `IBetrayalLedger.TryRecord` كمرشح Bypass ضمن جرد F-001 وإثباته؛ لأنه مدخل عام يغيّر حالة Betrayal ويمكن الوصول إلى التنفيذ عبر `CoreComposition.BetrayalLedger`.
+- لا يُنفذ إصلاح سطح الوصول في F-001. الإصلاح المقصود — جعل الكتابة داخلية/محدودة، جعل الواجهة العامة للقراءة فقط، وإنشاء Trusted Gameplay Handler — ينتمي إلى F-002.
+- يظل BC-05 مفتوحاً في إثبات F-001 إلى أن يثبت F-002 أن كل كتابة تمر عبر Handler موثوق. نقل بند التنفيذ إلى F-002 لا يساوي إغلاق Bypass ولا يبرر إعلان F-001 مغلقاً قبل وجود دليل الربط.
+- يعتمد F-002 على عقد D2 المعتمد لهوية Actor/Player وMatch، وعلى اعتماد كتالوج F-001-B قبل تعريف الأمر النهائي.
+
+### 10.2 `Match.TryTransfer` — BC-06 / F-001
+
+- `Match.TryTransfer(Guid, Guid, double distanceMeters, string requestId)` يقبل المسافة من المستدعي؛ لذلك فإن تحقق النطاق/الحد داخل Domain لا يثبت أن المسافة حُسبت من مصدر موثوق.
+- يُدرج هذا كـBC-06 ضمن F-001 لأنه يمس موثوقية مدخل أمر Gameplay وتفويضه. يجب أن يستمد Host/Handler المسافة من سياق authoritative، وألا يمرر claimed distance من العميل.
+- اختبار الإغلاق المستقبلي يجب أن يثبت أن تغيير قيمة المسافة التي يرسلها العميل لا يغير قرار التفويض/المسافة المعتمدة، وأن القيمة المستخدمة مصدرها Host موثوق. لا يوجد هذا الإثبات حالياً.
+- لا يلزم إنشاء F-001-D في هذه المرحلة؛ يسجل BC-06 ضمن F-001-C/إثبات Bypass، بينما تبقى مواءمة الوقت/التسلسل بين Core وDomain ضمن D2.
 
 ## 10. استنتاجات وحدود
 
