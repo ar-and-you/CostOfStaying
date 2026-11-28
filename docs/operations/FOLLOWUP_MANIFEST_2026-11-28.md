@@ -16,13 +16,13 @@
 
 | الملف | SHA-256 | الحجم UTF-8 (bytes) |
 |---|---|---:|
-| `docs/security/SECURITY_STATUS.md` | `8f60681f73282867fa3238b13700de631fc39eb0e9217174edc52c1aa2f3ac4e` | 3119 |
-| `docs/quality/CI_MATRIX.md` | `b36451c903919df7461d41a89d2e688fab4db46b73786a1bcf7cce8bbad805ef` | 2829 |
-| `docs/governance/GIT_POLICY_RESOLUTION.md` | `55d78d39dad4b2b5b2d74c9701c2c3fb4d4319ece20d6a7fff556cb089d9f617` | 2971 |
-| `docs/security/GIT_HISTORY_SCAN_PLAN.md` | `04ecd525efac1ec0dcfa89965fd5ee0215f8ae13486ba640880a810536c3bdae` | 2448 |
-| `docs/quality/PARITY_PLAN.md` | `307228930150c4fa27ea06a73edd79fca77912d5e398f77d58e7a2712e40aaf4` | 2304 |
-| `docs/README.md` | `e774cfc0d502945c41098955245f582e12d889b6ebcc9a8ddc668ad972238035` | 24223 |
-| `docs/governance/OPEN_DECISION_REGISTER.md` | `c48349826dd134fd568868ba8c7edb93860058a759a2b1b6c5a35602d202f019` | 14817 |
+| `docs/security/SECURITY_STATUS.md` | `1b8d03d6d585cc155b09b0db869cbf4e74119e5b39e58b83ee5a0290d616760e` | 3119 |
+| `docs/quality/CI_MATRIX.md` | `9584c288903c630615559e3b165b16d6cd1ea0817b95c0dc1cc93873ae06cc36` | 2829 |
+| `docs/governance/GIT_POLICY_RESOLUTION.md` | `df24f59e456da676b0f1643c508931b22ca65fc87d24205f3df0953c850c2170` | 2971 |
+| `docs/security/GIT_HISTORY_SCAN_PLAN.md` | `4d63d1844f28be78084339a839f2485010f4fa93c07c02fd41613f05bee723ee` | 2448 |
+| `docs/quality/PARITY_PLAN.md` | `c355c064824b9294b66d7f15f03a185291419cedd937693a40b8f336521fca66` | 2304 |
+| `docs/README.md` | `721e5265f0348e7137eea25f292e548bddcedecc23d0f30842fc571d52930882` | 24223 |
+| `docs/governance/OPEN_DECISION_REGISTER.md` | `005d0dc64dfd36865044e40d76be4d3f7b9e7ce5b715f28cebde655bbc59b616` | 14817 |
 
 **نطاق البصمات:** البصمات أعلاه هي SHA-256 لمحتوى UTF-8 الفعلي للملفات السبعة. لا تُدرج بصمة هذا البيان نفسه؛ إدراج SHA-256 ذاتي داخله ينشئ مرجعاً دائرياً، ويثبت Git commit SHA محتواه. لا يستبدل هذا البيان `MANIFEST.json` ولا `SHA256SUMS.txt`؛ فهما سجلان تاريخيان لحزمة سابقة ونطاق بصماتهما محدود بتلك الحزمة. الملفات الجديدة موثقة هنا فقط، ولم يُعدّل أي منهما.
 
