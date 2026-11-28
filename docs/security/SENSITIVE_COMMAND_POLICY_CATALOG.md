@@ -21,10 +21,12 @@
 
 ## 2. حدود الهوية التي تمنع اختراع تحقق العضوية
 
-- `MatchPlayerRegistry` يفهرس الأعضاء بواسطة `ActorId`.
-- `BetrayalEvent` يحمل `ActorId` للمصدر و`VictimId` للهدف.
-- `VictimId` نوع مستقل عن `ActorId`، وتعريفه الحالي هو Transfer target identity. لا توجد في Core واجهة أو دالة موثقة تحوّل `VictimId` إلى `ActorId`.
-- لذلك لا يجوز افتراض أن تساوي القيم الرقمية يثبت تطابق الهوية. قبل فحص عضوية Victim يلزم اعتماد mapping صريح أو تعديل عقد الهوية بقرار توافق.
+- `MatchPlayerRegistry` يفهرس أعضاء Core بواسطة `ActorId` (`ulong` typed).
+- `BetrayalEvent` يحمل `ActorId` للمصدر و`VictimId` للهدف؛ و`VictimId` هو `ulong` typed مستقل عن `ActorId`.
+- طبقة Domain تستخدم `Guid` في `Match.Id` و`Player.Id`، بينما Core يستخدم `MatchId` و`ActorId` من نوع `ulong`. تؤكد مصفوفة `docs/architecture/DOMAIN_CORE.md` أن mapping ثابتاً مطلوب ولا يوجد تحويل مباشر أو ضمني.
+- `Domain.Match.TryTransfer` يستقبل `Guid sourceId/targetId`، بينما `BetrayalEvent` لا يحمل `Guid` ولا يوجد في المصدر adapter/resolver موثق يربط `Player.Id` بـ`ActorId` أو `VictimId` بـ`ActorId`.
+- لذلك توجد فجوتا mapping منفصلتان: Domain `Player.Id` ↔ Core `ActorId`، ثم `VictimId` ↔ الهوية canonical للعضو. لا يجوز سدّهما بـcast أو string conversion أو مساواة القيم الرقمية.
+- الاختبار `Constructor_AllowsEqualNumericValuesAcrossDistinctIdentityDomains` يثبت فقط أن تساوي الأرقام في نوعي `ActorId` و`VictimId` لا يرفض الحدث؛ ولا يثبت أن الهويتين تعودان للشخص نفسه أو أن الهدف عضو بالمباراة.
 - لا توجد حالياً Gameplay handler أو خدمة تربط `AuthenticatedCommand<T>` بتسجيل `BetrayalEvent`.
 
 **القرار الآمن المؤقت:** لا يُنشأ مسار كتابة جديد للـledger ولا تُعتبر F-002 مغلقة. تبقى واجهة `IBetrayalLedger` للقراءة فقط وكتابة ledger داخلية. أي محاولة تسجيل لا تمر عبر مسار موثوق مكتمل يجب ألا تُنفذ.
