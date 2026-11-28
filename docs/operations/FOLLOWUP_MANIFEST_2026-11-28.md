@@ -39,6 +39,18 @@
 
 النتائج تثبت الحالة على SHA المرجعي فقط. أي commit توثيقي لاحق يستلزم إعادة تشغيل Docs Governance على SHA الجديد؛ لا يُنقل نجاح سابق تلقائياً.
 
+## 3.1 إعادة التحقق على SHA الأحدث — 2026-11-28
+
+| Workflow | Run ID | SHA | النتيجة | المدة/الملاحظات |
+|---|---:|---|---|---|
+| Documentation Governance | 46150214763 | `41c722333597d6dd28d0ddf062be3e564a48bd47` | SUCCESS | — |
+| Core CI (.NET 10) | 46150214723 | `41c722333597d6dd28d0ddf062be3e564a48bd47` | SUCCESS | — |
+| Domain and Python CI | 46150214725 | `41c722333597d6dd28d0ddf062be3e564a48bd47` | SUCCESS | 43s؛ تأكد اكتمال job وجميع خطوات Domain NUnit وPython regressions بنجاح. |
+
+**ملاحظة غير حاجزة:** أظهرت صفحة تشغيل Domain/Python عشرة تحذيرات XML documentation من نوع Missing XML comment في `DomainEvent.cs` و`Debuff.cs` و`Clock.cs`. لم تفشل هذه التحذيرات التشغيل؛ سُجلت كدين توثيقي منفصل في OPEN_DECISION_REGISTER تحت D-10، ولا تمثل إصلاحاً منفذاً أو مانعاً للـCI.
+
+**نتيجة التحقق:** التشغيلات الثلاثة أعلاه ناجحة على SHA واحد (`41c7223`). وبذلك يوجد تحقق CI ثلاثي مكتمل على كل من SHA `c516431` وSHA `41c7223`. هذا الإثبات خاص بهذين الرأسين ولا ينتقل تلقائياً إلى commits لاحقة.
+
 ## 4. الملفات المرجعية التي لم تُعدّل
 
 - `MANIFEST.json` — محفوظ دون تعديل.
