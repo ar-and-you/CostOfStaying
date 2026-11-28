@@ -34,7 +34,7 @@
 | `Match.Events` | Match | غير محدود | سجل مرتب لكل Domain events، ويشمل أحداث اللعب والرفض والتصويت وEcho/Hint. `Emit` يضيف دائماً؛ لا archive أو pruning أو persistence. |
 | `Match.ProcessedRequestIds` | Match | غير محدود | HashSet لمعرفات transfer الناجحة لمنع تكرار mutation. لا TTL أو max length؛ تقليمه يغير نافذة idempotency. |
 | `Player.CollectedEchoIds` | Player | غير محدود | dedupe لمعرفات Echo التي جمعها اللاعب؛ لا حد أو سياسة انتهاء. |
-| `Player.Debuffs` | Player | `MaxActiveDebuffs` في مسار transfer فقط | `HasDebuffCapacity` يفحص الحد عند النقل، لكن List عامة قابلة للتعديل مباشرة. قيمة config غير سالبة ولا يوجد hard upper bound. |
+| `Player.Debuffs` | Player | `MaxActiveDebuffs` في مساري collapse وtransfer | `HasDebuffCapacity` يفحص الحد عند إضافة debuff في `ApplyCollapse` وعند النقل إلى الهدف، لكن List عامة قابلة للتعديل مباشرة. قيمة config غير سالبة ولا يوجد hard upper bound. |
 | `Match.Players` | Match | `PlayerCount` عبر `AddPlayer` فقط | Dictionary عامة قابلة للتعديل مباشرة؛ يمكن تجاوز فحص `PlayerCount` خارج API المقصودة. config يشترط قيمة موجبة فقط ولا يفرض سقفاً عالمياً. |
 | `Match.Votes` | Match / vote lifecycle | roster snapshot عند `OpenVote` عبر المسار المقصود | يتم ملؤها من اللاعبين Alive وتُمسح عند فشل التصويت؛ لكنها Dictionary عامة قابلة للتعديل مباشرة. |
 | `DomainEvent.Detail` | كل event | لا يوجد حد طول | يمكن أن يحمل requestId أو echoId أو hintText أو تفاصيل مشتقة من caller. لا يوجد max length داخل Domain. |
