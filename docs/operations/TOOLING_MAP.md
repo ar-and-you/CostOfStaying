@@ -2,7 +2,7 @@
 
 > تنبيه حوكمي: أرقام ADR المشار إليها في نسخ سابقة هي مواد أرشيفية ما لم توجد في `docs/adr/` بحالة مقبولة على `main`.
 
-**لقطة `main` الحالية:** `e7e5b5e54f46490c44aaf30888280d55239bb670` (2026-11-27)؛ لم تُرجع القراءة الحالية تشغيلات CI مرتبطة بهذا SHA، لذا لا يُسجل نجاح CI حديث على `main`. **فرع المراجعة الأمني:** `security/core-trust-boundaries-phase0` عند `dc33a8040d8ee29c96cba440678e9c6733f30565`؛ اكتملت Domain/Python CI وCore CI وDocumentation Governance بنجاح (runs `46079246424`, `46079246422`, `46079246436` على الترتيب)، ونجح `actionlint` و`zizmor` ضمن Domain/Python CI. اكتملت CodeQL analyses للغات C# وPython وActions، وأصبح PR CodeQL check العام `success` على SHA `dc33a8040d8ee29c96cba440678e9c6733f30565`؛ هذا لا يثبت أن قائمة التنبيهات فارغة. CodeFactor لديه Minor issue واحدة وCodacy `action_required`؛ لا تُعامل أي منهما كنجاح. جميع الأدلة مقيدة بالـSHA ولا تثبت تكاملات غير موجودة.
+**لقطة `main` الحالية:** `e7e5b5e54f46490c44aaf30888280d55239bb670` (2026-11-27)؛ لم تُرجع القراءة تشغيلات CI مرتبطة بهذا SHA، فلا نسجل نجاحاً حديثاً على `main`. **فرع المراجعة الأمني:** `security/core-trust-boundaries-phase0` عند `07d058f29e38dd816ec41eff13c61a9f5d24b951` (2026-11-28). اكتملت Domain/Python CI (run `46079566421`)، وCore CI (.NET 10) (run `46079566529`)، وDocumentation Governance (run `46079566453`) بنجاح على SHA نفسه. اجتاز `actionlint v1.7.12` و`zizmor v1.33.1`، وworkflow hygiene (7/7)، وDomain NUnit (62/62)، وCore NUnit (257/257)، واختبارات simulator (11)، وCLI (2/2)، وsmoke test (1). CodeQL C#/Python/Actions اكتمل بنجاح، وPR CodeQL check يقول: لا تنبيهات جديدة في الملفات التي غيّرها PR؛ لا يثبت ذلك خلو جميع تنبيهات الفرع. CodeFactor ما زال `failure` مع Minor واحدة، وCodacy `action_required` مع 6 issues جديدة؛ تفاصيل annotations لم تتوفر عبر التكامل، لذلك لم تُجرَ إصلاحات تخمينية. جميع الأدلة مقيدة بالـSHA ولا تثبت تكاملات غير موجودة.
 
 | المجال | الموجود | ما لا يثبته |
 |---|---|---|
@@ -17,7 +17,7 @@
 
 ## فجوات مفتوحة
 
-أضيف `actionlint` و`zizmor` إلى `.github/workflows/ci.yml` على فرع المراجعة الأمني فقط؛ نجاحهما على الرأس الجديد لم يُثبت بعد، ولا يزالان غير مدمجين في `main`. أما gitleaks وCODEOWNERS وفحوص network integration وUnity Test Framework وبناء/أداء Android وDedicated Server وBackend وhuman playtest فما زالت غير متاحة/غير منفذة في الشجرة المفحوصة. Secret scanning وPush protection مفعّلان في فحص 2026-11-24. كانت تنبيهات Dependabot ورسم الاعتماديات مسجلتين على أنهما مفعّلان في فحص 2026-11-22، لكن لم يُعد فحص إعداد التنبيهات؛ كما تعذرت قراءة قائمة التنبيهات في 2026-11-24 بسبب `403 Resource not accessible by integration`، ولا يُعرف محتواها أو عددها. Dependabot security updates معطّلة ولا يوجد `dependabot.yml`. تعذرت أيضاً قراءة تنبيهات Code Scanning بسبب 403. لا توجد repository rulesets وحماية `main` غائبة في فحص 2026-11-24.
+أضيف `actionlint` و`zizmor` إلى `.github/workflows/ci.yml` على فرع المراجعة الأمني، وقد نجحا على SHA `07d058f29e38dd816ec41eff13c61a9f5d24b951`؛ لم يدمجا في `main`. أما gitleaks وCODEOWNERS وفحوص network integration وUnity Test Framework وبناء/أداء Android وDedicated Server وBackend وhuman playtest فما زالت غير متاحة/غير منفذة في الشجرة المفحوصة. Secret scanning وPush protection آخر حالة موثقة لهما في 2026-11-24 ولم تُؤكدا مجدداً. تعذرت قراءة تنبيهات Dependabot وCode Scanning وSecret Scanning بسبب حدود صلاحيات التكامل، فلا يُعرف محتواها أو عددها. Dependabot security updates معطّلة وفق آخر قراءة موثقة ولا يوجد `dependabot.yml`. Branch protection endpoint أعاد 403 في 2026-11-28؛ الحالة UNKNOWN/NOT VERIFIED. Repository rulesets أعادت `[]` ضمن نطاق القراءة فقط، ولا يثبت ذلك غياب الحماية الموروثة أو على مستوى المؤسسة.
 
 قبل إضافة أي أداة: وثّق سبب الحاجة، الترخيص، الإصدار المثبت، صلاحيات التشغيل، مسارات CI، وكيفية التعامل مع false positives. لا تضف خدمة مدفوعة بلا موافقة مالك.
 
@@ -31,7 +31,7 @@
 - تعطيل `persist-credentials` في خطوات checkout.
 - عدم إدخال `pull_request_target` أو `workflow_run` دون مراجعة أمنية مستقلة.
 
-هذا فحص ثابت ضيق لنمط الملفات الحالية؛ لا يحل محل actionlint أو zizmor أو قراءة إعدادات GitHub أو Secret Scanning، ولا يثبت سلامة runtime.
+هذا فحص ثابت ضيق ومكمّل لنمط الملفات الحالية؛ actionlint يتحقق من صياغة Workflows، وzizmor يجري تحليلاً ثابتاً لمخاطر GitHub Actions. لا تحل هذه الأدوات محل قراءة إعدادات GitHub أو Secret Scanning أو اختبارات runtime.
 
 
 ## تحقق حي حديث — 2026-11-27
