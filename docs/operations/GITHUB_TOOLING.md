@@ -1,7 +1,7 @@
 # تحديث حالة الرأس — 2026-11-28
 
 - `main` HEAD عند آخر قراءة: `e7e5b5e54f46490c44aaf30888280d55239bb670`؛ لم تُرجع القراءة تشغيلات CI مرتبطة بهذا SHA، فلا نسجل نجاحاً حديثاً على `main`.
-- آخر رأس متحقق على فرع المراجعة `security/core-trust-boundaries-phase0` هو SHA `d8c66e85d2d4b8353595b24dd2df38382ead2adb`: Domain/Python CI (run `46131891429`)، وCore CI (.NET 10) (run `46131891394`)، وDocumentation Governance (run `46131891367`) نجحت كلها على SHA نفسه.
+- آخر رأس مصدر/اختبارات متحقق على فرع المراجعة `security/core-trust-boundaries-phase0` هو SHA `d8c66e85d2d4b8353595b24dd2df38382ead2adb`: Domain/Python CI (run `46131891429`)، وCore CI (.NET 10) (run `46131891394`)، وDocumentation Governance (run `46131891367`) نجحت كلها على SHA نفسه. تلت هذا الرأس تحديثات توثيقية فقط، ولم تكتمل بعد تشغيلات CI على أحدث رأس.
 - Domain/Python CI: actionlint v1.7.12 success؛ zizmor v1.33.1 success؛ workflow hygiene 7/7؛ Domain NUnit 62/62؛ Python simulator 11 tests (لا تختبر C# parity)؛ Playtest CLI 2/2؛ smoke test 1/1.
 - Core CI: NUnit 257/257 success. CodeQL C# وPython وActions completed/success، وPR CodeQL check completed/success. هذا لا يثبت خلو كل alerts المفتوحة في الفرع أو المستودع.
 - CodeFactor أعاد `failure` مع Minor issue واحدة؛ لم تتوفر annotation تحدد الملف/السطر، لذلك لم تُنسب إلى ملف بالتخمين ولم يُنفذ autofix أعمى. Codacy أعاد `success` وذكر 0 issues على SHA الحالي.
