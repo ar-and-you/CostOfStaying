@@ -1,6 +1,6 @@
 # بيان متابعة التوثيق والحوكمة — 2026-11-28
 
-**الحالة:** IMPLEMENTED — DOCUMENTATION PACKAGE COMMITTED; FINAL CI VERIFICATION PENDING  
+**الحالة:** IMPLEMENTED — DOCUMENTATION GOVERNANCE PASS RECORDED; POST-UPDATE RECHECK REQUIRED  
 **المستودع:** `ar-and-you/CostOfStaying`  
 **الفرع:** `main`  
 **SHA المرجعي للملفات المفهرسة:** `07ab377732979447651a1fd5253a4cd96cde11e8`  
@@ -22,7 +22,7 @@
 | `docs/security/GIT_HISTORY_SCAN_PLAN.md` | `4d63d1844f28be78084339a839f2485010f4fa93c07c02fd41613f05bee723ee` | 2448 |
 | `docs/quality/PARITY_PLAN.md` | `c355c064824b9294b66d7f15f03a185291419cedd937693a40b8f336521fca66` | 2304 |
 | `docs/README.md` | `721e5265f0348e7137eea25f292e548bddcedecc23d0f30842fc571d52930882` | 24223 |
-| `docs/governance/OPEN_DECISION_REGISTER.md` | `016eba7ea1628516ccca85766c4cc421d613f468faa2832b933b362421a2af45` | 14702 |
+| `docs/governance/OPEN_DECISION_REGISTER.md` | `005d0dc64dfd36865044e40d76be4d3f7b9e7ce5b715f28cebde655bbc59b616` | 14817 |
 
 **حدود manifest:** لا تُدرج بصمة هذا الملف نفسه؛ إدراج SHA-256 ذاتي داخل محتواه ينشئ مرجعاً دائرياً غير قابل للتثبيت. لا يُعد هذا manifest بديلاً عن `MANIFEST.json` أو `SHA256SUMS.txt` التاريخيين، ولم يُعدّل أي منهما.
 
@@ -32,7 +32,7 @@
 |---:|---|---|---|
 | 46146772876 | `07ab377732979447651a1fd5253a4cd96cde11e8` | FAILURE | محاولة أولى؛ كان الفهرس يشير إلى هذا البيان قبل إنشائه. أُنشئ البيان في متابعة منفصلة لإزالة الرابط المفقود. |
 
-**التحقق النهائي على commit الذي يضيف هذا البيان:** PENDING. يجب تسجيل Run ID والنتيجة النهائية بعد اكتمال تشغيل `Documentation Governance` على SHA هذا commit. لا يُعلن `VERIFIED` قبل نجاح التشغيل المرتبط به.
+نجح تدقيق Documentation Governance على SHA `cfa54fcdb415fdd2e4b2298d8ae56265d926bc26` عبر Run ID `46146903123` (success). أُجري هذا التحديث لتسجيل نتيجة التشغيل وإغلاق DOC-01/DOC-02. commit هذا التحديث يتطلب إعادة تشغيل نهائية؛ ستُذكر نتيجتها المرتبطة بالـSHA النهائي في تقرير الإنجاز.
 
 ## 4. الملفات المرجعية التي لم تُعدّل
 
