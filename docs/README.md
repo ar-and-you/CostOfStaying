@@ -175,6 +175,7 @@
 - [تقرير الدمج الوثائقي المؤرخ](operations/MAIN_DOCUMENTATION_MERGE_2026-11-23.md)
 
 - [جرد الأوامر الحساسة وسياسات التفويض](security/SENSITIVE_COMMAND_POLICY_CATALOG.md) — عمليات mutation الحالية وحقول TBD وحدود F-001/F-002.
+- [جرد حدود الذاكرة والاحتفاظ](security/STATE_RETENTION_INVENTORY.md) — مخازن Domain/Core، حدود السعة، ودلالات replay التي تمنع التقليم العشوائي.
 
 ## الأرشيف التاريخي
 
