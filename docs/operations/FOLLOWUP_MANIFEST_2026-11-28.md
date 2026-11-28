@@ -1,6 +1,6 @@
 # بيان متابعة التوثيق والحوكمة — 2026-11-28
 
-**الحالة:** IMPLEMENTED — DOCUMENTATION GOVERNANCE PASS RECORDED; POST-UPDATE RECHECK REQUIRED  
+**الحالة:** IMPLEMENTED — DOCUMENTATION GOVERNANCE PASSES RECORDED ON TWO SUCCESSIVE REVISIONS  
 **المستودع:** `ar-and-you/CostOfStaying`  
 **الفرع:** `main`  
 **SHA المرجعي للملفات المفهرسة:** `07ab377732979447651a1fd5253a4cd96cde11e8`  
