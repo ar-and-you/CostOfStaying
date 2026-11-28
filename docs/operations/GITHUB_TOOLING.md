@@ -1,10 +1,10 @@
 # تحديث حالة الرأس — 2026-11-28
 
 - `main` HEAD عند آخر قراءة: `e7e5b5e54f46490c44aaf30888280d55239bb670`؛ لم تُرجع القراءة تشغيلات CI مرتبطة بهذا SHA، فلا نسجل نجاحاً حديثاً على `main`.
-- آخر baseline مصدر/اختبارات متحقق على فرع المراجعة `security/core-trust-boundaries-phase0` هو SHA `07d058f29e38dd816ec41eff13c61a9f5d24b951`: Domain/Python CI (run `46079566421`)، وCore CI (.NET 10) (run `46079566529`)، وDocumentation Governance (run `46079566453`) نجحت كلها على SHA نفسه. أضيفت بعده تسويات توثيقية فقط؛ يجب انتظار CI على الرأس الحالي قبل اعتمادها.
+- آخر رأس متحقق على فرع المراجعة `security/core-trust-boundaries-phase0` هو SHA `d8c66e85d2d4b8353595b24dd2df38382ead2adb`: Domain/Python CI (run `46131891429`)، وCore CI (.NET 10) (run `46131891394`)، وDocumentation Governance (run `46131891367`) نجحت كلها على SHA نفسه.
 - Domain/Python CI: actionlint v1.7.12 success؛ zizmor v1.33.1 success؛ workflow hygiene 7/7؛ Domain NUnit 62/62؛ Python simulator 11 tests (لا تختبر C# parity)؛ Playtest CLI 2/2؛ smoke test 1/1.
-- Core CI: NUnit 257/257 success. CodeQL C# وPython وActions completed/success، وPR CodeQL check يصرح: `No new alerts in code changed by this pull request`. هذا لا يثبت خلو كل alerts المفتوحة في الفرع أو المستودع.
-- CodeFactor أعاد `failure` مع Minor issue واحدة وautofix متاح. Codacy أعاد `action_required` مع 6 new issues (0 max.) من Minor فأعلى. تفاصيل annotations لم تكن متاحة عبر تكامل GitHub؛ لم تُنسب إلى ملفات بالتخمين ولم يُنفذ autofix أعمى.
+- Core CI: NUnit 257/257 success. CodeQL C# وPython وActions completed/success، وPR CodeQL check completed/success. هذا لا يثبت خلو كل alerts المفتوحة في الفرع أو المستودع.
+- CodeFactor أعاد `failure` مع Minor issue واحدة؛ لم تتوفر annotation تحدد الملف/السطر، لذلك لم تُنسب إلى ملف بالتخمين ولم يُنفذ autofix أعمى. Codacy أعاد `success` وذكر 0 issues على SHA الحالي.
 - نتائج التشغيلات مقيدة بالـSHA المذكور، ولا تثبت وجود Unity أو Android أو transport/server runtime أو خلو كل التنبيهات.
 - آخر قراءة branch-protection بتاريخ 2026-11-28 أعادت 403؛ الحالة UNKNOWN/NOT VERIFIED. قراءة repository rulesets أعادت `[]` ضمن النطاق المتاح ولا تحسم قواعد المؤسسة أو الحماية الموروثة.
 - لم تُغيّر إعدادات GitHub في هذه المراجعة.
